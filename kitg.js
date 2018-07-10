@@ -453,7 +453,7 @@ var resourcesAssign = [
 // Auto assign new kittens to selected job
 function autoAssign() {
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
-	    if  (gamePage.religion.getRU('solarRevolution').val == 1){
+	    if  (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism'){
 	         restmpq = restmp.sort(function(a, b) {
                 return (((gamePage.calcResourcePerTick(a[0]) / gamePage.resPool.get(a[0]).maxValue) * (gamePage.resPool.get(a[0]).value / gamePage.resPool.get(a[0]).maxValue) * (a[2] * gamePage.village.getJob(a[1]).value)) - ((gamePage.calcResourcePerTick(b[0]) / gamePage.resPool.get(b[0]).maxValue) * (gamePage.resPool.get(b[0]).value / gamePage.resPool.get(b[0]).maxValue) * (b[2] * gamePage.village.getJob(b[1]).value)));
              });
