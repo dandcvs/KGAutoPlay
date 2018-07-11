@@ -201,6 +201,7 @@ function autoTrade() {
             var titRes = gamePage.resPool.get('titanium');
             var ironRes = gamePage.resPool.get('iron');
             var unoRes = gamePage.resPool.get('unobtainium');
+            var woodRes = gamePage.resPool.get('wood');
             var goldResource = gamePage.resPool.get('gold');
             var goldOneTwenty = gamePage.getResourcePerTick('gold') * 200;
                 if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
@@ -210,8 +211,10 @@ function autoTrade() {
                         if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
                             gamePage.diplomacy.feedElders();
                         }
-                    } else if ((titRes.value < (titRes.maxValue * 0.9) || (ironRes.value < (ironRes.maxValue * 0.9))  && gamePage.diplomacy.get('zebras').unlocked) {
+                    } else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), (goldOneTwenty / 15));
+                    } else if ((ironRes.value < (ironRes.maxValue * 0.9)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
+                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"), (goldOneTwenty / 15));
                     } else if (gamePage.diplomacy.get('dragons').unlocked) {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), (goldOneTwenty / 15));
                     }
