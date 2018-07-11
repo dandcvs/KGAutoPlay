@@ -438,20 +438,17 @@ function autozig() {
 	}
 }
 
-
-var resourcesAssign = [
+// Auto assign new kittens to selected job
+function autoAssign() {
+        var resourcesAssign = [
        		["catnip", "farmer",9,1],
             ["wood", "woodcutter",1,2],
         	["minerals", "miner",1,2],
             ["science", "scholar",1,5],
         	["manpower", "hunter",1,5],
             ["faith", "priest",15,15],
-            ["coal", "geologist",1,15],
-			["gold", "geologist",1,15]
+            (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue || 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
-
-// Auto assign new kittens to selected job
-function autoAssign() {
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
 	    if  (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism'){
 	         restmpq = restmp.sort(function(a, b) {
@@ -486,10 +483,8 @@ function autoAssign() {
         else if (gamePage.village.getKittens() > 0) {
             restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > 0);
             if (restmpdel.length > 0){
-                for (var i = 1; i < Math.min(restmpdel.length,3); i++) {
-                    gamePage.village.sim.removeJob(restmpdel[restmpdel.length - i][1]);
-                    gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
-                }
+                gamePage.village.sim.removeJob(restmpdel[restmpdel.length - 1][1]);
+                gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
             }
         }
 }
