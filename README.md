@@ -1,5 +1,6 @@
 # ScriptKittiesMod
 A script to automate playing the addicting <a href="http://bloodrizer.ru/games/kittens/#">Kittens Game</a>
+
 Original script on <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</a>
 
 ## How do I use the script?
