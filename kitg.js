@@ -109,7 +109,25 @@ function autoPraise(){
                     self.game.msg($I("religion.transcend.msg.success", [gamePage.religion.tclevel]));
                 }
             }
-	    }
+	    } else if ((gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
+                var btn = gamePage.tabs[5].rUpgradeButtons;
+                for (var i = 0; i < btn.length; i++) {
+                    if (btn[i].model.enabled && btn[i].model.visible) {
+                        try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Religion researched ' + btn[i].model.name);
+                                }
+                                });
+                        } catch(err) {
+                            console.log(err);
+                        }
+                    }
+                }
+        }
+
+
 	}
 }
 
