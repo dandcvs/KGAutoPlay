@@ -62,7 +62,7 @@ function autoObserve() {
 
 // Auto praise the sun
 function autoPraise(){
-	if ( gamePage.bld.getBuildingExt('temple').meta.val > 0) {
+	if (gamePage.religionTab.visible) {
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             if (gamePage.religion.getProductionBonus() < 900){
                 gamePage.religion.praise();
