@@ -125,6 +125,9 @@ function autoPraise(){
                         }
                     }
                 }
+                if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
+                    gamePage.religion.praise();
+                }
         } else if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
               gamePage.religion.praise();
         }
