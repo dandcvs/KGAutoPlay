@@ -22,10 +22,10 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 '<a id="scriptOptions" onclick="selectOptions()"> | ScriptKittiesMod </a>' +
 
-'<div id="optionSelect" style="display:none; margin-top:-100px; margin-left:-30px; width:200px" class="dialog help">' +
+'<div id="optionSelect" style="display:none; margin-top:-130px; margin-left:-30px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
 
-'<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
+'<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br></br>' +
 '<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(AutoEnergyControl,  \'autoEnergy\')"> Energy Control </button></br>' +
 '</div>' +
 '</div>'
