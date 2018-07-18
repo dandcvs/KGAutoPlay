@@ -131,8 +131,6 @@ function autoPraise(){
         } else if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
               gamePage.religion.praise();
         }
-
-
 	}
 }
 
@@ -521,34 +519,31 @@ function energyControl() {
 		proVar = gamePage.resPool.energyProd;
 		conVar = gamePage.resPool.energyCons;
 		FreeEnergy = Math.abs(proVar - conVar);
+
+        var EnergyPriority = [
+       		[bldSmelter,0.1],
+            [bldBioLab,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
+        	[bldOilWell,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
+            [bldFactory,0.1],
+        	[bldCalciner,0.1],
+            [bldAccelerator,0.1],
+            [spcContChamber,1],
+             ];
+
 		if (proVar>conVar) {
-            if (bldAccelerator.val > bldAccelerator.on && proVar > (conVar + bldAccelerator.effects.energyConsumption)) {
-                bldAccelerator.on += Math.min(Math.floor(FreeEnergy / bldAccelerator.effects.energyConsumption),bldAccelerator.val - bldAccelerator.on);
-            } else if (bldCalciner.val > bldCalciner.on && proVar > (conVar + bldCalciner.effects.energyConsumption)) {
-                bldCalciner.on += Math.min(Math.floor(FreeEnergy / bldCalciner.effects.energyConsumption),bldCalciner.val - bldCalciner.on);
-            } else if (bldFactory.val > bldFactory.on && proVar > (conVar + bldFactory.effects.energyConsumption)) {
-                bldFactory.on += Math.min(Math.floor(FreeEnergy / bldFactory.effects.energyConsumption),bldFactory.val - bldFactory.on);
-            } else if (bldOilWell.val > bldOilWell.on && proVar > (conVar + bldOilWell.effects.energyConsumption)) {
-                bldOilWell.on += Math.min(Math.floor(FreeEnergy / bldOilWell.effects.energyConsumption),bldOilWell.val - bldOilWell.on);
-            } else if (bldBioLab.val > bldBioLab.on && proVar > (conVar + bldBioLab.effects.energyConsumption)) {
-                bldBioLab.on += Math.min(Math.floor(FreeEnergy / bldBioLab.effects.energyConsumption),bldBioLab.val - bldBioLab.on);
-            } else if (spcContChamber.val > spcContChamber.on && proVar > (conVar + spcContChamber.effects.energyConsumption)) {
-                spcContChamber.on += Math.min(Math.floor(FreeEnergy / spcContChamber.effects.energyConsumption),spcContChamber.val - spcContChamber.on);
+		    EnergyInc = EnergyPriority.filter(res => res[0].val > res[0].on && proVar > (conVar + res[0].effects.energyConsumption)).sort(function(a, b) {
+                return a[1] - b[1];
+            });
+            if (EnergyInc.length > 0){
+                EnergyInc[0][0].on+= Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on);
             }
 		}
 		else if (proVar<conVar) {
-		    if (spcContChamber.on > 0 && spcContChamber.effects.energyConsumption > 0 && proVar < conVar) {
-                spcContChamber.on -= Math.min(Math.ceil(FreeEnergy / spcContChamber.effects.energyConsumption),spcContChamber.on);
-            } else if (bldBioLab.on > 0 && bldBioLab.effects.energyConsumption > 0 && proVar < conVar) {
-                bldBioLab.on -= Math.min(Math.ceil(FreeEnergy / bldBioLab.effects.energyConsumption),bldBioLab.on);
-            } else if (bldOilWell.on > 0 && bldOilWell.effects.energyConsumption > 0 && proVar < conVar) {
-                spcContChamber.on -= Math.min(Math.ceil(FreeEnergy / bldOilWell.effects.energyConsumption),bldOilWell.on);
-            } else if (bldFactory.on > 0 && bldFactory.effects.energyConsumption > 0 && proVar < conVar) {
-                bldFactory.on -= Math.min(Math.ceil(FreeEnergy / bldFactory.effects.energyConsumption),bldFactory.on);
-            } else if (bldCalciner.on > 0 && bldCalciner.effects.energyConsumption > 0 && proVar < conVar) {
-                bldCalciner.on -= Math.min(Math.ceil(FreeEnergy / bldCalciner.effects.energyConsumption),bldCalciner.on);
-            } else if (bldAccelerator.on > 0 && bldAccelerator.effects.energyConsumption > 0 && proVar < conVar) {
-                bldAccelerator.on -= Math.min(Math.ceil(FreeEnergy / bldAccelerator.effects.energyConsumption),bldAccelerator.on);
+		    EnergyDec = EnergyPriority.filter(res => res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
+                return b[1] - a[1];
+            });
+            if (EnergyDec.length > 0){
+                EnergyDec[0][0].on-= Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on);
             }
 		}
 }
@@ -589,8 +584,6 @@ function autoNip() {
             }
 		}
 }
-
-
 
 function UpgradeBuildings() {
             if (gamePage.diplomacy.hasUnlockedRaces()){
