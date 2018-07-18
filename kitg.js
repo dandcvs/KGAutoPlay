@@ -14,6 +14,7 @@ var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var i = 0;
 var goldebBuildings = ["temple","tradepost"];
+var AutoEnergyControl = true;
 
 
 
@@ -25,7 +26,8 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
 
 '<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
-
+'<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(AutoEnergyControl,  \'autoEnergy\')"> Energy Control </button></br>' +
+'</div>' +
 '</div>'
 
 $("#footerLinks").append(htmlMenuAddition);
@@ -47,6 +49,18 @@ function clearScript() {
 	bldSelectAddition = null;
 	spaceSelectAddition = null;
 	htmlMenuAddition = null;
+}
+
+function autoSwitchEnergy(varCheck, varName) {
+	if (!varCheck) {
+		AutoEnergyControl = true;
+		gamePage.msg('Auto energy is now on');
+		document.getElementById(varName).style.color = 'black';
+	} else if (varCheck) {
+		AutoEnergyControl = false;
+		gamePage.msg('Auto energy is now off');
+		document.getElementById(varName).style.color = 'red';
+	}
 }
 
 
@@ -250,7 +264,6 @@ function autoHunt() {
 		if (catpower.value > (catpower.maxValue - 1) || (tmpvalue/catpower.maxValue < 0.02)) {
 			gamePage.village.huntAll();
 		}
-
 }
 
 var resources = [
@@ -262,8 +275,6 @@ var resources = [
             ["uranium", "thorium", 250],
 			["unobtainium", "eludium", 1000]
                 ];
-
-
 
 var resourcesAll = [
     ["beam", [["wood",175]],0],
@@ -516,36 +527,38 @@ function autoAssign() {
 
 // Control Energy Consumption
 function energyControl() {
-		proVar = gamePage.resPool.energyProd;
-		conVar = gamePage.resPool.energyCons;
-		FreeEnergy = Math.abs(proVar - conVar);
+        if (AutoEnergyControl){
+            proVar = gamePage.resPool.energyProd;
+            conVar = gamePage.resPool.energyCons;
+            FreeEnergy = Math.abs(proVar - conVar);
 
-        var EnergyPriority = [
-       		[bldSmelter,0.1],
-            [bldBioLab,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
-        	[bldOilWell,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
-            [bldFactory,0.1],
-        	[bldCalciner,0.1],
-            [bldAccelerator,0.1],
-            [spcContChamber,1],
-             ];
+            var EnergyPriority = [
+                [bldSmelter,0.1],
+                [bldBioLab,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
+                [bldOilWell,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue)],
+                [bldFactory,0.1],
+                [bldCalciner,0.1],
+                [bldAccelerator,0.1],
+                [spcContChamber,1],
+                 ];
 
-		if (proVar>conVar) {
-		    EnergyInc = EnergyPriority.filter(res => res[0].val > res[0].on && proVar > (conVar + res[0].effects.energyConsumption)).sort(function(a, b) {
-                return a[1] - b[1];
-            });
-            if (EnergyInc.length > 0){
-                EnergyInc[0][0].on+= Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on);
+            if (proVar>conVar) {
+                EnergyInc = EnergyPriority.filter(res => res[0].val > res[0].on && proVar > (conVar + res[0].effects.energyConsumption)).sort(function(a, b) {
+                    return a[1] - b[1];
+                });
+                if (EnergyInc.length > 0){
+                    EnergyInc[0][0].on+= Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on);
+                }
             }
-		}
-		else if (proVar<conVar) {
-		    EnergyDec = EnergyPriority.filter(res => res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
-                return b[1] - a[1];
-            });
-            if (EnergyDec.length > 0){
-                EnergyDec[0][0].on-= Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on);
+            else if (proVar<conVar) {
+                EnergyDec = EnergyPriority.filter(res => res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
+                    return b[1] - a[1];
+                });
+                if (EnergyDec.length > 0){
+                    EnergyDec[0][0].on-= Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on);
+                }
             }
-		}
+        }
 }
 
 function autoNip() {
