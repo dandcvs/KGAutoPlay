@@ -60,7 +60,7 @@ function autoObserve() {
 		}
 }
 
-// Auto praise the sun
+//Auto praise the sun
 function autoPraise(){
 	if (gamePage.religionTab.visible) {
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
@@ -226,7 +226,7 @@ function autoTrade() {
             var goldResource = gamePage.resPool.get('gold');
             var goldOneTwenty = gamePage.getResourcePerTick('gold') * 200;
                 if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
-                    if (unoRes.value > 5000  && gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
+                    if (unoRes.value / unoRes.maxValue > 0.3  && gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                         //Feed elders
                         if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
