@@ -19,7 +19,7 @@ var goldebBuildings = ["temple","tradepost"];
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
-'<a id="scriptOptions" onclick="selectOptions()"> | ScriptKitties </a>' +
+'<a id="scriptOptions" onclick="selectOptions()"> | ScriptKittiesMod </a>' +
 
 '<div id="optionSelect" style="display:none; margin-top:-400px; margin-left:-100px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
