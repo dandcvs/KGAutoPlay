@@ -675,7 +675,7 @@ var runAllAutomation = setInterval(function() {
 
 	if (gamePage.timer.ticksTotal % 10 === 0) {
 		autoSpace();
-		energyControl();
+
 
 	}
 
@@ -687,6 +687,7 @@ var runAllAutomation = setInterval(function() {
 		autoParty();
 		autoTrade();
 		autoPraise();
+		energyControl();
 	}
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
