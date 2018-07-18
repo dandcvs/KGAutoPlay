@@ -12,7 +12,7 @@ var proVar = gamePage.resPool.energyProd;
 var conVar = gamePage.resPool.energyCons;
 var FreeEnergy = 0;
 var deadScript = "Script is dead";
-var yielded = 0;
+var i = 0;
 var goldebBuildings = ["temple","tradepost"];
 
 
@@ -670,7 +670,7 @@ var runAllAutomation = setInterval(function() {
         autoCraft2();
 		autoHunt();
 		autoAssign();
-
+        gamePage.villageTab.updateTab();
 	}
 
 	if (gamePage.timer.ticksTotal % 10 === 0) {
@@ -679,8 +679,6 @@ var runAllAutomation = setInterval(function() {
 	}
 
 	if (gamePage.timer.ticksTotal % 25 === 0) {
-
-	    gamePage.ui.render();
 		autoResearch();
 		autoWorkshop();
 		autoParty();
@@ -690,14 +688,14 @@ var runAllAutomation = setInterval(function() {
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
 
-        if (yielded == 5) {
+        if (i == 5) {
            autozig();
            UpgradeBuildings();
            ResearchSolarRevolution();
            Timepage();
-           yielded = 0;
+           i = 0;
         }
-	yielded++;
+	i++;
 	}
 
 
