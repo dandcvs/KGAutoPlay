@@ -6,6 +6,7 @@ var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
 var spcContChamber = gamePage.space.meta[5].meta[1];
+var spcEntangler = gamePage.space.meta[10].meta[0];
 
  // These are the assorted variables
 var proVar = gamePage.resPool.energyProd;
@@ -170,6 +171,8 @@ function autoBuild() {
                          }
                    }
                    else {
+//                        ai 5/ es
+
                          try {
                                 btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
@@ -284,7 +287,7 @@ var resourcesAll = [
     ["concrate", [["steel",25],["slab",2500]],0],
     ["gear", [["steel",15]],0],
     ["alloy", [["steel",75],["titanium",10]],100],
-    ["eludium", [["unobtainium",1000],["alloy",2500]],0],
+    ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
     ["scaffold", [["beam",50]],0],
     ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
     ["kerosene", [["oil",7500]],0],
