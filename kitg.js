@@ -13,7 +13,7 @@ var proVar = gamePage.resPool.energyProd;
 var conVar = gamePage.resPool.energyCons;
 var FreeEnergy = 0;
 var deadScript = "Script is dead";
-var i = 0;
+var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var AutoEnergyControl = true;
 
@@ -704,12 +704,12 @@ var runAllAutomation = setInterval(function() {
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
 
-        if (i == 5) {
+        if (Iinc == 5) {
            autozig();
            UpgradeBuildings();
            ResearchSolarRevolution();
            Timepage();
-           i = 0;
+           Iinc = 0;
         }
 	i++;
 	}
