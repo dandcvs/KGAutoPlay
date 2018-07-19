@@ -711,7 +711,7 @@ var runAllAutomation = setInterval(function() {
            Timepage();
            Iinc = 0;
         }
-	i++;
+	Iinc++;
 	}
 
 
