@@ -169,21 +169,33 @@ function autoBuild() {
                                 console.log(err);
                               }
                          }
-                   }
-                   else {
-//                        ai 5/ es
-
-                         try {
-                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                                if (result) {
-                                    btn[i].update();
-                                    gamePage.msg('Build ' + btn[i].model.name );
-                                }
-                                });
-                         } catch(err) {
-                             console.log(err);
-                         }
-                   }
+             }
+             else if (btn[i].model.metadata.name == "aiCore"){
+                 if (btn[i].model.metadata.val/5 < spcEntangler.val){
+                    try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                                btn[i].update();
+                                gamePage.msg('Build ' + btn[i].model.name );
+                            }
+                            });
+                     } catch(err) {
+                         console.log(err);
+                     }
+                 }
+             }
+             else {
+                     try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                                btn[i].update();
+                                gamePage.msg('Build ' + btn[i].model.name );
+                            }
+                            });
+                     } catch(err) {
+                         console.log(err);
+                     }
+             }
         }
 }
 
