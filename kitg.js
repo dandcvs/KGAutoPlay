@@ -255,7 +255,7 @@ function autoTrade() {
             var goldResource = gamePage.resPool.get('gold');
             var goldOneTwenty = gamePage.getResourcePerTick('gold') * 200;
                 if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
-                    if (unoRes.value / unoRes.maxValue > 0.3  && gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
+                    if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0 && (unoRes.value / unoRes.maxValue > 0.3 || (unoRes.value > 5000 && gamePage.timer.ticksTotal % 151 === 0))) {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                         //Feed elders
                         if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
