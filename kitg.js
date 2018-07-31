@@ -328,7 +328,7 @@ function autoCraft2() {
                  cnt = 0;
                  if (curResTarget.value < resourcesAllF[i][2] && gamePage.resPool.get('paragon').value > resourcesAllF[i][2]) {
                     if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
-                        cnt = Math.ceil(resourcesAllF[i][1][0][0]).value /resourcesAllF[i][1][0][1]/2);
+                        cnt = Math.ceil(gamePage.resPool.get(resourcesAllF[i][1][0][0]).value /resourcesAllF[i][1][0][1]/2);
                     }
                  }
                  else{
