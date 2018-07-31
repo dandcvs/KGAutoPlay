@@ -299,7 +299,7 @@ var resourcesAll = [
     ["beam", [["wood",175]],20],
     ["slab", [["minerals",250]],50],
     ["steel", [["iron",100],["coal",100]],1000],
-    ["plate", [["iron",125]],1000],
+    ["plate", [["iron",125]],150],
     ["concrate", [["steel",25],["slab",2500]],500],
     ["gear", [["steel",15]],1000],
     ["alloy", [["steel",75],["titanium",10]],1000],
