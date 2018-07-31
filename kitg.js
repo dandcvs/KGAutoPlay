@@ -296,8 +296,8 @@ var resources = [
                 ];
 
 var resourcesAll = [
-    ["beam", [["wood",175]],1000],
-    ["slab", [["minerals",250]],1000],
+    ["beam", [["wood",175]],20],
+    ["slab", [["minerals",250]],50],
     ["steel", [["iron",100],["coal",100]],1000],
     ["plate", [["iron",125]],1000],
     ["concrate", [["steel",25],["slab",2500]],500],
