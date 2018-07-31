@@ -296,15 +296,15 @@ var resources = [
                 ];
 
 var resourcesAll = [
-    ["beam", [["wood",175]],0],
-    ["slab", [["minerals",250]],0],
-    ["steel", [["iron",100],["coal",100]],0],
-    ["plate", [["iron",125]],150],
-    ["concrate", [["steel",25],["slab",2500]],0],
-    ["gear", [["steel",15]],0],
-    ["alloy", [["steel",75],["titanium",10]],100],
+    ["beam", [["wood",175]],1000],
+    ["slab", [["minerals",250]],1000],
+    ["steel", [["iron",100],["coal",100]],1000],
+    ["plate", [["iron",125]],1000],
+    ["concrate", [["steel",25],["slab",2500]],1000],
+    ["gear", [["steel",15]],1000],
+    ["alloy", [["steel",75],["titanium",10]],1000],
     ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
-    ["scaffold", [["beam",50]],0],
+    ["scaffold", [["beam",50]],1000],
     ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
     ["kerosene", [["oil",7500]],0],
     ["parchment", [["furs",175]],0],
