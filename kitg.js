@@ -335,10 +335,10 @@ function autoCraft2() {
                      for (var x = 0; x < resourcesAllF[i][1].length; x++) {
                                 tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
                                 tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
-                                if ((tmpvalue < resourcesAllF[i][1][x][1]) || (curResTarget.value > tmpvalue)) {
+                                if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
                                     flag = false;
                                 }
-                                else if (tmpvalueMax != 0 && (tmpvalue/tmpvalueMax < 0.3 || tmpvalue/tmpvalueMax < curResTarget.value/tmpvalue)) {
+                                else if (tmpvalueMax != 0 && tmpvalue/tmpvalueMax < 0.3) {
                                     flag = false;
                                 }
                                 else {
