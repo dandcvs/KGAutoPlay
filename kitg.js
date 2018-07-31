@@ -309,8 +309,8 @@ var resourcesAll = [
     ["kerosene", [["oil",7500]],0],
     ["parchment", [["furs",175]],0],
     ["manuscript", [["parchment",25],["culture",400]],35],
-    ["compedium", [["manuscript",50],["science",10000]],0],
-    ["blueprint", [["compedium",25],["science",25000]],0],
+    ["compedium", [["manuscript",50],["science",10000]],1],
+    ["blueprint", [["compedium",25],["science",25000]],1],
     ["thorium", [["uranium",250]],0],
     ["megalith", [["slab",50],["plate",5]],0],
 ]
@@ -327,7 +327,7 @@ function autoCraft2() {
                 if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked) {
                      flag = true;
                      cnt = 0;
-                     if (curResTarget.value < Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value) ) {
+                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value) ) {
                         if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
                             cnt = Math.ceil(gamePage.resPool.get(resourcesAllF[i][1][0][0]).value /resourcesAllF[i][1][0][1]/2);
                         }
