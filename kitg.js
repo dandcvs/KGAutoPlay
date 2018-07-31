@@ -241,7 +241,7 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
-        if  (gamePage.resPool.get('uranium').value < 100 && gamePage.diplomacy.get('dragons').unlocked) {
+        if (gamePage.resPool.get('uranium').value < 100 && gamePage.diplomacy.get('dragons').unlocked) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
         if (gamePage.resPool.get('titanium').value < 20000 && gamePage.diplomacy.get('zebras').unlocked) {
@@ -260,6 +260,7 @@ function autoTrade() {
                             gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                         }else if(unoRes.value > 5000 && gamePage.timer.ticksTotal % 755 === 0) {
                             gamePage.diplomacy.trade(game.diplomacy.get("leviathans"));
+                            console.log('Yiiiiii');
                         }
                         //Feed elders
                         if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
