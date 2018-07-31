@@ -316,58 +316,60 @@ var resourcesAll = [
 ]
 
 function autoCraft2() {
-        var flag = true;
-        var cnt = 0;
-        var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked).sort(function(a, b) {
-            return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
-                         });
-        for (var i = 0; i < resourcesAllF.length; i++) {
-            var curResTarget = gamePage.resPool.get(resourcesAllF[i][0]);
-            if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked) {
-                 flag = true;
-                 cnt = 0;
-                 if (curResTarget.value < resourcesAllF[i][2] && gamePage.resPool.get('paragon').value > resourcesAllF[i][2]) {
-                    if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
-                        cnt = Math.ceil(gamePage.resPool.get(resourcesAllF[i][1][0][0]).value /resourcesAllF[i][1][0][1]/2);
-                    }
-                 }
-                 else{
-                     for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
-                                tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
-                                if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
-                                    flag = false;
-                                }
-                                else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 0.9))) {
-                                    flag = false;
-                                }
-                                else {
-                                    if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
-                                        cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
-                                    }
-                                }
-                     }
-                 }
-
-                 if (flag == true && cnt > 0) {
-                    if (resourcesAllF[i][0] == "ship") {
-                        if (gamePage.resPool.get("ship").value < 5000 || gamePage.resPool.get("starchart").value > 1500){
-                            gamePage.craft(resourcesAllF[i][0], cnt);
+        if (gamePage.workshopTab.visible) {
+            var flag = true;
+            var cnt = 0;
+            var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked).sort(function(a, b) {
+                return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
+                             });
+            for (var i = 0; i < resourcesAllF.length; i++) {
+                var curResTarget = gamePage.resPool.get(resourcesAllF[i][0]);
+                if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked) {
+                     flag = true;
+                     cnt = 0;
+                     if (curResTarget.value < resourcesAllF[i][2] && gamePage.resPool.get('paragon').value > resourcesAllF[i][2]) {
+                        if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
+                            cnt = Math.ceil(gamePage.resPool.get(resourcesAllF[i][1][0][0]).value /resourcesAllF[i][1][0][1]/2);
                         }
-                    }
-                    else {
-                       gamePage.craft(resourcesAllF[i][0], cnt);
-                    }
-                 }
+                     }
+                     else{
+                         for (var x = 0; x < resourcesAllF[i][1].length; x++) {
+                                    tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
+                                    tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
+                                    if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
+                                        flag = false;
+                                    }
+                                    else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 0.9))) {
+                                        flag = false;
+                                    }
+                                    else {
+                                        if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
+                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
+                                        }
+                                    }
+                         }
+                     }
+
+                     if (flag == true && cnt > 0) {
+                        if (resourcesAllF[i][0] == "ship") {
+                            if (gamePage.resPool.get("ship").value < 5000 || gamePage.resPool.get("starchart").value > 1500){
+                                gamePage.craft(resourcesAllF[i][0], cnt);
+                            }
+                        }
+                        else {
+                           gamePage.craft(resourcesAllF[i][0], cnt);
+                        }
+                     }
+                }
+            }
+            for (var i = 0; i < resources.length; i++) {
+                var curRes = gamePage.resPool.get(resources[i][0]);
+                var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
+                var resourcePerCraft = (resourcePerTick * 3);
+                if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
+                gamePage.craft(resources[i][1], (resourcePerCraft / resources[i][2]));
             }
         }
-        for (var i = 0; i < resources.length; i++) {
-            var curRes = gamePage.resPool.get(resources[i][0]);
-            var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
-            var resourcePerCraft = (resourcePerTick * 3);
-            if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
-            gamePage.craft(resources[i][1], (resourcePerCraft / resources[i][2]));
-		}
 	}
 }
 
