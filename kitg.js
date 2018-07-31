@@ -338,7 +338,7 @@ function autoCraft2() {
                                 if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
                                     flag = false;
                                 }
-                                else if (tmpvalueMax != 0 && tmpvalue/tmpvalueMax < 0.3) {
+                                else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 0.9))) {
                                     flag = false;
                                 }
                                 else {
