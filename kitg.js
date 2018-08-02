@@ -201,39 +201,41 @@ function autoBuild() {
 
 // Build space stuff automatically
 function autoSpace() {
-	// Build space buildings
-	gamePage.tabs[6].update();
-    for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
-            var spBuild = gamePage.tabs[6].planetPanels[z].children;
-            try {
-                for (i = 0 ;i < spBuild.length; i++) {
-                    if (spBuild[i].model.metadata.unlocked) {
-                        spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
-                            if (result) {
-                                spBuild[i].update();
-                                gamePage.msg('Build in Space ' + spBuild[i].model.name);
-                            }
-                            });
+    if (gamePage.spaceTab.visible) {
+        // Build space buildings
+        gamePage.tabs[6].update();
+        for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
+                var spBuild = gamePage.tabs[6].planetPanels[z].children;
+                try {
+                    for (i = 0 ;i < spBuild.length; i++) {
+                        if (spBuild[i].model.metadata.unlocked) {
+                            spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
+                                if (result) {
+                                    spBuild[i].update();
+                                    gamePage.msg('Build in Space ' + spBuild[i].model.name);
+                                }
+                                });
+                        }
                     }
+                } catch(err) {
+                console.log(err);
                 }
-            } catch(err) {
-            console.log(err);
-            }
-    }
+        }
 
-	// Build space programs
-	var spcProg = gamePage.tabs[6].GCPanel.children;
-	for (var i = 0; i < spcProg.length; i++) {
-        if (spcProg[i].model.metadata.unlocked && spcProg[i].model.on == 0) {
-            try {
-                spcProg[i].controller.buyItem(spcProg[i].model, {}, function(result) {
-                    if (result) {
-                        spcProg[i].update();
-                        gamePage.msg('Research Space program ' + spcProg[i].model.name );
-                    }
-                    });
-            } catch(err) {
-            console.log(err);
+        // Build space programs
+        var spcProg = gamePage.tabs[6].GCPanel.children;
+        for (var i = 0; i < spcProg.length; i++) {
+            if (spcProg[i].model.metadata.unlocked && spcProg[i].model.on == 0) {
+                try {
+                    spcProg[i].controller.buyItem(spcProg[i].model, {}, function(result) {
+                        if (result) {
+                            spcProg[i].update();
+                            gamePage.msg('Research Space program ' + spcProg[i].model.name );
+                        }
+                        });
+                } catch(err) {
+                console.log(err);
+                }
             }
         }
 	}
