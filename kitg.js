@@ -300,10 +300,10 @@ var resources = [
 var resourcesAll = [
     ["beam", [["wood",175]],10],
     ["slab", [["minerals",250]],25],
-    ["steel", [["iron",100],["coal",100]],1000],
+    ["steel", [["iron",100],["coal",100]],500],
     ["plate", [["iron",125]],150],
     ["concrate", [["steel",25],["slab",2500]],500],
-    ["gear", [["steel",15]],1000],
+    ["gear", [["steel",15]],500],
     ["alloy", [["steel",75],["titanium",10]],1000],
     ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
     ["scaffold", [["beam",50]],1000],
