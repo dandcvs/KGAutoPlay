@@ -16,6 +16,7 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var AutoEnergyControl = true;
+var ActualTabs = gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible);
 
 
 
@@ -693,6 +694,13 @@ function Timepage() {
 	    }
 }
 
+function RenderNewTabs(){
+    if(ActualTabs != gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible)) {
+        gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
+        ActualTabs = gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible);
+    }
+}
+
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
 gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
@@ -721,6 +729,7 @@ var runAllAutomation = setInterval(function() {
 		autoParty();
 		autoTrade();
 		autoPraise();
+		RenderNewTabs();
 	}
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
