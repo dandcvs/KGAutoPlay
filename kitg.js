@@ -16,7 +16,7 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var AutoEnergyControl = true;
-var ActualTabs = gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible);
+var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
 
 
@@ -695,9 +695,9 @@ function Timepage() {
 }
 
 function RenderNewTabs(){
-    if(ActualTabs.length != gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible).length) {
-        gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
-        ActualTabs = gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible);
+    if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).length > 0) {
+        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
     }
 }
 
