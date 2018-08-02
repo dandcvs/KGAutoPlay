@@ -702,7 +702,7 @@ function RenderNewTabs(){
     }
     //space render
     else if(gamePage.tabs[6].GCPanel.children.filter(res => res.model.on == 1).length != gamePage.tabs[6].planetPanels.length){
-        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
+        gamePage.tabs[6].render();
         ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
     }
 }
