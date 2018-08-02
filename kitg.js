@@ -695,7 +695,7 @@ function Timepage() {
 }
 
 function RenderNewTabs(){
-    if(ActualTabs != gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible)) {
+    if(ActualTabs.length != gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible).length) {
         gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
         ActualTabs = gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible);
     }
@@ -729,11 +729,10 @@ var runAllAutomation = setInterval(function() {
 		autoParty();
 		autoTrade();
 		autoPraise();
-		RenderNewTabs();
 	}
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
-
+        RenderNewTabs();
         if (Iinc == 5) {
            autozig();
            UpgradeBuildings();
@@ -741,7 +740,7 @@ var runAllAutomation = setInterval(function() {
            Timepage();
            Iinc = 0;
         }
-	Iinc++;
+	    Iinc++;
 	}
 
 
