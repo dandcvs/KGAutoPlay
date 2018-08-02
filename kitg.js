@@ -221,7 +221,6 @@ function autoSpace() {
                 console.log(err);
                 }
         }
-
         // Build space programs
         var spcProg = gamePage.tabs[6].GCPanel.children;
         for (var i = 0; i < spcProg.length; i++) {
