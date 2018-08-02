@@ -371,10 +371,10 @@ function autoCraft2() {
                 var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
                 var resourcePerCraft = (resourcePerTick * 3);
                 if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
-                gamePage.craft(resources[i][1], (resourcePerCraft / resources[i][2]));
+                    gamePage.craft(resources[i][1], (resourcePerCraft / resources[i][2]));
+                }
             }
-        }
-	}
+	    }
 }
 
 
@@ -696,6 +696,12 @@ function Timepage() {
 
 function RenderNewTabs(){
     if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).length > 0) {
+        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
+
+    }
+    //space render
+    else if(gamePage.tabs[6].GCPanel.children.filter(res => res.model.on == 1).length != gamePage.tabs[6].planetPanels.length){
         gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
         ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
     }
