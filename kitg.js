@@ -438,6 +438,9 @@ function autoParty() {
 }
 
 function autozig() {
+    if (gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) {
+         gamePage.tabs[5].render();
+    }
     gamePage.religionTab.update();
     var btn = [gamePage.religionTab.sacrificeBtn,gamePage.religionTab.sacrificeAlicornsBtn]
     for (var i = 0; i < btn.length; i++) {
