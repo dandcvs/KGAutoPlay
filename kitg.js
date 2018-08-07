@@ -272,27 +272,31 @@ function autoTrade() {
             var ironRes = gamePage.resPool.get('iron');
             var unoRes = gamePage.resPool.get('unobtainium');
             var woodRes = gamePage.resPool.get('wood');
+            var mineralsRes = gamePage.resPool.get('minerals');
             var goldResource = gamePage.resPool.get('gold');
-            var goldOneTwenty = gamePage.getResourcePerTick('gold') * 200;
-                if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
-                    if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
-                        if (unoRes.value / unoRes.maxValue > 0.3){
-                            gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                        }else if(unoRes.value > 5000 && gamePage.timer.ticksTotal % 755 === 0) {
-                            gamePage.diplomacy.trade(game.diplomacy.get("leviathans"));
-                        }
-                        //Feed elders
-                        if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
-                            gamePage.diplomacy.feedElders();
-                        }
-                    } else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
-                        gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), (goldOneTwenty / 15));
-                    } else if ((ironRes.value < (ironRes.maxValue * 0.9)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
-                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"), (goldOneTwenty / 15));
-                    } else if (gamePage.diplomacy.get('dragons').unlocked) {
-                        gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), (goldOneTwenty / 15));
+            var ivoryRes = gamePage.resPool.get('ivory');
+            if (goldResource.value > goldResource.maxValue * 0.95) {
+                if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
+                    if (unoRes.value / unoRes.maxValue > 0.3){
+                        gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
+                    }else if(unoRes.value > 5000 && gamePage.timer.ticksTotal % 755 === 0) {
+                        gamePage.diplomacy.trade(game.diplomacy.get("leviathans"));
                     }
+                    //Feed elders
+                    if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
+                        gamePage.diplomacy.feedElders();
+                    }
+                } else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
+                    gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
+                } else if ((ironRes.value < (ironRes.maxValue * 0.9)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
+                    gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
+                } else if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
+                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
+                } else if (gamePage.diplomacy.get('dragons').unlocked) {
+                    gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
                 }
+
+            }
         }
 }
 
