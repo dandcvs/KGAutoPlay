@@ -15,6 +15,7 @@ var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
+var kittensBuildings = ["temple","tradepost"];
 var AutoEnergyControl = true;
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
@@ -152,6 +153,7 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
+        gamePage.ironWill
         if (gamePage.ui.activeTabId != 'Bonfire'){
             gamePage.tabs[0].update();
         }
@@ -185,6 +187,22 @@ function autoBuild() {
                      }
                  }
              }
+             else if (gamePage.ironWill){
+                 if (!btn[i].model.metadata.effects.maxKittens){
+                    try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                                btn[i].update();
+                                gamePage.msg('Build ' + btn[i].model.name );
+                            }
+                            });
+                     } catch(err) {
+                         console.log(err);
+                     }
+                 }
+             }
+
+
              else {
                      try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
