@@ -275,7 +275,7 @@ function autoTrade() {
             var mineralsRes = gamePage.resPool.get('minerals');
             var goldResource = gamePage.resPool.get('gold');
             var ivoryRes = gamePage.resPool.get('ivory');
-            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill)) {
+            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 500 )) {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value / unoRes.maxValue > 0.3){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
@@ -669,7 +669,7 @@ function UpgradeBuildings() {
                 gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val;
             }
             if (gamePage.bld.getBuildingExt('smelter').meta.unlocked){
-                if (((gamePage.ironWill && gamePage.diplomacy.get('nagas').unlocked && gamePage.resPool.get('gold').unlocked) || (gamePage.ironWill && gamePage.resPool.get('iron').value < 100)) || ((gamePage.calcResourcePerTick('wood') + gamePage.getResourcePerTickConvertion('wood') + gamePage.bld.getBuildingExt('smelter').meta.effects.woodPerTickCon +  gamePage.calcResourcePerTick('wood') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on  && ( gamePage.calcResourcePerTick('minerals') + gamePage.getResourcePerTickConvertion('minerals')  + gamePage.bld.getBuildingExt('smelter').meta.effects.mineralsPerTickCon + gamePage.calcResourcePerTick('minerals') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on)) {
+                if (((gamePage.ironWill && gamePage.diplomacy.get('nagas').unlocked && gamePage.resPool.get('gold').unlocked && gamePage.resPool.get('minerals').value > gamePage.resPool.get('minerals').maxValue * 0.3 && gamePage.resPool.get('iron').value < gamePage.resPool.get('iron').maxValue * 0.9 ) || (gamePage.ironWill && gamePage.resPool.get('iron').value < 100)) || ((gamePage.calcResourcePerTick('wood') + gamePage.getResourcePerTickConvertion('wood') + gamePage.bld.getBuildingExt('smelter').meta.effects.woodPerTickCon +  gamePage.calcResourcePerTick('wood') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on  && ( gamePage.calcResourcePerTick('minerals') + gamePage.getResourcePerTickConvertion('minerals')  + gamePage.bld.getBuildingExt('smelter').meta.effects.mineralsPerTickCon + gamePage.calcResourcePerTick('minerals') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on)) {
                         if  (gamePage.bld.getBuildingExt('smelter').meta.val > gamePage.bld.getBuildingExt('smelter').meta.on){
                             gamePage.bld.getBuildingExt('smelter').meta.on++;
                         }
