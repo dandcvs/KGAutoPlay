@@ -351,7 +351,7 @@ function autoCraft2() {
                 if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked) {
                      flag = true;
                      cnt = 0;
-                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value)) {
+                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value) && !gamePage.ironWill) {
                         if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
                              for (var x = 0; x < resourcesAllF[i][1].length; x++) {
                                 cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2));
