@@ -290,7 +290,7 @@ function autoTrade() {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
                 } else if ((ironRes.value < (ironRes.maxValue * 0.9)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
                     if (gamePage.ironWill){
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) * 0.9);
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) / 2));
                     }
                     else{
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
