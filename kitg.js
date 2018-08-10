@@ -289,7 +289,13 @@ function autoTrade() {
                 } else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
                 } else if ((ironRes.value < (ironRes.maxValue * 0.9)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
-                    gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
+                    if (gamePage.ironWill){
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) * 0.9);
+                    }
+                    else{
+                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
+                    }
+
                 } else if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
                 } else if (gamePage.diplomacy.get('dragons').unlocked) {
