@@ -261,10 +261,10 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
-        if  (gamePage.resPool.get('uranium').value < 100 && gamePage.diplomacy.get('dragons').unlocked) {
+        if  (gamePage.resPool.get('uranium').value < 100 && gamePage.diplomacy.get('dragons').unlocked && !gamePage.ironWill) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
-        if (gamePage.resPool.get('titanium').value < 20000 && gamePage.diplomacy.get('zebras').unlocked) {
+        if (gamePage.resPool.get('titanium').value < 20000 && gamePage.diplomacy.get('zebras').unlocked && !gamePage.ironWill) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
         else if((gamePage.religion.getRU('solarRevolution').val == 1) || (gamePage.ironWill)){
@@ -288,9 +288,6 @@ function autoTrade() {
                     }
                 } else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
-                }else if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
-                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
-
                 } else if (((ironRes.value < (ironRes.maxValue * 0.9) && !gamePage.ironWill) || (ironRes.value < (ironRes.maxValue * 0.5) && gamePage.ironWill)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
                     if (gamePage.ironWill) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) / 10));
@@ -298,6 +295,9 @@ function autoTrade() {
                     else{
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
                     }
+
+                } else if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
+                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
                 } else if (gamePage.diplomacy.get('dragons').unlocked) {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
                 }
