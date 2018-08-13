@@ -80,8 +80,8 @@ function autoObserve() {
 //Auto praise the sun
 function autoPraise(){
 	if (gamePage.religionTab.visible) {
+	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
-	        gamePage.tabs[5].update();
             if (gamePage.religion.getProductionBonus() < 900){
                 gamePage.religion.praise();
             }
