@@ -81,6 +81,7 @@ function autoObserve() {
 function autoPraise(){
 	if (gamePage.religionTab.visible) {
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
+	        gamePage.tabs[5].update();
             if (gamePage.religion.getProductionBonus() < 900){
                 gamePage.religion.praise();
             }
@@ -153,7 +154,6 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-        gamePage.ironWill
         if (gamePage.ui.activeTabId != 'Bonfire'){
             gamePage.tabs[0].update();
         }
