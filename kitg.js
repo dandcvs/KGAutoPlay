@@ -636,7 +636,7 @@ function autoNip() {
 			console.log(err);
 			}
 		}
-		else if ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )) ){
+		else if (!gamePage.workshopTab.visible && (gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )) ){
 		    btn = gamePage.tabs[0].buttons[1];
 		    if (gamePage.timer.ticksTotal % 151 === 0){
                  gamePage.msg('Refine catnip');
