@@ -188,7 +188,9 @@ function autoBuild() {
                  }
              }
              else if (gamePage.ironWill){
-                 if (!btn[i].model.metadata.effects.maxKittens){
+                 if (!btn[i].model.metadata.effects.maxKittens || (!gamePage.workshop.get("goldOre").researched && btn[i].model.prices.filter(res => res.name == 'science').length > 0) ||
+                    (!gamePage.workshop.get("goldOre").unlocked && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0)
+                  ){
                     try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
@@ -349,7 +351,7 @@ var resourcesAll = [
 ]
 
 function autoCraft2() {
-        if (gamePage.workshopTab.visible) {
+        if (gamePage.science.get("construction").researched) {
             var flag = true;
             var cnt = 0;
             var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked).sort(function(a, b) {
@@ -636,7 +638,7 @@ function autoNip() {
 			console.log(err);
 			}
 		}
-		else if (!gamePage.workshopTab.visible && ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))){
+		else if ((!gamePage.workshopTab.visible || gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) && ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))){
 		    btn = gamePage.tabs[0].buttons[1];
 		    if (gamePage.timer.ticksTotal % 151 === 0){
                  gamePage.msg('Refine catnip');
