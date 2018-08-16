@@ -189,7 +189,9 @@ function autoBuild() {
              }
              else if (gamePage.ironWill){
                  if ((!btn[i].model.metadata.effects.maxKittens && !gamePage.workshop.get("goldOre").researched && !btn[i].model.prices.filter(res => res.name == 'science').length > 0) ||
-                    (!btn[i].model.metadata.effects.maxKittens && !gamePage.workshop.get("goldOre").unlocked && !btn[i].model.prices.filter(res => res.name == 'minerals').length > 0))
+                    (!btn[i].model.metadata.effects.maxKittens && !gamePage.workshop.get("goldOre").unlocked && !btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
+                    (!btn[i].model.metadata.effects.maxKittens && (!gamePage.bld.buildingsData[27].unlocked || !gamePage.bld.buildingsData[27].val > 0)  && !btn[i].model.prices.filter(res => res.name == 'minerals').length > 0)
+                    )
                   {
                     try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
@@ -305,7 +307,6 @@ function autoTrade() {
                 if (gamePage.diplomacy.get('dragons').unlocked) {
                     gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
                 }
-
             }
         }
 }
