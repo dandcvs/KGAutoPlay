@@ -16,7 +16,9 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var kittensBuildings = ["temple","tradepost"];
+var switches = {"AutoEnergyControl":true,"IronWill":false}
 var AutoEnergyControl = true;
+var IronWill = false;
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
 
@@ -28,8 +30,11 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 '<div id="optionSelect" style="display:none; margin-top:-130px; margin-left:-30px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
 
-'<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br></br>' +
-'<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(AutoEnergyControl,  \'autoEnergy\')"> Energy Control </button></br>' +
+'<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
+'<hr size=5>' +
+'<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(\'AutoEnergyControl\',  \'autoEnergy\')"> Energy Control </button></br>' +
+'<hr size=3>' +
+'<button id="IronWill" style="color:red" onclick="autoSwitchEnergy(\'IronWill\',  \'IronWill\')"> IronWill </button></br>' +
 '</div>' +
 '</div>'
 
@@ -55,13 +60,13 @@ function clearScript() {
 }
 
 function autoSwitchEnergy(varCheck, varName) {
-	if (!varCheck) {
-		AutoEnergyControl = true;
-		gamePage.msg('Auto energy is now on');
+	if (!switches[varCheck]) {
+		switches[varCheck] = true;
+		gamePage.msg('Auto ' + varCheck + ' is now on');
 		document.getElementById(varName).style.color = 'black';
-	} else if (varCheck) {
-		AutoEnergyControl = false;
-		gamePage.msg('Auto energy is now off');
+	} else if (switches[varCheck]) {
+		switches[varCheck] = false;
+		gamePage.msg('Auto ' + varCheck + ' is now off');
 		document.getElementById(varName).style.color = 'red';
 	}
 }
@@ -738,6 +743,14 @@ function Timepage() {
 	    }
 }
 
+function Service(){
+    if (!switches["IronWill"]) {
+        gamePage.ironWill = false;
+    }
+}
+
+
+
 function RenderNewTabs(){
     if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).length > 0) {
         gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
@@ -753,6 +766,7 @@ function RenderNewTabs(){
 
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
+gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
 gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
 clearInterval(runAllAutomation);
 var runAllAutomation = setInterval(function() {
@@ -788,6 +802,7 @@ var runAllAutomation = setInterval(function() {
            UpgradeBuildings();
            ResearchSolarRevolution();
            Timepage();
+           Service();
            Iinc = 0;
         }
 	    Iinc++;
