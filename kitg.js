@@ -765,12 +765,13 @@ function RenderNewTabs(){
 }
 
 
-// This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
+
 if (gamePage.ironWill){
     gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
 }
-
 gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
+
+// This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
 clearInterval(runAllAutomation);
 var runAllAutomation = setInterval(function() {
 
