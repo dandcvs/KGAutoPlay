@@ -16,7 +16,7 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var kittensBuildings = ["temple","tradepost"];
-var switches = {"AutoEnergyControl":true,"IronWill":false}
+var switches = {"Energy Control":true,"Iron Will":false}
 var AutoEnergyControl = true;
 var IronWill = false;
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
@@ -32,9 +32,9 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 '<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
 '<hr size=5>' +
-'<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(\'AutoEnergyControl\',  \'autoEnergy\')"> Energy Control </button></br>' +
+'<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(\'Energy Control\',  \'autoEnergy\')"> Energy Control </button></br>' +
 '<hr size=3>' +
-'<button id="IronWill" style="color:red" onclick="autoSwitchEnergy(\'IronWill\',  \'IronWill\')"> IronWill </button></br>' +
+'<button id="IronWill" style="color:red" onclick="autoSwitchEnergy(\'Iron Will\',  \'IronWill\')"> IronWill </button></br>' +
 '</div>' +
 '</div>'
 
@@ -744,7 +744,7 @@ function Timepage() {
 }
 
 function Service(){
-    if (!switches["IronWill"]) {
+    if (!switches["Iron Will"]) {
         gamePage.ironWill = false;
     }
 }
