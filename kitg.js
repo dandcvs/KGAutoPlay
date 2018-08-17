@@ -17,8 +17,6 @@ var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var kittensBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
-var AutoEnergyControl = true;
-var IronWill = false;
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
 
@@ -596,7 +594,7 @@ function autoAssign() {
 
 // Control Energy Consumption
 function energyControl() {
-        if (AutoEnergyControl){
+        if (switches["Energy Control"]){
             proVar = gamePage.resPool.energyProd;
             conVar = gamePage.resPool.energyCons;
             FreeEnergy = Math.abs(proVar - conVar);
