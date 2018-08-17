@@ -703,6 +703,7 @@ function UpgradeBuildings() {
                     else{
                         gamePage.bld.getBuildingExt('smelter').meta.on--;
                     }
+                }
             }
 }
 
