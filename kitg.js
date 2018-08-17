@@ -697,8 +697,12 @@ function UpgradeBuildings() {
                         }
                 }
                 else if (gamePage.bld.getBuildingExt('smelter').meta.on > 0) {
-                     gamePage.bld.getBuildingExt('smelter').meta.on--;
-                }
+                    if (gamePage.ironWill) {
+                        gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.on--);
+                    }
+                    else{
+                        gamePage.bld.getBuildingExt('smelter').meta.on--;
+                    }
             }
 }
 
