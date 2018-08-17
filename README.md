@@ -38,4 +38,6 @@ Currently now this script will automatically do the following:
 
 11.Allocating kittens to jobs
 
+12.Adapt Challenges(Iron Will, Atheism)
+
 Still need some testing
