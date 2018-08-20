@@ -340,7 +340,7 @@ var resourcesAll = [
     ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
     ["slab", [["minerals",250]],gamePage.ironWill ? 0 :25],
     ["steel", [["iron",100],["coal",100]],500],
-    ["plate", [["iron",125]],150],
+    ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
     ["concrate", [["steel",25],["slab",2500]],500],
     ["gear", [["steel",15]],500],
     ["alloy", [["steel",75],["titanium",10]],1000],
