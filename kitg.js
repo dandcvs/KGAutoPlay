@@ -442,7 +442,7 @@ function autoResearch() {
 
 // Auto Workshop upgrade
 function autoWorkshop() {
-    if (gamePage.workshopTab.visible != false) {
+    if (gamePage.workshopTab.visible) {
          gamePage.tabs[3].update();
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.visible);
          for (var i = 0; i < btn.length; i++) {
@@ -805,9 +805,9 @@ var runAllAutomation = setInterval(function() {
 
 	if (gamePage.timer.ticksTotal % 151 === 0) {
         RenderNewTabs();
+        UpgradeBuildings();
         if (Iinc == 5) {
            autozig();
-           UpgradeBuildings();
            ResearchSolarRevolution();
            Timepage();
            Service();
