@@ -447,15 +447,19 @@ function autoWorkshop() {
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.visible);
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
-                try {
-                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                        if (result) {
-                            btn[i].update();
-                            gamePage.msg('Upgraded ' + btn[i].model.name );
-                        }
-                    });
-                } catch(err) {
-                console.log(err);
+                if (gamePage.ironWill && !gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked)
+                {}
+                else{
+                    try {
+                        btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                                btn[i].update();
+                                gamePage.msg('Upgraded ' + btn[i].model.name );
+                            }
+                        });
+                    } catch(err) {
+                    console.log(err);
+                    }
                 }
             }
         }
