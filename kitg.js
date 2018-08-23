@@ -351,7 +351,7 @@ var resourcesAll = [
     ["kerosene", [["oil",7500]],0],
     ["parchment", [["furs",175]],0],
     ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 :35],
-    ["compedium", [["manuscript",50],["science",10000]],0],
+    ["compedium", [["manuscript",50],["science",10000]],100],
     ["blueprint", [["compedium",25],["science",25000]],0],
     ["thorium", [["uranium",250]],0],
     ["megalith", [["slab",50],["plate",5]],0],
