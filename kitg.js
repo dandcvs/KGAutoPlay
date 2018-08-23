@@ -337,9 +337,10 @@ var resources = [
 			["unobtainium", "eludium", 1000]
                 ];
 
+var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 var resourcesAll = [
     ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
-    ["slab", [["minerals",250]],gamePage.ironWill ? 0 :25],
+    ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) :50],
     ["steel", [["iron",100],["coal",100]],500],
     ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
     ["concrate", [["steel",25],["slab",2500]],500],
