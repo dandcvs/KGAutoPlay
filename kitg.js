@@ -162,7 +162,7 @@ function autoBuild() {
         }
         var btn = gamePage.tabs[0].buttons.filter(res => res.model.enabled && res.model.metadata && res.model.metadata.unlocked);
         for (i = 0 ;i < btn.length; i++) {
-             if ((goldebBuildings.includes(btn[i].model.metadata.name) && !gamePage.ironWill) || (gamePage.ironWill && gamePage.bld.buildingsData[27].val != 0){
+             if ((goldebBuildings.includes(btn[i].model.metadata.name) && !gamePage.ironWill) || (gamePage.ironWill && gamePage.bld.buildingsData[27].val != 0)){
                    if ((gamePage.religion.getRU('solarRevolution').val == 1) || (btn[i].model.metadata.name == 'temple' &&  btn[i].model.metadata.val < 3) || (btn[i].model.prices.filter(res => res.name == 'gold')[0].val < (gamePage.resPool.get('gold').value - 500)) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue) ) {
                               try {
                                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
