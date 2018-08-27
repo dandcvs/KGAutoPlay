@@ -285,7 +285,7 @@ function autoTrade() {
             var mineralsRes = gamePage.resPool.get('minerals');
             var goldResource = gamePage.resPool.get('gold');
             var ivoryRes = gamePage.resPool.get('ivory');
-            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
+            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && (goldResource.value > 600 || (goldResource.value > goldResource.maxValue * 0.95)) )) {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value / unoRes.maxValue > 0.3){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
