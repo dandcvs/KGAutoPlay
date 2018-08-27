@@ -448,7 +448,7 @@ function autoWorkshop() {
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.visible);
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
-                if (gamePage.ironWill && !gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked)
+                if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked)))
                 {}
                 else{
                     try {
