@@ -351,7 +351,7 @@ var resourcesAll = [
     ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
     ["kerosene", [["oil",7500]],0],
     ["parchment", [["furs",175]],0],
-    ["manuscript", [["parchment",25],["culture",400]],35],
+    ["manuscript", [["parchment",25],["culture",400]],,gamePage.ironWill ? 0 : 35],
     ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? 100 : 0],
     ["blueprint", [["compedium",25],["science",25000]],0],
     ["thorium", [["uranium",250]],0],
