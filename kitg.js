@@ -19,6 +19,25 @@ var kittensBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
+var resourcesAll = [
+    ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
+    ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
+    ["steel", [["iron",100],["coal",100]],500],
+    ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
+    ["concrate", [["steel",25],["slab",2500]],500],
+    ["gear", [["steel",15]],500],
+    ["alloy", [["steel",75],["titanium",10]],1000],
+    ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
+    ["scaffold", [["beam",50]],1000],
+    ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
+    ["kerosene", [["oil",7500]],0],
+    ["parchment", [["furs",175]],0],
+    ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 : 35],
+    ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? f(gamePage.resPool.get('science').value) : 0],
+    ["blueprint", [["compedium",25],["science",25000]],0],
+    ["thorium", [["uranium",250]],0],
+    ["megalith", [["slab",50],["plate",5]],0],
+]
 
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
@@ -339,29 +358,10 @@ var resources = [
 
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
-
 function autoCraft2() {
 
         if (gamePage.science.get("construction").researched) {
-            var resourcesAll = [
-                ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
-                ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
-                ["steel", [["iron",100],["coal",100]],500],
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
-                ["concrate", [["steel",25],["slab",2500]],500],
-                ["gear", [["steel",15]],500],
-                ["alloy", [["steel",75],["titanium",10]],1000],
-                ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
-                ["scaffold", [["beam",50]],1000],
-                ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
-                ["kerosene", [["oil",7500]],0],
-                ["parchment", [["furs",175]],0],
-                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 : 35],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? f(gamePage.resPool.get('science').value) : 0],
-                ["blueprint", [["compedium",25],["science",25000]],0],
-                ["thorium", [["uranium",250]],0],
-                ["megalith", [["slab",50],["plate",5]],0],
-            ]
+
             var flag = true;
             var cnt = 0;
             var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked).sort(function(a, b) {
@@ -764,6 +764,25 @@ function Service(){
     if (!switches["Iron Will"]) {
         gamePage.ironWill = false;
     }
+    resourcesAll = [
+        ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
+        ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
+        ["steel", [["iron",100],["coal",100]],500],
+        ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
+        ["concrate", [["steel",25],["slab",2500]],500],
+        ["gear", [["steel",15]],500],
+        ["alloy", [["steel",75],["titanium",10]],1000],
+        ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
+        ["scaffold", [["beam",50]],1000],
+        ["ship", [["scaffold",100],["plate",150],["starchart",25]],500],
+        ["kerosene", [["oil",7500]],0],
+        ["parchment", [["furs",175]],0],
+        ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 : 35],
+        ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? f(gamePage.resPool.get('science').value) : 0],
+        ["blueprint", [["compedium",25],["science",25000]],0],
+        ["thorium", [["uranium",250]],0],
+        ["megalith", [["slab",50],["plate",5]],0],
+    ]
 }
 
 
