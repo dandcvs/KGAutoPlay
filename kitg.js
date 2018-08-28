@@ -638,10 +638,19 @@ function energyControl() {
 
 function autoNip() {
 		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 ) {
-		    gamePage.bld.gatherCatnip();
-		    if (gamePage.timer.ticksTotal % 151 === 0){
+		    btn = gamePage.tabs[0].buttons[0];
+			try {
+				btn.controller.buyItem(btn.model, {}, function(result) {
+					if (result) {
+                        btn.update();
+                        if (gamePage.timer.ticksTotal % 151 === 0){
                             gamePage.msg('Gathering catnip');
-            }
+                        }
+					}
+					});
+			} catch(err) {
+			console.log(err);
+			}
 		}
 		else if ((!gamePage.workshopTab.visible || gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) && ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))){
 		    btn = gamePage.tabs[0].buttons[1];
