@@ -110,7 +110,7 @@ function autoPraise(){
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
                 var btn = gamePage.tabs[5].rUpgradeButtons;
                 for (var i = 0; i < btn.length; i++) {
-                    if (btn[i].model.enabled && btn[i].model.visible) {
+                    if (btn[i].model.enabled && btn[i].model.metadata.unlocked) {
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
@@ -152,7 +152,7 @@ function autoPraise(){
 	    } else if ((gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
                 var btn = gamePage.tabs[5].rUpgradeButtons;
                 for (var i = 0; i < btn.length; i++) {
-                    if (btn[i].model.enabled && btn[i].model.visible) {
+                    if (btn[i].model.enabled && btn[i].model.metadata.unlocked) {
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
@@ -423,9 +423,9 @@ function autoCraft2() {
 
 // Auto Research
 function autoResearch() {
-    if (gamePage.libraryTab.visible != false) {
+    if (gamePage.libraryTab.visible) {
         gamePage.tabs[2].update();
-        var btn = gamePage.tabs[2].buttons.filter(res => res.model.visible);
+        var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked);
         for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
                 try {
