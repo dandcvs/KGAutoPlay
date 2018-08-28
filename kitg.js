@@ -19,6 +19,7 @@ var kittensBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
 
+var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 var resourcesAll = [
     ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
     ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
@@ -356,7 +357,6 @@ var resources = [
 			["unobtainium", "eludium", 1000]
                 ];
 
-var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
 function autoCraft2() {
 
@@ -638,37 +638,18 @@ function energyControl() {
 
 function autoNip() {
 		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 ) {
-			btn = gamePage.tabs[0].buttons[0]
-			try {
-				btn.controller.buyItem(btn.model, {}, function(result) {
-					if (result) {
-                        btn.update();
-                        if (gamePage.timer.ticksTotal % 151 === 0){
-                            gamePage.msg('Gathering catnip');
-                        }
-					}
-					});
-			} catch(err) {
-			console.log(err);
-			}
+		    gamePage.bld.gatherCatnip();
+		    if (gamePage.timer.ticksTotal % 151 === 0){
+                gamePage.msg('Gathering catnip');
+            }
 		}
 		else if ((!gamePage.workshopTab.visible || gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) && ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))){
-		    btn = gamePage.tabs[0].buttons[1];
 		    if (gamePage.timer.ticksTotal % 151 === 0){
                  gamePage.msg('Refine catnip');
             }
-            for (var i = 0; i < Math.trunc(gamePage.resPool.get('catnip').value/100); i++) {
-                if (btn.model.enabled) {
-                     try {
-                            btn.controller.buyItem(btn.model, {}, function(result) {
-                                    if (result) {
-                                        btn.update();
-                                    }
-                            });
-                         } catch(err) {
-                            console.log(err);
-                         }
-                }
+            for (var i = 0; i < Math.trunc(gamePage.resPool.get('catnip').value/gamePage.tabs[0].buttons[1].model.prices[0].val); i++) {
+            gamePage.tabs[0].buttons[1].controller.payPrice(gamePage.tabs[0].buttons[1].model)
+		    gamePage.tabs[0].buttons[1].controller.clickHandler(gamePage.tabs[0].buttons[1].model)
             }
 		}
 }
