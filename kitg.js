@@ -637,7 +637,7 @@ function energyControl() {
 }
 
 function autoNip() {
-		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 && (gamePage.gatherClicks  < 2500 && !this.game.ironWill )) {
+		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 && (gamePage.gatherClicks  < 2500 && !gamePage.ironWill )) {
 		    btn = gamePage.tabs[0].buttons[0];
 			try {
 				btn.controller.buyItem(btn.model, {}, function(result) {
