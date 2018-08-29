@@ -101,7 +101,7 @@ function autoObserve() {
 
 //Auto praise the sun
 function autoPraise(){
-	if (gamePage.religionTab.visible) {
+	if (gamePage.religionTab.domNode) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             if (gamePage.religion.getProductionBonus() < 900){
@@ -249,7 +249,7 @@ function autoBuild() {
 
 // Build space stuff automatically
 function autoSpace() {
-    if (gamePage.spaceTab.visible) {
+    if (gamePage.spaceTab.domNode) {
         // Build space buildings
         gamePage.tabs[6].update();
         for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
@@ -425,7 +425,7 @@ function autoCraft2() {
 
 // Auto Research
 function autoResearch() {
-    if (gamePage.libraryTab.visible) {
+    if (gamePage.libraryTab.domNode) {
         gamePage.tabs[2].update();
         var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked);
         for (var i = 0; i < btn.length; i++) {
@@ -447,7 +447,7 @@ function autoResearch() {
 
 // Auto Workshop upgrade
 function autoWorkshop() {
-    if (gamePage.workshopTab.visible) {
+    if (gamePage.workshopTab.domNode) {
          gamePage.tabs[3].update();
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked);
          for (var i = 0; i < btn.length; i++) {
@@ -657,7 +657,7 @@ function autoNip() {
 }
 function autoRefine() {
     if ( ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))) {
-        if (!gamePage.workshopTab.visible ){
+        if (!gamePage.workshopTab.domNode ){
                     btn = gamePage.tabs[0].buttons[1];
                     price = gamePage.tabs[0].buttons[1].model.prices[0].val;
                     limit = Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value,Math.trunc(gamePage.resPool.get('catnip').value/price));
@@ -802,15 +802,15 @@ function Service(){
 
 
 function RenderNewTabs(){
-    if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).length > 0) {
-        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible && !ActualTabs.includes(tab)).forEach(tab => tab.render());
-        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
+    if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode && !ActualTabs.includes(tab)).length > 0) {
+        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode && !ActualTabs.includes(tab)).forEach(tab => tab.render());
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode));
 
     }
     //space render
     else if(gamePage.tabs[6].GCPanel.children.filter(res => res.model.on == 1).length != gamePage.tabs[6].planetPanels.length){
         gamePage.tabs[6].render();
-        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode));
     }
 }
 
