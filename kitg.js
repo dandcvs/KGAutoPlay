@@ -298,7 +298,7 @@ function autoTrade() {
         if (gamePage.resPool.get('titanium').value < 20000 && gamePage.diplomacy.get('zebras').unlocked) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
-        else if((gamePage.religion.getRU('solarRevolution').val == 1) || (gamePage.ironWill)){
+        if((gamePage.religion.getRU('solarRevolution').val == 1) || (gamePage.ironWill)){
             var titRes = gamePage.resPool.get('titanium');
             var ironRes = gamePage.resPool.get('iron');
             var unoRes = gamePage.resPool.get('unobtainium');
