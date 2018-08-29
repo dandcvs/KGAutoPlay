@@ -17,7 +17,7 @@ var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
 var kittensBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
-var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.visible));
+var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 var resourcesAll = [
     ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
@@ -101,8 +101,8 @@ function autoObserve() {
 
 //Auto praise the sun
 function autoPraise(){
-	if (gamePage.religionTab.domNode) {
-	    gamePage.tabs[5].update();
+    gamePage.tabs[5].update();
+	if (gamePage.religionTab.visible) {
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             if (gamePage.religion.getProductionBonus() < 900){
                 gamePage.religion.praise();
@@ -249,9 +249,9 @@ function autoBuild() {
 
 // Build space stuff automatically
 function autoSpace() {
-    if (gamePage.spaceTab.domNode) {
+    gamePage.tabs[6].update();
+    if (gamePage.spaceTab.visible) {
         // Build space buildings
-        gamePage.tabs[6].update();
         for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
                 var spBuild = gamePage.tabs[6].planetPanels[z].children;
                 try {
@@ -425,8 +425,8 @@ function autoCraft2() {
 
 // Auto Research
 function autoResearch() {
-    if (gamePage.libraryTab.domNode) {
-        gamePage.tabs[2].update();
+    gamePage.tabs[2].update();
+    if (gamePage.tabs[2].visible) {
         var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked);
         for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
@@ -447,8 +447,8 @@ function autoResearch() {
 
 // Auto Workshop upgrade
 function autoWorkshop() {
-    if (gamePage.workshopTab.domNode) {
-         gamePage.tabs[3].update();
+    gamePage.tabs[3].update();
+    if (gamePage.workshopTab.visible) {
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked);
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
@@ -657,7 +657,7 @@ function autoNip() {
 }
 function autoRefine() {
     if ( ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))) {
-        if (!gamePage.workshopTab.domNode ){
+        if (!gamePage.workshopTab.visible ){
                     btn = gamePage.tabs[0].buttons[1];
                     price = gamePage.tabs[0].buttons[1].model.prices[0].val;
                     limit = Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value,Math.trunc(gamePage.resPool.get('catnip').value/price));
@@ -802,15 +802,15 @@ function Service(){
 
 
 function RenderNewTabs(){
-    if(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode && !ActualTabs.includes(tab)).length > 0) {
-        gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode && !ActualTabs.includes(tab)).forEach(tab => tab.render());
-        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode));
+    if(gamePage.tabs.filter(tab => tab.tabName != "Stats"  && !ActualTabs.includes(tab)).length > 0) {
+        gamePage.tabs.filter(tab => tab.tabName != "Stats" && !ActualTabs.includes(tab)).forEach(tab => tab.render());
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 
     }
     //space render
     else if(gamePage.tabs[6].GCPanel.children.filter(res => res.model.on == 1).length != gamePage.tabs[6].planetPanels.length){
         gamePage.tabs[6].render();
-        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats" && tab.domNode));
+        ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
     }
 }
 
@@ -819,7 +819,7 @@ function RenderNewTabs(){
 if (gamePage.ironWill){
     gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
 }
-gamePage.tabs.filter(tab => tab.tabName != "Stats").forEach(tab => tab.render());
+gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render());
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
 clearInterval(runAllAutomation);
