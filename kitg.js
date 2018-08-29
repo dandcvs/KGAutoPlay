@@ -101,8 +101,8 @@ function autoObserve() {
 
 //Auto praise the sun
 function autoPraise(){
-    gamePage.tabs[5].update();
 	if (gamePage.religionTab.visible) {
+	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             if (gamePage.religion.getProductionBonus() < 900){
                 gamePage.religion.praise();
@@ -249,8 +249,8 @@ function autoBuild() {
 
 // Build space stuff automatically
 function autoSpace() {
-    gamePage.tabs[6].update();
     if (gamePage.spaceTab.visible) {
+        gamePage.tabs[6].update();
         // Build space buildings
         for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
                 var spBuild = gamePage.tabs[6].planetPanels[z].children;
@@ -425,8 +425,8 @@ function autoCraft2() {
 
 // Auto Research
 function autoResearch() {
-    gamePage.tabs[2].update();
     if (gamePage.tabs[2].visible) {
+        gamePage.tabs[2].update();
         var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked);
         for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
@@ -447,8 +447,8 @@ function autoResearch() {
 
 // Auto Workshop upgrade
 function autoWorkshop() {
-    gamePage.tabs[3].update();
     if (gamePage.workshopTab.visible) {
+        gamePage.tabs[3].update();
          var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked);
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
@@ -487,60 +487,16 @@ function autoParty() {
 }
 
 function autozig() {
-    if (gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) {
-         gamePage.tabs[5].render();
-    }
-    gamePage.religionTab.update();
-    var btn = [gamePage.religionTab.sacrificeBtn,gamePage.religionTab.sacrificeAlicornsBtn]
-    for (var i = 0; i < btn.length; i++) {
-		if (btn[i] && btn[i].model.visible == true) {
-			try {
-				btn[i].controller.sacrificeAll(btn[i].model, {}, function(result) {
-					if (result) {btn[i].update();}
-					});
-			} catch(err) {
-			console.log(err);
-			}
-		}
-	}
-
-	if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.enabled).length > 0){
-        zig = gamePage.religionTab.zgUpgradeButtons.sort(function(a, b) {
-                    a1 = a.model.metadata.effects.alicornPerTick;
-                    a2 = a.model.metadata.effects.unicornsRatioReligion
-                    b1 = b.model.metadata.effects.alicornPerTick;
-                    b2 = b.model.metadata.effects.unicornsRatioReligion
-                    if (!a1){a1 = 0};
-                    if (!a2){a2 = 0};
-                    if (!b1){b1 = 0};
-                    if (!b2){b2 = 0};
-
-                    return ((a1 + a2) - (b1 + b2));
-                 });
-
-        var btn = zig;
-        for (var i = btn.length - 1; i >= 0; i--) {
-            if (btn[i] && btn[i].model.metadata.unlocked ) {
-                try {
-                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                        if (result) {
-                        btn[i].update();
-                        gamePage.msg('Build ' + btn[i].model.name );
-                        }
-                        });
-                } catch(err) {
-                console.log(err);
-                }
-            }
+    if (gamePage.religionTab.visible) {
+        if (gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) {
+             gamePage.tabs[5].render();
         }
-	}
-
-	if (gamePage.resPool.get('tears').value > 10000 && gamePage.resPool.get('sorrow').value < gamePage.resPool.get('sorrow').maxValue){
-        var btn = [gamePage.religionTab.refineBtn]
+        gamePage.religionTab.update();
+        var btn = [gamePage.religionTab.sacrificeBtn,gamePage.religionTab.sacrificeAlicornsBtn]
         for (var i = 0; i < btn.length; i++) {
             if (btn[i] && btn[i].model.visible == true) {
                 try {
-                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                    btn[i].controller.sacrificeAll(btn[i].model, {}, function(result) {
                         if (result) {btn[i].update();}
                         });
                 } catch(err) {
@@ -548,7 +504,53 @@ function autozig() {
                 }
             }
         }
-	}
+
+        if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.enabled).length > 0){
+            zig = gamePage.religionTab.zgUpgradeButtons.sort(function(a, b) {
+                        a1 = a.model.metadata.effects.alicornPerTick;
+                        a2 = a.model.metadata.effects.unicornsRatioReligion
+                        b1 = b.model.metadata.effects.alicornPerTick;
+                        b2 = b.model.metadata.effects.unicornsRatioReligion
+                        if (!a1){a1 = 0};
+                        if (!a2){a2 = 0};
+                        if (!b1){b1 = 0};
+                        if (!b2){b2 = 0};
+
+                        return ((a1 + a2) - (b1 + b2));
+                     });
+
+            var btn = zig;
+            for (var i = btn.length - 1; i >= 0; i--) {
+                if (btn[i] && btn[i].model.metadata.unlocked ) {
+                    try {
+                        btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                            btn[i].update();
+                            gamePage.msg('Build ' + btn[i].model.name );
+                            }
+                            });
+                    } catch(err) {
+                    console.log(err);
+                    }
+                }
+            }
+        }
+
+        if (gamePage.resPool.get('tears').value > 10000 && gamePage.resPool.get('sorrow').value < gamePage.resPool.get('sorrow').maxValue){
+            var btn = [gamePage.religionTab.refineBtn]
+            for (var i = 0; i < btn.length; i++) {
+                if (btn[i] && btn[i].model.visible == true) {
+                    try {
+                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {btn[i].update();}
+                            });
+                    } catch(err) {
+                    console.log(err);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Auto assign new kittens to selected job
@@ -805,7 +807,6 @@ function RenderNewTabs(){
     if(gamePage.tabs.filter(tab => tab.tabName != "Stats"  && !ActualTabs.includes(tab)).length > 0) {
         gamePage.tabs.filter(tab => tab.tabName != "Stats" && !ActualTabs.includes(tab)).forEach(tab => tab.render());
         ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
-
     }
     //space render
     else if(gamePage.tabs[6].GCPanel.children.filter(res => res.model.on == 1).length != gamePage.tabs[6].planetPanels.length){
