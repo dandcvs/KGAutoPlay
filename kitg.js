@@ -785,6 +785,7 @@ function Timepage() {
 }
 
 function Service(){
+    gamePage.ui.render();
     if (!switches["Iron Will"]) {
         gamePage.ironWill = false;
     }
