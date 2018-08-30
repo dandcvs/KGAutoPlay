@@ -257,13 +257,22 @@ function autoSpace() {
                 try {
                     for (i = 0 ;i < spBuild.length; i++) {
                         if (spBuild[i].model.metadata.unlocked) {
-                            if (!spBuild[i].model.metadata.effects.maxKittens){
-                                spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
+                            if (gamePage.ironWill){
+                                if(!spBuild[i].model.metadata.effects.maxKittens){
+                                    spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
                                     if (result) {
                                         spBuild[i].update();
                                         gamePage.msg('Build in Space ' + spBuild[i].model.name);
                                     }
                                     });
+                                }
+                            }else{
+                                spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
+                                if (result) {
+                                    spBuild[i].update();
+                                    gamePage.msg('Build in Space ' + spBuild[i].model.name);
+                                }
+                                });
                             }
                         }
                     }
@@ -690,51 +699,50 @@ function autoRefine() {
 }
 
 function UpgradeBuildings() {
-            if (gamePage.diplomacy.hasUnlockedRaces()){
-                gamePage.diplomacy.unlockRandomRace();
-            }
-            var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0);
-            for (var i = 0; i < mblds.length; i++) {
-                mblds[i].stage = 1;
-                mblds[i].val = 0;
-                mblds[i].value = 0;
-                mblds[i].on = 0;
-            }
-            if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
-                gamePage.bld.getBuildingExt('steamworks').meta.on = gamePage.bld.getBuildingExt('steamworks').meta.val;
-            }
-            if (gamePage.bld.getBuildingExt('reactor').meta.on < gamePage.bld.getBuildingExt('reactor').meta.val && gamePage.resPool.get('uranium').value > 0 && gamePage.bld.getBuildingExt('reactor').meta.unlocked) {
-                gamePage.bld.getBuildingExt('reactor').meta.on = gamePage.bld.getBuildingExt('reactor').meta.val;
-            }
-            if (gamePage.bld.getBuildingExt('magneto').meta.on < gamePage.bld.getBuildingExt('magneto').meta.val && gamePage.resPool.get('oil').value > 0 && gamePage.bld.getBuildingExt('magneto').meta.unlocked) {
-                gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val;
-            }
-            if (gamePage.bld.getBuildingExt('smelter').meta.unlocked){
-                if (((gamePage.ironWill && gamePage.diplomacy.get('nagas').unlocked && gamePage.resPool.get('gold').unlocked &&  gamePage.resPool.get('minerals').value / 100 > gamePage.bld.getBuildingExt('smelter').meta.on ) || (gamePage.ironWill && ((gamePage.workshop.get("goldOre").researched && gamePage.bld.getBuildingExt('amphitheatre').meta.val > 0) || gamePage.resPool.get('iron').value < 100 ))) || ((gamePage.calcResourcePerTick('wood') + gamePage.getResourcePerTickConvertion('wood') + gamePage.bld.getBuildingExt('smelter').meta.effects.woodPerTickCon +  gamePage.calcResourcePerTick('wood') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on  && ( gamePage.calcResourcePerTick('minerals') + gamePage.getResourcePerTickConvertion('minerals')  + gamePage.bld.getBuildingExt('smelter').meta.effects.mineralsPerTickCon + gamePage.calcResourcePerTick('minerals') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on)) {
-                        if (gamePage.ironWill) {
-                            if  (gamePage.bld.getBuildingExt('smelter').meta.val >= gamePage.bld.getBuildingExt('smelter').meta.on){
-                                    gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.val);
-                            }
-                        }
-                        else if (gamePage.bld.getBuildingExt('smelter').meta.val > gamePage.bld.getBuildingExt('smelter').meta.on){
-                            gamePage.bld.getBuildingExt('smelter').meta.on++;
-                        }
-                }
-                else if (gamePage.bld.getBuildingExt('smelter').meta.on > 0) {
-                    if (gamePage.ironWill) {
-                        if (gamePage.bld.getBuildingExt('amphitheatre').meta.val > 0){
-                            gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.on--);
-                        }
-                        else {
-                            gamePage.bld.getBuildingExt('smelter').meta.on= 0;
-                        }
-
-                    }
-                    else{
-                        gamePage.bld.getBuildingExt('smelter').meta.on--;
+    if (gamePage.diplomacy.hasUnlockedRaces()){
+        gamePage.diplomacy.unlockRandomRace();
+    }
+    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0);
+    for (var i = 0; i < mblds.length; i++) {
+        mblds[i].stage = 1;
+        mblds[i].val = 0;
+        mblds[i].value = 0;
+        mblds[i].on = 0;
+    }
+    if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
+        gamePage.bld.getBuildingExt('steamworks').meta.on = gamePage.bld.getBuildingExt('steamworks').meta.val;
+    }
+    if (gamePage.bld.getBuildingExt('reactor').meta.on < gamePage.bld.getBuildingExt('reactor').meta.val && gamePage.resPool.get('uranium').value > 0 && gamePage.bld.getBuildingExt('reactor').meta.unlocked) {
+        gamePage.bld.getBuildingExt('reactor').meta.on = gamePage.bld.getBuildingExt('reactor').meta.val;
+    }
+    if (gamePage.bld.getBuildingExt('magneto').meta.on < gamePage.bld.getBuildingExt('magneto').meta.val && gamePage.resPool.get('oil').value > 0 && gamePage.bld.getBuildingExt('magneto').meta.unlocked) {
+        gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val;
+    }
+    if (gamePage.bld.getBuildingExt('smelter').meta.unlocked){
+        if (((gamePage.ironWill && gamePage.diplomacy.get('nagas').unlocked && gamePage.resPool.get('gold').unlocked &&  gamePage.resPool.get('minerals').value / 100 > gamePage.bld.getBuildingExt('smelter').meta.on ) || (gamePage.ironWill && ((gamePage.workshop.get("goldOre").researched && gamePage.bld.getBuildingExt('amphitheatre').meta.val > 0) || gamePage.resPool.get('iron').value < 100 ))) || ((gamePage.calcResourcePerTick('wood') + gamePage.getResourcePerTickConvertion('wood') + gamePage.bld.getBuildingExt('smelter').meta.effects.woodPerTickCon +  gamePage.calcResourcePerTick('wood') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on  && ( gamePage.calcResourcePerTick('minerals') + gamePage.getResourcePerTickConvertion('minerals')  + gamePage.bld.getBuildingExt('smelter').meta.effects.mineralsPerTickCon + gamePage.calcResourcePerTick('minerals') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on)) {
+                if (gamePage.ironWill) {
+                    if  (gamePage.bld.getBuildingExt('smelter').meta.val >= gamePage.bld.getBuildingExt('smelter').meta.on){
+                            gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.val);
                     }
                 }
+                else if (gamePage.bld.getBuildingExt('smelter').meta.val > gamePage.bld.getBuildingExt('smelter').meta.on){
+                    gamePage.bld.getBuildingExt('smelter').meta.on++;
+                }
+        }
+        else if (gamePage.bld.getBuildingExt('smelter').meta.on > 0) {
+            if (gamePage.ironWill) {
+                if (gamePage.bld.getBuildingExt('amphitheatre').meta.val > 0){
+                    gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.on--);
+                }
+                else {
+                    gamePage.bld.getBuildingExt('smelter').meta.on= 0;
+                }
             }
+            else{
+                gamePage.bld.getBuildingExt('smelter').meta.on--;
+            }
+        }
+    }
 }
 
 function ResearchSolarRevolution() {
