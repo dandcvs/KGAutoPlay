@@ -832,6 +832,7 @@ if (gamePage.ironWill){
 gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render());
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
+gamePage.ui.render();
 clearInterval(runAllAutomation);
 var runAllAutomation = setInterval(function() {
 
