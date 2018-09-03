@@ -110,7 +110,7 @@ function autoPraise(){
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
                 var btn = gamePage.tabs[5].rUpgradeButtons;
                 for (var i = 0; i < btn.length; i++) {
-                    if (btn[i].model.enabled && btn[i].model.metadata.unlocked) {
+                    if (btn[i].model.enabled && btn[i].model.visible) {
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
