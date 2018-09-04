@@ -371,7 +371,7 @@ var resources = [
 
 function autoCraft2() {
 
-        if (gamePage.science.get("construction").researched) {
+        if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
 
             var flag = true;
             var cnt = 0;
