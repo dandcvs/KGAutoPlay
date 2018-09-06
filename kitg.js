@@ -301,10 +301,10 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
-        if  (gamePage.resPool.get('uranium').value < 100 && gamePage.diplomacy.get('dragons').unlocked) {
+        if  (gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
-        if (gamePage.resPool.get('titanium').value < 7500 && gamePage.diplomacy.get('zebras').unlocked) {
+        if (gamePage.resPool.get('titanium').value < Math.min(gamePage.resPool.get('paragon').value,7500) && gamePage.diplomacy.get('zebras').unlocked) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
         if((gamePage.religion.getRU('solarRevolution').val == 1) || (gamePage.ironWill)){
