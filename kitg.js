@@ -319,7 +319,7 @@ function autoTrade() {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value > unoRes.maxValue * 0.95){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                    }else if(unoRes.value > 5000 && gamePage.timer.ticksTotal % 600 === 0) {
+                    }else if(unoRes.value > 5000 && gamePage.timer.ticksTotal % 650 === 0) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),1);
                     }
                     //Feed elders
