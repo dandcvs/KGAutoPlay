@@ -784,13 +784,14 @@ function Timepage() {
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
-            if (chronoforge[0].model.x5Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > 50 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
+            var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
+            if (chronoforge[0].model.x5Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
                 chronoforge[0].model.x5Link.handler(chronoforge[0].model);
             }
-            else if (chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > 1000 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
+            else if (chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
                 chronoforge[0].model.x100Link.handler(chronoforge[0].model);
             }
-            else if (gamePage.getEffect("heatMax") - gamePage.time.heat > 10 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val) {
+            else if (gamePage.getEffect("heatMax") - gamePage.time.heat > factor && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val) {
                     try {
                                 chronoforge[0].controller.buyItem(chronoforge[0].model, {}, function(result) {
                                     if (result) {
