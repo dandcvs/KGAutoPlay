@@ -782,6 +782,40 @@ function Timepage() {
 			    console.log(err);
 			}
 	    }
+        if (gamePage.workshop.get("chronoforge").researched){
+            var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
+
+            while (gamePage.getEffect("heatMax") - gamePage.time.heat > 10 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val) {
+                try {
+                            chronoforge[0].controller.buyItem(chronoforge[0].model, {}, function(result) {
+                                if (result) {
+                                    chronoforge[0].update();
+                                }
+                                });
+                } catch(err) {
+                    console.log(err);
+                }
+
+            }
+
+            try {
+				for (i = 1 ;i < chronoforge.length; i++) {
+					if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
+						chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
+							if (result) {
+                                VoidBuild[i].update();
+                                gamePage.msg('Build in Time ' + chronoforge[i].model.name );
+							}
+							});
+					}
+				}
+			} catch(err) {
+			    console.log(err);
+			}
+
+        }
+
+
 }
 
 function Service(){
