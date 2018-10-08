@@ -784,8 +784,8 @@ function Timepage() {
 			}
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
+            var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
             if (gamePage.resPool.energyProd > gamePage.resPool.energyCons) {
-                var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
                 if (chronoforge[0].model.x5Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
                     chronoforge[0].model.x5Link.handler(chronoforge[0].model);
