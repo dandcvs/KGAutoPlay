@@ -571,7 +571,7 @@ function autoAssign() {
         	["minerals", "miner",1,2],
             ["science", "scholar",1,5],
         	["manpower", "hunter",1,5],
-            ["faith", "priest",30+gamePage.religion.tclevel,15],
+            ["faith", "priest",200+gamePage.religion.tclevel,15],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue || 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
