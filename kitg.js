@@ -6,6 +6,7 @@ var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
 var spcContChamber = gamePage.space.meta[5].meta[1];
+var spcMoonBase = gamePage.space.meta[2].meta[1];
 var spcEntangler = gamePage.space.meta[10].meta[0];
 
  // These are the assorted variables
@@ -624,6 +625,7 @@ function energyControl() {
                 [bldCalciner,0.1],
                 [bldAccelerator,0.1],
                 [spcContChamber,1],
+                [spcMoonBase,0.3]
                  ];
 
             if (proVar>conVar) {
