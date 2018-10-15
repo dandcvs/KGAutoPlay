@@ -5,7 +5,6 @@ var bldOilWell = gamePage.bld.buildingsData[20];
 var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
-var bldChronosphere = gamePage.bld.buildingsData[32];
 
 var spcContChamber = gamePage.space.meta[5].meta[1];
 var spcMoonBase = gamePage.space.meta[2].meta[1];
@@ -627,8 +626,7 @@ function energyControl() {
                 [bldCalciner,0.101],
                 [bldAccelerator,0.1],
                 [spcContChamber,1],
-                [spcMoonBase,0.3],
-                [bldChronosphere,0.102]
+                [spcMoonBase,0.3]
                  ];
 
             if (proVar>conVar) {
