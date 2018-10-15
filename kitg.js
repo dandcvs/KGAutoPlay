@@ -5,6 +5,8 @@ var bldOilWell = gamePage.bld.buildingsData[20];
 var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
+var bldChronosphere = gamePage.bld.buildingsData[32];
+
 var spcContChamber = gamePage.space.meta[5].meta[1];
 var spcMoonBase = gamePage.space.meta[2].meta[1];
 var spcEntangler = gamePage.space.meta[10].meta[0];
@@ -622,10 +624,11 @@ function energyControl() {
                 [bldBioLab,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldOilWell,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldFactory,0.1],
-                [bldCalciner,0.11],
+                [bldCalciner,0.101],
                 [bldAccelerator,0.1],
                 [spcContChamber,1],
-                [spcMoonBase,0.3]
+                [spcMoonBase,0.3],
+                [bldChronosphere,0.102]
                  ];
 
             if (proVar>conVar) {
