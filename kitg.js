@@ -17,7 +17,6 @@ var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var Iinc = 0;
 var goldebBuildings = ["temple","tradepost"];
-var kittensBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
@@ -504,18 +503,22 @@ function autozig() {
              gamePage.tabs[5].render();
         }
         gamePage.religionTab.update();
-        var btn = [gamePage.religionTab.sacrificeBtn,gamePage.religionTab.sacrificeAlicornsBtn]
-        for (var i = 0; i < btn.length; i++) {
-            if (btn[i] && btn[i].model.visible == true) {
-                try {
-                    btn[i].controller.sacrificeAll(btn[i].model, {}, function(result) {
-                        if (result) {btn[i].update();}
-                        });
-                } catch(err) {
-                console.log(err);
-                }
+
+        if (gamePage.religionTab.sacrificeBtn.model.allLink.visible){
+            gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model);
+        }
+
+        if (gamePage.resPool.get('alicorn').value > 25 && gamePage.resPool.get('alicorn').value > gamePage.resPool.get("timeCrystal").value) {
+            if (gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.visible){
+                gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.handler(gamePage.religionTab.sacrificeAlicornsBtn.model);
             }
         }
+        if (gamePage.resPool.get('timeCrystal').value > 25 && gamePage.resPool.get('timeCrystal').value > gamePage.resPool.get("relic").value) {
+            if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
+                gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model);
+            }
+        }
+
 
         if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.enabled).length > 0){
             zig = gamePage.religionTab.zgUpgradeButtons.sort(function(a, b) {
