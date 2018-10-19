@@ -505,17 +505,17 @@ function autozig() {
         gamePage.religionTab.update();
 
         if (gamePage.religionTab.sacrificeBtn.model.allLink.visible){
-            gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model);
+            gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(){});
         }
 
         if (gamePage.resPool.get('alicorn').value > 25 && gamePage.resPool.get('alicorn').value > gamePage.resPool.get("timeCrystal").value) {
             if (gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.visible){
-                gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.handler(gamePage.religionTab.sacrificeAlicornsBtn.model);
+                gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.handler(gamePage.religionTab.sacrificeAlicornsBtn.model,function(){});
             }
         }
         if (gamePage.resPool.get('timeCrystal').value > 25 && gamePage.resPool.get('timeCrystal').value > gamePage.resPool.get("relic").value) {
             if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
-                gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model);
+                gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(){});
             }
         }
 
