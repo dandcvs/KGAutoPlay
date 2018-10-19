@@ -786,7 +786,7 @@ function Timepage() {
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
-            if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0) {
+            if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue) {
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
                 if (chronoforge[0].model.x5Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
                     chronoforge[0].model.x5Link.handler(chronoforge[0].model);
@@ -806,25 +806,21 @@ function Timepage() {
                         }
                 }
             }
-                try {
-                    for (i = 1 ;i < chronoforge.length; i++) {
-                        if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
-                            chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
-                                if (result) {
-                                    VoidBuild[i].update();
-                                    gamePage.msg('Build in Time ' + chronoforge[i].model.name );
-                                }
-                                });
-                        }
+            try {
+                for (i = 1 ;i < chronoforge.length; i++) {
+                    if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
+                        chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
+                            if (result) {
+                                VoidBuild[i].update();
+                                gamePage.msg('Build in Time ' + chronoforge[i].model.name );
+                            }
+                            });
                     }
-                } catch(err) {
-                    console.log(err);
                 }
-
-
+            } catch(err) {
+                console.log(err);
+            }
         }
-
-
 }
 
 function Service(){
