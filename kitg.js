@@ -499,7 +499,7 @@ function autoParty() {
 
 function autozig() {
     if (gamePage.religionTab.visible) {
-        if (gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) {
+        if ((gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) || !gamePage.religionTab.sacrificeBtn.model) {
              gamePage.tabs[5].render();
         }
         gamePage.religionTab.update();
