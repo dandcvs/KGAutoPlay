@@ -499,12 +499,12 @@ function autoParty() {
 
 function autozig() {
     if (gamePage.religionTab.visible) {
-        if ((gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) || !gamePage.religionTab.sacrificeBtn.model) {
+        if (gamePage.bld.getBuildingExt('ziggurat').meta.on > 0 && !gamePage.religionTab.sacrificeBtn) {
              gamePage.tabs[5].render();
         }
         gamePage.religionTab.update();
 
-        if (gamePage.religionTab.sacrificeBtn.model.allLink.visible){
+        if (gamePage.religionTab.sacrificeBtn && gamePage.religionTab.sacrificeBtn.model.allLink.visible){
             gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(){});
         }
 
