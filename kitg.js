@@ -309,9 +309,9 @@ function autoTrade() {
         if (gamePage.resPool.get('titanium').value < Math.min(gamePage.resPool.get('paragon').value,7500) && gamePage.diplomacy.get('zebras').unlocked && goldResource.value < goldResource.maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
-        if((gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue) || (gamePage.ironWill)){
+        if((gamePage.religion.getRU('solarRevolution').val == 1 || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
             var titRes = gamePage.resPool.get('titanium');
-            var ironRes = gamePage.resPool.get('iron');
+            var ironRes = gamePage.res.Pool.get('iron');
             var unoRes = gamePage.resPool.get('unobtainium');
             var woodRes = gamePage.resPool.get('wood');
             var mineralsRes = gamePage.resPool.get('minerals');
