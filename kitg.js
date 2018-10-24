@@ -311,7 +311,7 @@ function autoTrade() {
         }
         if((gamePage.religion.getRU('solarRevolution').val == 1 || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
             var titRes = gamePage.resPool.get('titanium');
-            var ironRes = gamePage.res.Pool.get('iron');
+            var ironRes = gamePage.resPool.get('iron');
             var unoRes = gamePage.resPool.get('unobtainium');
             var woodRes = gamePage.resPool.get('wood');
             var mineralsRes = gamePage.resPool.get('minerals');
