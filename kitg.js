@@ -811,7 +811,7 @@ function Timepage() {
                     if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
                         chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
                             if (result) {
-                                VoidBuild[i].update();
+                                chronoforge[i].update();
                                 gamePage.msg('Build in Time ' + chronoforge[i].model.name );
                             }
                             });
