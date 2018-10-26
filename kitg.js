@@ -303,10 +303,10 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
-        if  (gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && goldResource.value < goldResource.maxValue * 0.95) {
+        if  (gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
-        if (gamePage.resPool.get('titanium').value < Math.min(gamePage.resPool.get('paragon').value,7500) && gamePage.diplomacy.get('zebras').unlocked && goldResource.value < goldResource.maxValue * 0.95) {
+        if (gamePage.resPool.get('titanium').value < Math.min(gamePage.resPool.get('paragon').value,7500) && gamePage.diplomacy.get('zebras').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
         if((gamePage.religion.getRU('solarRevolution').val == 1 || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
