@@ -766,8 +766,11 @@ function ResearchSolarRevolution() {
 }
 
 function Timepage() {
-        if (gamePage.science.get('voidSpace').researched){
+
+        if (gamePage.science.get('voidSpace').researched || gamePage.workshop.get("chronoforge").researched ){
             gamePage.timeTab.update();
+        }
+        if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
