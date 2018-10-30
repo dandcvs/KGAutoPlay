@@ -504,8 +504,10 @@ function autozig() {
         }
         gamePage.religionTab.update();
 
-        if (gamePage.religionTab.sacrificeBtn && gamePage.religionTab.sacrificeBtn.model.allLink.visible){
-            gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(){});
+        if (gamePage.religionTab.sacrificeBtn && gamePage.resPool.get('unicorns').value > gamePage.resPool.get('tears').value ){
+            if(gamePage.religionTab.sacrificeBtn.model.allLink.visible){
+                gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(){});
+            }
         }
 
         if (gamePage.resPool.get('alicorn').value > 25 && gamePage.resPool.get('alicorn').value > gamePage.resPool.get("timeCrystal").value) {
