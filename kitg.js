@@ -807,9 +807,11 @@ function Timepage() {
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
                 if (chronoforge[0].model.x5Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
                     chronoforge[0].model.x5Link.handler(chronoforge[0].model);
+                    chronoforge[0].update();
                 }
                 else if (chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
                     chronoforge[0].model.x100Link.handler(chronoforge[0].model);
+                    chronoforge[0].update();
                 }
                 else if (gamePage.getEffect("heatMax") - gamePage.time.heat > factor && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val) {
                         try {
