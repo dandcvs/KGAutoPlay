@@ -16,6 +16,8 @@ var conVar = gamePage.resPool.energyCons;
 var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var Iinc = 0;
+var IincKAssign = 0;
+
 var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
@@ -617,17 +619,22 @@ function autoAssign() {
         });
 
         if (game.village.getFreeKittens() != 0 ) {
-            gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => !kitten.job)[0]);
             gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
         }
         else if (gamePage.village.getKittens() > 0) {
             restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > 0);
             if (restmpdel.length > 0){
                 gamePage.village.sim.removeJob(restmpdel[restmpdel.length - 1][1]);
-                gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => !kitten.job)[0]);
                 gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
             }
         }
+
+        if (IincKAssign > 100) {
+          gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]);
+          gamePage.village.sim.promote(gamePage.village.sim.kittens.sort(function(a, b) {return  a.rank - b.rank;})[0]);
+          IincKAssign = 0;
+        }
+        IincKAssign++;
 }
 
 // Control Energy Consumption
