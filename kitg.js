@@ -628,9 +628,6 @@ function autoAssign() {
                 gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
             }
         }
-       gamePage.village.sim.kittens
-       let freeKittens = gamePage.village.sim.kittens.filter(kitten => !kitten.job);
-       gamePage.village.makeLeader(kitten)
 }
 
 // Control Energy Consumption
