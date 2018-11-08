@@ -617,15 +617,20 @@ function autoAssign() {
         });
 
         if (game.village.getFreeKittens() != 0 ) {
+            gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => !kitten.job)[0]);
             gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
         }
         else if (gamePage.village.getKittens() > 0) {
             restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > 0);
             if (restmpdel.length > 0){
                 gamePage.village.sim.removeJob(restmpdel[restmpdel.length - 1][1]);
+                gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => !kitten.job)[0]);
                 gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
             }
         }
+       gamePage.village.sim.kittens
+       let freeKittens = gamePage.village.sim.kittens.filter(kitten => !kitten.job);
+       gamePage.village.makeLeader(kitten)
 }
 
 // Control Energy Consumption
