@@ -630,8 +630,8 @@ function autoAssign() {
         }
         if (gamePage.science.get('civil').researched){
             if (IincKAssign > 100) {
-              gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]);
               let prkitten = gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]
+              gamePage.villageTab.censusPanel.census.makeLeader(prkitten);
               if (gamePage.village.sim.expToPromote(prkitten.rank, prkitten.rank+1, prkitten.exp)[0]) {
                  gamePage.village.sim.promote(prkitten);
               }
