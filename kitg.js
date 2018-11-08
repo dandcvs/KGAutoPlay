@@ -631,7 +631,7 @@ function autoAssign() {
 
         if (IincKAssign > 100) {
           gamePage.villageTab.censusPanel.census.makeLeader(gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]);
-          gamePage.village.sim.promote(gamePage.village.sim.kittens.sort(function(a, b) {return  a.rank - b.rank;})[0]);
+          gamePage.village.sim.promote(gamePage.village.sim.kittens.filter(kitten => gamePage.village.sim.expToPromote(kitten.rank, kitten.rank+1, kitten.exp)[0]).sort(function(a, b) {return  a.rank - b.rank;})[0]);
           IincKAssign = 0;
         }
         IincKAssign++;
