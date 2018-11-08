@@ -597,7 +597,7 @@ function autoAssign() {
                 ];
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
 	    restmpq = restmp.sort(function(a, b) {
-	            if (gamePage.resPool.get(a[0]).value == gamePage.resPool.get(a[0]).maxValue){
+	            if (gamePage.resPool.get(a[0]).value >= gamePage.resPool.get(a[0]).maxValue){
 	                atick = gamePage.resPool.get(a[0]).maxValue;
 	                ajobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? a[2] : a[3];
 	            }
@@ -605,7 +605,7 @@ function autoAssign() {
 	                atick = gamePage.calcResourcePerTick(a[0]);
 	                ajobs = gamePage.village.getJob(a[1]).value;
 	            }
-	            if (gamePage.resPool.get(b[0]).value == gamePage.resPool.get(b[0]).maxValue){
+	            if (gamePage.resPool.get(b[0]).value >= gamePage.resPool.get(b[0]).maxValue){
 	                btick = gamePage.resPool.get(b[0]).maxValue;
 	                ajobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? b[2] : b[3];
 	            }
