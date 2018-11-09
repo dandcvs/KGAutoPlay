@@ -190,6 +190,7 @@ function autoPraise(){
                                 });
                         } catch(err) {
                             console.log(err);
+
                         }
                     }
                 }
