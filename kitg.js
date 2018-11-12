@@ -108,7 +108,8 @@ function autoPraise(){
 	if (gamePage.religionTab.visible) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
-            if (gamePage.religion.getProductionBonus() < 900){
+            //if (gamePage.religion.getProductionBonus() < 900){
+            if (gamePage.religion.getProductionBonus() < 900/50*Math.max(gamePage.religion.getTranscendenceLevel(),1)*gamePage.religion.faithRatio/10000000000){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -130,9 +131,6 @@ function autoPraise(){
                 if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
                     gamePage.religion.praise();
                 }
-            }
-            else if (gamePage.religion.getProductionBonus() < 980){
-                gamePage.religion.praise();
             }
             else if ( (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
