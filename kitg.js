@@ -612,6 +612,16 @@ function autoAssign() {
             ["faith", "priest",50+gamePage.religion.tclevel,15],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue || 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
+        //test
+        if (gamePage.tabs[0].buttons[5].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5){
+            resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
+        }
+        else if (gamePage.tabs[0].buttons[6].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5 && gamePage.tabs[0].buttons[6].model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.5){
+            resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
+            resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
+        }
+
+
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
 	    restmpq = restmp.sort(function(a, b) {
 	            if (gamePage.resPool.get(a[0]).value >= gamePage.resPool.get(a[0]).maxValue){
