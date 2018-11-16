@@ -615,8 +615,8 @@ function autoAssign() {
 
 
 
-        let hutBtn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.name == "hut");
-        let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse");
+        let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
+        let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
 
 
         if (logHtBtn && (logHtBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5 || logHtBtn.model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.5)){
