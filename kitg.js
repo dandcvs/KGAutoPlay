@@ -614,8 +614,12 @@ function autoAssign() {
                 ];
         //test
         if (gamePage.tabs[0].buttons[6].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5 && gamePage.tabs[0].buttons[6].model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.5){
-            resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
-            resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
+            if (gamePage.resPool.get('wood').value < gamePage.tabs[0].buttons[6].model.prices[0].val){
+                resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
+            }
+            if ( gamePage.resPool.get('minerals').value < gamePage.tabs[0].buttons[6].model.prices[1].val){
+                resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
+            }
         }
         else if (gamePage.tabs[0].buttons[5].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5){
             resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
