@@ -613,7 +613,8 @@ function autoAssign() {
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue || 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
         //test
-        if (gamePage.tabs[0].buttons[6].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5 && gamePage.tabs[0].buttons[6].model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.5){
+        if (gamePage.tabs[0].buttons[6] && gamePage.tabs[0].buttons[5]){
+            if (gamePage.tabs[0].buttons[6].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5 && gamePage.tabs[0].buttons[6].model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.5){
             if (gamePage.resPool.get('wood').value < gamePage.tabs[0].buttons[6].model.prices[0].val){
                 resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
             }
@@ -624,6 +625,8 @@ function autoAssign() {
         else if (gamePage.tabs[0].buttons[5].model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.5){
             resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
         }
+        }
+
 
 
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
