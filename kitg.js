@@ -650,7 +650,14 @@ function autoAssign() {
 	            }
 	            kfa = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? a[2] : a[3];
 	            kfb = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? b[2] : b[3];
-	            return (((atick / gamePage.resPool.get(a[0]).maxValue) * (gamePage.resPool.get(a[0]).value / gamePage.resPool.get(a[0]).maxValue) * (kfa * ajobs) ) * kfa - ((btick / gamePage.resPool.get(b[0]).maxValue) * (gamePage.resPool.get(b[0]).value / gamePage.resPool.get(b[0]).maxValue) * (kfb * bjobs)) * kfb);
+	            if (ajobs && bjobs){
+	                return (((atick / gamePage.resPool.get(a[0]).maxValue) * (gamePage.resPool.get(a[0]).value / gamePage.resPool.get(a[0]).maxValue) * (kfa * ajobs) ) * kfa - ((btick / gamePage.resPool.get(b[0]).maxValue) * (gamePage.resPool.get(b[0]).value / gamePage.resPool.get(b[0]).maxValue) * (kfb * bjobs)) * kfb);
+	            }
+	            else {
+	                return gamePage.resPool.get(a[0]).value / gamePage.resPool.get(a[0]).maxValue - gamePage.resPool.get(b[0]).value / gamePage.resPool.get(b[0]).maxValue;
+	            }
+
+
         });
 
         if (game.village.getFreeKittens() != 0 ) {
