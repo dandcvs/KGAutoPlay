@@ -658,7 +658,7 @@ function autoAssign() {
             gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
         }
         else if (gamePage.village.getKittens() > 0) {
-            restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > 0);
+            restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > 1);
             if (restmpdel.length > 0){
                 gamePage.village.sim.removeJob(restmpdel[restmpdel.length - 1][1]);
                 gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
