@@ -618,7 +618,7 @@ function autoAssign() {
         let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
         let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
 
-        if (logHtBtn && (logHtBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.4 || logHtBtn.model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.4)){
+        if (logHtBtn && (logHtBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.35 || logHtBtn.model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.35)){
             if (gamePage.resPool.get('wood').value < logHtBtn.model.prices[0].val){
                 resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
             }
@@ -626,7 +626,7 @@ function autoAssign() {
                 resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
             }
         }
-        else if (hutBtn && hutBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.4){
+        else if (hutBtn && hutBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.35){
             resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
         }
 
