@@ -112,7 +112,7 @@ function autoPraise(){
                     gamePage.religion.praise();
                 }
             }
-            else if ( (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+            else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
             }
             else if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
@@ -611,8 +611,6 @@ function autoAssign() {
             ["faith", "priest",50+gamePage.religion.tclevel,5],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
-
-
 
         let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
         let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
