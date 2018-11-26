@@ -606,7 +606,7 @@ function autoAssign() {
        		["catnip", "farmer",9,1],
             ["wood", "woodcutter",1,2],
         	["minerals", "miner",1,2],
-            ["science", "scholar",1,5],
+            ["science", "scholar",1,1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 100) ? 0.1 : 1 ,5],
             ["faith", "priest",50+gamePage.religion.tclevel,5],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
