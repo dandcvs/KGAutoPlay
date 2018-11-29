@@ -382,7 +382,7 @@ function autoCraft2() {
                 ["gear", [["steel",15]],500],
                 ["alloy", [["steel",75],["titanium",10]],1000],
                 ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
-                ["scaffold", [["beam",50]],1000],
+                ["scaffold", [["beam",50]],0],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],100],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
                 ["kerosene", [["oil",7500]],0],
