@@ -380,7 +380,7 @@ function autoCraft2() {
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
                 ["concrate", [["steel",25],["slab",2500]],500],
                 ["gear", [["steel",15]],500],
-                ["alloy", [["steel",75],["titanium",10]],1000],
+                ["alloy", [["steel",75],["titanium",10]],0],
                 ["eludium", [["unobtainium",1000],["alloy",2500]],1000],
                 ["scaffold", [["beam",50]],0],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],100],
