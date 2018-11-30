@@ -374,7 +374,7 @@ function autoCraft2() {
 
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             let  resourcesAll = [
-                ["beam", [["wood",175]],gamePage.ironWill ? 0 :10],
+                ["beam", [["wood",175]],gamePage.ironWill ? 0 :35],
                 ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
                 ["steel", [["iron",100],["coal",100]],500],
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
@@ -412,19 +412,19 @@ function autoCraft2() {
                      }
                      else{
                          for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                    tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
-                                    tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
-                                    if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
-                                        flag = false;
+                                tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
+                                tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
+                                if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value > tmpvalue)) {
+                                    flag = false;
+                                }
+                                else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 0.9))) {
+                                    flag = false;
+                                }
+                                else {
+                                    if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
+                                        cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
                                     }
-                                    else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 0.9))) {
-                                        flag = false;
-                                    }
-                                    else {
-                                        if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
-                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
-                                        }
-                                    }
+                                }
                          }
                      }
 
