@@ -395,7 +395,7 @@ function autoCraft2() {
             ]
             var flag = true;
             var cnt = 0;
-            var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2]) )).sort(function(a, b) {
+            var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2],gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
                 return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
                              });
             for (var i = 0; i < resourcesAllF.length; i++) {
