@@ -375,7 +375,7 @@ function autoCraft2() {
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             let  resourcesAll = [
                 ["beam", [["wood",175]],gamePage.ironWill ? 0 : Math.min(gamePage.resPool.get("wood").value/175+1,35)],
-                ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : 50],
+                ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : Math.min(gamePage.resPool.get("minerals").value/250+1,50)],
                 ["steel", [["iron",100],["coal",100]],500],
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :150],
                 ["concrate", [["steel",25],["slab",2500]],0],
