@@ -89,7 +89,8 @@ function autoPraise(){
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             //if (gamePage.religion.getProductionBonus() < 900){
-            if (gamePage.religion.getProductionBonus() < 900/50*Math.max(gamePage.religion.getTranscendenceLevel(),1)*gamePage.religion.faithRatio/10000000000){
+
+            if (gamePage.religion.getProductionBonus() < Math.max(gamePage.religion.getTranscendenceLevel(),1)*Math.max(gamePage.religion.getTranscendenceLevel(),1)*15){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
