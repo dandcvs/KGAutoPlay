@@ -310,13 +310,17 @@ function autoTrade() {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
         }
         if((gamePage.religion.getRU('solarRevolution').val == 1 || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
-            var titRes = gamePage.resPool.get('titanium');
-            var ironRes = gamePage.resPool.get('iron');
-            var unoRes = gamePage.resPool.get('unobtainium');
-            var woodRes = gamePage.resPool.get('wood');
-            var mineralsRes = gamePage.resPool.get('minerals');
-            var goldResource = gamePage.resPool.get('gold');
-            var ivoryRes = gamePage.resPool.get('ivory');
+            let titRes = gamePage.resPool.get('titanium');
+            let ironRes = gamePage.resPool.get('iron');
+            let unoRes = gamePage.resPool.get('unobtainium');
+            let woodRes = gamePage.resPool.get('wood');
+            let mineralsRes = gamePage.resPool.get('minerals');
+            let goldResource = gamePage.resPool.get('gold');
+            let ivoryRes = gamePage.resPool.get('ivory');
+            let slabRes = gamePage.resPool.get('slab');
+            let uranRes = gamePage.resPool.get('uranium');
+            let scaffoldRes = gamePage.resPool.get('scaffold');
+            let coalRes = gamePage.resPool.get('coal');
             if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value > unoRes.maxValue * 0.95){
@@ -329,23 +333,48 @@ function autoTrade() {
                         gamePage.diplomacy.feedElders();
                     }
                 }
-                if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
-                    gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
-                }
-                if (((ironRes.value < (ironRes.maxValue * 0.9) && !gamePage.ironWill) || (ironRes.value < (ironRes.maxValue * 0.5) && gamePage.ironWill)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
+
+                let tradersAll = [
+                ['zebras',titRes,slabRes,0.9],
+                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5] : ['zebras',ironRes,slabRes,0.9],
+                ['nagas',mineralsRes,ivoryRes,0.9],
+                ['spiders',coalRes,scaffoldRes,0.9],
+                ['dragons',uranRes,titRes,0.9]
+                ]
+
+                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
+                if (trade) {
                     if (gamePage.ironWill) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) / 10));
+                        if (trade[0] == 'griffins' && trade[2].value > trade[2].maxValue * 0.8 ) {
+                            gamePage.diplomacy.tradeMultiple(game.diplomacy.get(trade[0]),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get(trade[0])) / 10));
+                        }
+                        else {
+                            gamePage.diplomacy.tradeAll(game.diplomacy.get(trade[0]));
+                        }
                     }
-                    else{
-                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
+                    else {
+                        gamePage.diplomacy.tradeAll(game.diplomacy.get(trade[0]));
                     }
                 }
-                if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
-                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
-                }
-                if (gamePage.diplomacy.get('dragons').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
-                    gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
-                }
+
+
+//                if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
+//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
+//                }
+//                if (((ironRes.value < (ironRes.maxValue * 0.9) && !gamePage.ironWill) || (ironRes.value < (ironRes.maxValue * 0.5) && gamePage.ironWill)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
+//                    if (gamePage.ironWill) {
+//                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) / 10));
+//                    }
+//                    else{
+//                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
+//                    }
+//                }
+//                if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
+//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
+//                }
+//                if (gamePage.diplomacy.get('dragons').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
+//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
+//                }
             }
         }
 }
@@ -375,8 +404,8 @@ function autoCraft2() {
 
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             let  resourcesAll = [
-                ["beam", [["wood",175]],gamePage.ironWill ? 0 : Math.min(gamePage.resPool.get("wood").value/175+1,50)],
-                ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : Math.min(gamePage.resPool.get("minerals").value/250+1,50)],
+                ["beam", [["wood",175]],gamePage.ironWill ? 0 : Math.min(gamePage.resPool.get("wood").value/175+1,50000)],
+                ["slab", [["minerals",250]],gamePage.ironWill ? f(gamePage.resPool.get('minerals').maxValue) : Math.min(gamePage.resPool.get("minerals").value/250+1,50000)],
                 ["steel", [["iron",100],["coal",100]],500],
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : Math.min(gamePage.resPool.get("iron").value/125+1,50000)],
                 ["concrate", [["steel",25],["slab",2500]],0],
@@ -391,7 +420,7 @@ function autoCraft2() {
                 ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 : 110],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? f(gamePage.resPool.get('science').value)*2 : 110],
                 ["blueprint", [["compedium",25],["science",25000]],0],
-                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250+1,1000)],
+                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250+1,50000)],
                 ["megalith", [["slab",50],["plate",5]],0],
             ]
             var flag = true;
