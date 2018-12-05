@@ -335,14 +335,14 @@ function autoTrade() {
                 }
 
                 let tradersAll = [
-                ['zebras',titRes,slabRes,0.9],
-                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5] : ['zebras',ironRes,slabRes,0.9],
-                ['nagas',mineralsRes,ivoryRes,0.9],
-                ['spiders',coalRes,scaffoldRes,0.9],
-                ['dragons',uranRes,titRes,0.9]
+                ['zebras',titRes,slabRes,0.9,50],
+                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500] : ['zebras',ironRes,slabRes,0.9,50],
+                ['nagas',mineralsRes,ivoryRes,0.9,500],
+                ['spiders',coalRes,scaffoldRes,0.9,50],
+                ['dragons',uranRes,titRes,0.9,250]
                 ]
 
-                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
+                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value && tr[2].value > tr[4]).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
                 if (trade) {
                     if (gamePage.ironWill) {
                         if (trade[0] == 'griffins' && trade[2].value > trade[2].maxValue * 0.8 ) {
