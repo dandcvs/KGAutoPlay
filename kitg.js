@@ -356,25 +356,6 @@ function autoTrade() {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get(trade[0]));
                     }
                 }
-
-
-//                if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
-//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"));
-//                }
-//                if (((ironRes.value < (ironRes.maxValue * 0.9) && !gamePage.ironWill) || (ironRes.value < (ironRes.maxValue * 0.5) && gamePage.ironWill)) && (woodRes.value > (woodRes.maxValue * 0.8)) && gamePage.diplomacy.get('griffins').unlocked) {
-//                    if (gamePage.ironWill) {
-//                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("griffins"),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("griffins")) / 10));
-//                    }
-//                    else{
-//                        gamePage.diplomacy.tradeAll(game.diplomacy.get("griffins"));
-//                    }
-//                }
-//                if ((mineralsRes.value < (mineralsRes.maxValue * 0.9)) && (ivoryRes.value > mineralsRes.value) && gamePage.diplomacy.get('nagas').unlocked) {
-//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("nagas"));
-//                }
-//                if (gamePage.diplomacy.get('dragons').unlocked && (goldResource.value > goldResource.maxValue * 0.95)) {
-//                    gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"));
-//                }
             }
         }
 }
@@ -691,7 +672,7 @@ function autoAssign() {
                 gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]));
             }
         }
-        if (gamePage.science.get('civil').researched){
+        if (gamePage.science.get('civil').researched && !gamePage.ironWill){
             if (IincKAssign > 100) {
                   let prkitten = gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]
                   gamePage.villageTab.censusPanel.census.makeLeader(prkitten);
