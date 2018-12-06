@@ -402,7 +402,7 @@ function autoCraft2() {
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ?  Math.min(gamePage.resPool.get("science").value/10000+1,500) : 110],
                 ["blueprint", [["compedium",25],["science",25000]],0],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250+1,50000)],
-                ["megalith", [["slab",50],["beam",25]["plate",5]],0]
+                ["megalith", [["slab",50],["beam",25],["plate",5]],0]
             ]
             var flag = true;
             var cnt = 0;
