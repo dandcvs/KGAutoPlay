@@ -392,7 +392,7 @@ function autoCraft2() {
                 ["concrate", [["steel",25],["slab",2500]],0],
                 ["gear", [["steel",15]],25],
                 ["alloy", [["steel",75],["titanium",10]],1000],
-                ["eludium", [["unobtainium",1000],["alloy",2500]], Math.min(gamePage.resPool.get("unobtainium").value/1000+1,1000)],
+                ["eludium", [["unobtainium",1000],["alloy",2500]], Math.min(gamePage.resPool.get("unobtainium").value/1000+1,5000)],
                 ["scaffold", [["beam",50]],0],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],100],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
