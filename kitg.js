@@ -394,7 +394,7 @@ function autoCraft2() {
                 ["alloy", [["steel",75],["titanium",10]],1000],
                 ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000+1,5000)],
                 ["scaffold", [["beam",50]],0],
-                ["ship", [["scaffold",100],["plate",150],["starchart",25]],100],
+                ["ship", [["scaffold",100],["plate",150],["starchart",25]], gamePage.resPool.get("ship").value < 100 ? 100 : Math.min(gamePage.resPool.get("starchart").value/25+1,500)],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
                 ["kerosene", [["oil",7500]],0],
                 ["parchment", [["furs",175]],0],
