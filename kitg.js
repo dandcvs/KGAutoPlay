@@ -767,7 +767,7 @@ function autoRefine() {
                         }
                     }
         }
-        else if(gamePage.ironWill && gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) {
+        else if(gamePage.tabs[0].buttons[1].model.x100Link && gamePage.ironWill && gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) {
             if (gamePage.tabs[0].buttons[1].model.x100Link.visible){
                 gamePage.tabs[0].buttons[1].model.x100Link.handler(gamePage.tabs[0].buttons[1].model);
             }
