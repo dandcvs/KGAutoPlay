@@ -398,7 +398,7 @@ function autoCraft2() {
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
                 ["kerosene", [["oil",7500]],0],
                 ["parchment", [["furs",175]],0],
-                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? 0 : 110],
+                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? gamePage.resPool.get('manuscript').value > 1500 ? 50 : 0 : 110],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ?  Math.min(gamePage.resPool.get("science").value/10000+1,500) : 110],
                 ["blueprint", [["compedium",25],["science",25000]],0],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250+1,50000)],
