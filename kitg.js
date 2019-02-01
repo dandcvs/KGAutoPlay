@@ -703,7 +703,7 @@ function energyControl() {
                 [bldFactory,0.1],
                 [bldCalciner,0.101],
                 [bldAccelerator,0.1],
-                [spcContChamber,1],
+                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value : 9999],
                 [spcMoonBase,0.3]
                  ];
 
