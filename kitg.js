@@ -478,7 +478,7 @@ function autoResearch() {
                         }
                     });
                 } catch(err) {
-                console.log(err);
+                //console.log(err);
                 }
             }
         }
