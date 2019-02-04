@@ -538,6 +538,7 @@ function autozig() {
                 gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(result){
                  if (result) {
                      gamePage.religionTab.sacrificeBtn.update();
+                     gamePage.religionTab.update();
                  }
                 });
             }
