@@ -479,6 +479,8 @@ function autoResearch() {
                     });
                 } catch(err) {
                 console.log(err);
+                console.log(res.model.metadata.name);
+                console.log(btn[i].model.metadata);
                 }
             }
         }
