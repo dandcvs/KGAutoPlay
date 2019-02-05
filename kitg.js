@@ -235,17 +235,15 @@ function autoBuild() {
                  }
              }
              else {
-                     if (gamePage.bld.getBuildingExt('hut').meta.val > 6 || btn[i].model.metadata.name == 'hut'){
-                         try {
-                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                                if (result) {
-                                    btn[i].update();
-                                    gamePage.msg('Build ' + btn[i].model.name );
-                                }
-                                });
-                         } catch(err) {
-                             console.log(err);
-                         }
+                     try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                            if (result) {
+                                btn[i].update();
+                                gamePage.msg('Build ' + btn[i].model.name );
+                            }
+                            });
+                     } catch(err) {
+                         console.log(err);
                      }
              }
         }
