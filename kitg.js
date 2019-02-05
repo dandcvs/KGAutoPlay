@@ -467,7 +467,7 @@ function autoCraft2() {
 function autoResearch() {
     if (gamePage.tabs[2].visible) {
         gamePage.tabs[2].update();
-        var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked && res.model.metadata.name != 'retorting');
+        var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked && res.model.enabled);
         for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
                 try {
