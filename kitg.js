@@ -235,15 +235,17 @@ function autoBuild() {
                  }
              }
              else {
-                     try {
-                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                            if (result) {
-                                btn[i].update();
-                                gamePage.msg('Build ' + btn[i].model.name );
-                            }
-                            });
-                     } catch(err) {
-                         console.log(err);
+                     if (gamePage.bld.getBuildingExt('hut').meta.val > 6 || btn[i].model.metadata.name == 'hut'){}
+                         try {
+                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Build ' + btn[i].model.name );
+                                }
+                                });
+                         } catch(err) {
+                             console.log(err);
+                         }
                      }
              }
         }
@@ -615,7 +617,7 @@ function autozig() {
 function autoAssign() {
         var resourcesAssign = [
        		["catnip", "farmer",9,1],
-            ["wood", "woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : 1 , gamePage.bld.getBuildingExt('hut').meta.val < 6 ? 0.01 : 2],
+            ["wood", "woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : 1 , 2],
         	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1,1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 ,5],
