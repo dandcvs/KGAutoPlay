@@ -23,6 +23,12 @@ var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
+game.console.filters = $.extend(true, game.console.filters, {"trade": {
+				title: "Trade",
+				enabled: true,
+				unlocked: false
+			}});
+gamePage.ui.renderFilters();
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
@@ -936,6 +942,8 @@ function RenderNewTabs(){
 if (gamePage.ironWill){
     gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
 }
+
+
 gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render());
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
