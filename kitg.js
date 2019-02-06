@@ -563,7 +563,7 @@ function autozig() {
         }
 
 
-        if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.enabled).length > 0){
+        if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.metadata.unlocked).length > 0){
             zig = gamePage.religionTab.zgUpgradeButtons.sort(function(a, b) {
                         a1 = a.model.metadata.effects.alicornPerTick;
                         a2 = a.model.metadata.effects.unicornsRatioReligion
@@ -581,6 +581,7 @@ function autozig() {
             for (var i = btn.length - 1; i >= 0; i--) {
                 if (btn[i] && btn[i].model.metadata.unlocked ) {
                     try {
+                        btn[i].controller.updateEnabled(btn[i].model);
                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
                             btn[i].update();
