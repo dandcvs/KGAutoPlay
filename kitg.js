@@ -563,7 +563,7 @@ function autozig() {
         }
 
 
-        if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.metadata.unlocked).length > 0){
+        if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.enabled).length > 0){
             zig = gamePage.religionTab.zgUpgradeButtons.sort(function(a, b) {
                         a1 = a.model.metadata.effects.alicornPerTick;
                         a2 = a.model.metadata.effects.unicornsRatioReligion
