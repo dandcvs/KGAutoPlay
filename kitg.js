@@ -94,7 +94,7 @@ function autoPraise(){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
-                var btn = gamePage.tabs[5].rUpgradeButtons;
+                var btn = gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))));
                 for (var i = 0; i < btn.length; i++) {
                     if (btn[i].model.enabled && btn[i].model.visible) {
                         try {
@@ -133,7 +133,7 @@ function autoPraise(){
                 }
             }
 	    } else if ((gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
-                var btn = gamePage.tabs[5].rUpgradeButtons;
+                var btn = gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))));
                 for (var i = 0; i < btn.length; i++) {
                     if (btn[i].model.enabled && btn[i].model.visible) {
                         try {
