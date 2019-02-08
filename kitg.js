@@ -491,6 +491,7 @@ function autoResearch() {
                         if (result) {
                             btn[i].update();
                             gamePage.msg('Researched ' + btn[i].model.name );
+                            return;
                         }
                     });
                 } catch(err) {
@@ -516,6 +517,7 @@ function autoWorkshop() {
                             if (result) {
                                 btn[i].update();
                                 gamePage.msg('Upgraded ' + btn[i].model.name );
+                                return;
                             }
                         });
                     } catch(err) {
