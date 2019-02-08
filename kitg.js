@@ -202,6 +202,7 @@ function autoBuild() {
                                     if (result) {
                                         btn[i].update();
                                         gamePage.msg('Build ' + btn[i].model.name );
+                                        return;
                                     }
                                     });
                               } catch(err) {
@@ -216,6 +217,7 @@ function autoBuild() {
                             if (result) {
                                 btn[i].update();
                                 gamePage.msg('Build ' + btn[i].model.name );
+                                return;
                             }
                             });
                      } catch(err) {
@@ -238,6 +240,7 @@ function autoBuild() {
                                     if (result) {
                                         btn[i].update();
                                         gamePage.msg('Build ' + btn[i].model.name );
+                                        return;
                                     }
                                     });
                              } catch(err) {
@@ -252,6 +255,7 @@ function autoBuild() {
                             if (result) {
                                 btn[i].update();
                                 gamePage.msg('Build ' + btn[i].model.name );
+                                return;
                             }
                             });
                      } catch(err) {
@@ -951,15 +955,11 @@ gamePage.ui.render();
 clearInterval(runAllAutomation);
 var runAllAutomation = setInterval(function() {
 
-
+    autoBuild();
     autoNip();
-    if (gamePage.timer.ticksTotal % 2 === 0) {
-	    autoBuild();
-        autoRefine();
-	}
+    autoRefine();
 
 	if (gamePage.timer.ticksTotal % 3 === 0) {
-	    autoBuild();
 		autoObserve();
         autoCraft2();
 		autoHunt();
