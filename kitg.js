@@ -107,7 +107,7 @@ function autoPraise(){
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-                                    gamePage.msg('Religion researched ' + btn[i].model.name);
+                                    gamePage.msg('Religion researched: ' + btn[i].model.name);
                                 }
                                 });
                         } catch(err) {
@@ -145,7 +145,7 @@ function autoPraise(){
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-                                    gamePage.msg('Religion researched ' + btn[i].model.name);
+                                    gamePage.msg('Religion researched: ' + btn[i].model.name);
                                 }
                                 });
                         } catch(err) {
@@ -168,8 +168,7 @@ function autoPraise(){
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-//                                    btn[i].update();
-                                    gamePage.msg('Religion Cryptotheology researched ' + btn[i].model.name);
+                                    gamePage.msg('Religion Cryptotheology researched: ' + btn[i].model.name);
                                 }
                                 });
                         } catch(err) {
@@ -202,8 +201,7 @@ function autoBuild() {
                                   try {
                                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                         if (result) {
-//                                            btn[i].update();
-                                            gamePage.msg('Build ' + btn[i].model.name );
+                                            gamePage.msg('Build: ' + btn[i].model.name );
                                             return;
                                         }
                                         });
@@ -217,8 +215,7 @@ function autoBuild() {
                         try {
                                 btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-//                                    btn[i].update();
-                                    gamePage.msg('Build ' + btn[i].model.name );
+                                    gamePage.msg('Build: ' + btn[i].model.name );
                                     return;
                                 }
                                 });
@@ -240,8 +237,7 @@ function autoBuild() {
                                 try {
                                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                         if (result) {
-//                                            btn[i].update();
-                                            gamePage.msg('Build ' + btn[i].model.name );
+                                            gamePage.msg('Build: ' + btn[i].model.name );
                                             return;
                                         }
                                         });
@@ -255,8 +251,7 @@ function autoBuild() {
                          try {
                                 btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-//                                    btn[i].update();
-                                    gamePage.msg('Build ' + btn[i].model.name );
+                                    gamePage.msg('Build: ' + btn[i].model.name );
                                     return;
                                 }
                                 });
@@ -282,16 +277,16 @@ function autoSpace() {
                                 if(!spBuild[i].model.metadata.effects.maxKittens){
                                     spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
                                     if (result) {
-//                                        spBuild[i].update();
-                                        gamePage.msg('Build in Space ' + spBuild[i].model.name);
+                                        gamePage.msg('Build in Space: ' + spBuild[i].model.name);
+                                        return;
                                     }
                                     });
                                 }
                             }else{
                                 spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
                                 if (result) {
-//                                    spBuild[i].update();
-                                    gamePage.msg('Build in Space ' + spBuild[i].model.name);
+                                    gamePage.msg('Build in Space: ' + spBuild[i].model.name);
+                                    return;
                                 }
                                 });
                             }
@@ -308,8 +303,8 @@ function autoSpace() {
                 try {
                     spcProg[i].controller.buyItem(spcProg[i].model, {}, function(result) {
                         if (result) {
-//                            spcProg[i].update();
-                            gamePage.msg('Research Space program ' + spcProg[i].model.name );
+                            gamePage.msg('Research Space program: ' + spcProg[i].model.name );
+                            return;
                         }
                         });
                 } catch(err) {
@@ -492,8 +487,7 @@ function autoResearch() {
                 try {
                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                         if (result) {
-//                            btn[i].update();
-                            gamePage.msg('Researched ' + btn[i].model.name );
+                            gamePage.msg('Researched: ' + btn[i].model.name );
                             return;
                         }
                     });
@@ -518,8 +512,7 @@ function autoWorkshop() {
                     try {
                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
-//                                btn[i].update();
-                                gamePage.msg('Upgraded ' + btn[i].model.name );
+                                gamePage.msg('Upgraded: ' + btn[i].model.name );
                                 return;
                             }
                         });
@@ -605,8 +598,7 @@ function autozig() {
                         btn[i].controller.updateEnabled(btn[i].model);
                         btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
-//                            btn[i].update();
-                            gamePage.msg('Build ' + btn[i].model.name );
+                            gamePage.msg('Build in Ziggurats: ' + btn[i].model.name );
                             }
                             });
                     } catch(err) {
@@ -623,7 +615,6 @@ function autozig() {
                     try {
                          btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
-//                            btn[i].update();
                             }
                             });
                     } catch(err) {
@@ -756,7 +747,6 @@ function autoNip() {
 			try {
 				btn.controller.buyItem(btn.model, {}, function(result) {
 					if (result) {
-//                        btn.update();
                         if (gamePage.timer.ticksTotal % 151 === 0){
                             gamePage.msg('Gathering catnip');
                         }
@@ -782,7 +772,6 @@ function autoRefine() {
                              try {
                                     btn.controller.buyItem(btn.model, {}, function(result) {
                                             if (result) {
-//                                                btn.update();
                                             }
                                     });
                                  } catch(err) {
@@ -853,8 +842,7 @@ function ResearchSolarRevolution() {
                             try {
                                 btn.controller.buyItem(btn.model, {}, function(result) {
                                     if (result) {
-//                                        btn.update();
-                                        gamePage.msg('Religion researched ' + btn.model.name);
+                                        gamePage.msg('Religion researched: ' + btn.model.name);
                                     }
                                 });
                             } catch(err) {
@@ -875,8 +863,7 @@ function Timepage() {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 						VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
 							if (result) {
-//                                VoidBuild[i].update();
-                                gamePage.msg('Build in Time ' + VoidBuild[i].model.name );
+                                gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
 							}
 							});
 					}
@@ -915,7 +902,7 @@ function Timepage() {
                         chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
                             if (result) {
 //                                chronoforge[i].update();
-                                gamePage.msg('Build in Time ' + chronoforge[i].model.name );
+                                gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
                             }
                             });
                     }
