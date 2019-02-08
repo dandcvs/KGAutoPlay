@@ -1000,4 +1000,4 @@ var runAllAutomation = setInterval(function() {
 	}
 
 
-}, 100);
+}, 200);
