@@ -17,6 +17,7 @@ var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var Iinc = 0;
 var IincKAssign = 0;
+var tick = 0
 
 var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
@@ -959,45 +960,48 @@ gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render()
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
 gamePage.ui.render();
 clearInterval(runAllAutomation);
+
 var runAllAutomation = setInterval(function() {
+    if (tick != gamePage.timer.ticksTotal) {
+        tick = gamePage.timer.ticksTotal;
 
-    autoBuild();
-    autoNip();
-    autoRefine();
+        autoBuild();
+        autoNip();
+        autoRefine();
 
-	if (gamePage.timer.ticksTotal % 3 === 0) {
-		autoObserve();
-        autoCraft2();
-		autoHunt();
-		autoAssign();
-        gamePage.villageTab.updateTab();
-	}
-
-	if (gamePage.timer.ticksTotal % 10 === 0) {
-		autoSpace();
-		energyControl();
-	}
-
-	if (gamePage.timer.ticksTotal % 25 === 0) {
-		autoResearch();
-		autoWorkshop();
-		autoParty();
-		autoTrade();
-		autoPraise();
-	}
-
-	if (gamePage.timer.ticksTotal % 151 === 0) {
-        RenderNewTabs();
-        UpgradeBuildings();
-        if (Iinc == 5) {
-           autozig();
-           ResearchSolarRevolution();
-           Timepage();
-           Service();
-           Iinc = 0;
+        if (gamePage.timer.ticksTotal % 3 === 0) {
+            autoObserve();
+            autoCraft2();
+            autoHunt();
+            autoAssign();
+            gamePage.villageTab.updateTab();
         }
-	    Iinc++;
-	}
 
+        if (gamePage.timer.ticksTotal % 10 === 0) {
+            autoSpace();
+            energyControl();
+        }
 
-}, 200);
+        if (gamePage.timer.ticksTotal % 25 === 0) {
+            autoResearch();
+            autoWorkshop();
+            autoParty();
+            autoTrade();
+            autoPraise();
+        }
+
+        if (gamePage.timer.ticksTotal % 151 === 0) {
+            RenderNewTabs();
+            UpgradeBuildings();
+            if (Iinc == 5) {
+               autozig();
+               ResearchSolarRevolution();
+               Timepage();
+               Service();
+               Iinc = 0;
+            }
+            Iinc++;
+        }
+    }
+
+}, 50);
