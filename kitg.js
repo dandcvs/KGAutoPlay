@@ -951,11 +951,15 @@ gamePage.ui.render();
 clearInterval(runAllAutomation);
 var runAllAutomation = setInterval(function() {
 
-    autoBuild();
+
     autoNip();
-    autoRefine();
+    if (gamePage.timer.ticksTotal % 2 === 0) {
+	    autoBuild();
+        autoRefine();
+	}
 
 	if (gamePage.timer.ticksTotal % 3 === 0) {
+	    autoBuild();
 		autoObserve();
         autoCraft2();
 		autoHunt();
