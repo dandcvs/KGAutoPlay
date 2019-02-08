@@ -188,79 +188,83 @@ function autoBuild() {
 //            gamePage.tabs[0].update();
 //        }
 
-         var btn = gamePage.tabs[0].buttons;
-         for (i = 0 ;i < btn.length; i++) {
-            btn[i].controller.updateEnabled(btn[i].model);
-        }
+//         var btn = gamePage.tabs[0].buttons;
+//         for (i = 0 ;i < btn.length; i++) {
+//            btn[i].controller.updateEnabled(btn[i].model);
+//        }
 
-        var btn = gamePage.tabs[0].buttons.filter(res => res.model.enabled && res.model.metadata && res.model.metadata.unlocked);
+//        var btn = gamePage.tabs[0].buttons.filter(res => res.model.enabled && res.model.metadata && res.model.metadata.unlocked);
+        var btn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.unlocked);
         for (i = 0 ;i < btn.length; i++) {
-             if ((goldebBuildings.includes(btn[i].model.metadata.name) && !gamePage.ironWill) || (gamePage.ironWill && gamePage.bld.buildingsData[27].val > 3 && goldebBuildings.includes(btn[i].model.metadata.name))){
-                   if ((gamePage.religion.getRU('solarRevolution').val == 1) || (btn[i].model.metadata.name == 'temple' &&  btn[i].model.metadata.val < 3) || (btn[i].model.prices.filter(res => res.name == 'gold')[0].val < (gamePage.resPool.get('gold').value - 500)) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue) ) {
-                              try {
-                                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                                    if (result) {
-                                        btn[i].update();
-                                        gamePage.msg('Build ' + btn[i].model.name );
-                                        return;
-                                    }
-                                    });
-                              } catch(err) {
-                                console.log(err);
-                              }
-                         }
-             }
-             else if (btn[i].model.metadata.name == "aiCore"){
-                 if (spcEntangler.val/5 > btn[i].model.metadata.val){
-                    try {
-                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                            if (result) {
-                                btn[i].update();
-                                gamePage.msg('Build ' + btn[i].model.name );
-                                return;
-                            }
-                            });
-                     } catch(err) {
-                         console.log(err);
-                     }
-                 }
-             }
-             else if (gamePage.ironWill){
-                   if (!btn[i].model.metadata.effects.maxKittens)
-                  {
-                        if ((!gamePage.workshop.get("goldOre").researched && btn[i].model.prices.filter(res => res.name == 'science').length > 0) ||
-                            (!gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
-                            ((gamePage.bld.buildingsData[27].unlocked && gamePage.bld.buildingsData[27].val <= 3 && gamePage.bld.buildingsData[27].name != btn[i].model.metadata.name) && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
-                            (((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked)||(!gamePage.science.get('philosophy').researched && gamePage.science.get('philosophy').unlocked)||(!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked)) && btn[i].model.prices.filter(res => res.name == 'science').length > 0 && btn[i].model.prices.filter(res => res.name == 'science')[0].val > 1000)
-                        )
-                        {}
-                        else{
-                            try {
-                                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                                    if (result) {
-                                        btn[i].update();
-                                        gamePage.msg('Build ' + btn[i].model.name );
-                                        return;
-                                    }
-                                    });
-                             } catch(err) {
-                                 console.log(err);
+             btn[i].controller.updateEnabled(btn[i].model);
+             if  (btn[i].model.enabled){
+                 if ((goldebBuildings.includes(btn[i].model.metadata.name) && !gamePage.ironWill) || (gamePage.ironWill && gamePage.bld.buildingsData[27].val > 3 && goldebBuildings.includes(btn[i].model.metadata.name))){
+                       if ((gamePage.religion.getRU('solarRevolution').val == 1) || (btn[i].model.metadata.name == 'temple' &&  btn[i].model.metadata.val < 3) || (btn[i].model.prices.filter(res => res.name == 'gold')[0].val < (gamePage.resPool.get('gold').value - 500)) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue) ) {
+                                  try {
+                                        btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                        if (result) {
+                                            btn[i].update();
+                                            gamePage.msg('Build ' + btn[i].model.name );
+                                            return;
+                                        }
+                                        });
+                                  } catch(err) {
+                                    console.log(err);
+                                  }
                              }
+                 }
+                 else if (btn[i].model.metadata.name == "aiCore"){
+                     if (spcEntangler.val/5 > btn[i].model.metadata.val){
+                        try {
+                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Build ' + btn[i].model.name );
+                                    return;
+                                }
+                                });
+                         } catch(err) {
+                             console.log(err);
+                         }
+                     }
+                 }
+                 else if (gamePage.ironWill){
+                       if (!btn[i].model.metadata.effects.maxKittens)
+                      {
+                            if ((!gamePage.workshop.get("goldOre").researched && btn[i].model.prices.filter(res => res.name == 'science').length > 0) ||
+                                (!gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
+                                ((gamePage.bld.buildingsData[27].unlocked && gamePage.bld.buildingsData[27].val <= 3 && gamePage.bld.buildingsData[27].name != btn[i].model.metadata.name) && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
+                                (((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked)||(!gamePage.science.get('philosophy').researched && gamePage.science.get('philosophy').unlocked)||(!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked)) && btn[i].model.prices.filter(res => res.name == 'science').length > 0 && btn[i].model.prices.filter(res => res.name == 'science')[0].val > 1000)
+                            )
+                            {}
+                            else{
+                                try {
+                                        btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                        if (result) {
+                                            btn[i].update();
+                                            gamePage.msg('Build ' + btn[i].model.name );
+                                            return;
+                                        }
+                                        });
+                                 } catch(err) {
+                                     console.log(err);
+                                 }
+                             }
+                     }
+                 }
+                 else {
+                         try {
+                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Build ' + btn[i].model.name );
+                                    return;
+                                }
+                                });
+                         } catch(err) {
+                             console.log(err);
                          }
                  }
-             }
-             else {
-                     try {
-                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                            if (result) {
-                                btn[i].update();
-                                gamePage.msg('Build ' + btn[i].model.name );
-                                return;
-                            }
-                            });
-                     } catch(err) {
-                         console.log(err);
-                     }
              }
         }
 }
