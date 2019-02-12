@@ -90,6 +90,14 @@ function autoObserve() {
 		}
 }
 
+function getFaithProdCap(){
+    var rate = gamePage.religion.getRU("solarRevolution").on ? gamePage.getTriValue(gamePage.religion.faith, 1000) : 0;
+    var atheismBonus = gamePage.challenges.getChallenge("atheism").researched ? gamePage.religion.getTranscendenceLevel() * 0.1 : 0;
+    var blackObeliskBonus = gamePage.religion.getTranscendenceLevel() * gamePage.religion.getTU("blackObelisk").val * 0.005;
+    return gamePage.getHyperbolicEffect(rate, 990) * (1 + atheismBonus + blackObeliskBonus);
+}
+
+
 //Auto praise the sun
 function autoPraise(){
 	if (gamePage.religionTab.visible) {
@@ -97,7 +105,7 @@ function autoPraise(){
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
             //if (gamePage.religion.getProductionBonus() < 900){
 
-            if (gamePage.religion.getProductionBonus() < Math.max(gamePage.religion.getTranscendenceLevel(),1)*Math.max(gamePage.religion.getTranscendenceLevel(),1)*15){
+            if (gamePage.religion.getProductionBonus() < getFaithProdCap()){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -1006,3 +1014,4 @@ var runAllAutomation = setInterval(function() {
     }
 
 }, 50);
+
