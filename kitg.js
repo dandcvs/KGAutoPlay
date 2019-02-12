@@ -94,7 +94,7 @@ function getFaithProdCap(){
     var rate = gamePage.religion.getRU("solarRevolution").on ? gamePage.getTriValue(gamePage.religion.faith*2, 1000) : 0;
     var atheismBonus = gamePage.challenges.getChallenge("atheism").researched ? gamePage.religion.getTranscendenceLevel() * 0.1 : 0;
     var blackObeliskBonus = gamePage.religion.getTranscendenceLevel() * gamePage.religion.getTU("blackObelisk").val * 0.005;
-    return gamePage.getHyperbolicEffect(rate, 990) * (1 + atheismBonus + blackObeliskBonus);
+    return gamePage.getHyperbolicEffect(rate, 950) * (1 + atheismBonus + blackObeliskBonus);
 }
 
 
