@@ -1000,14 +1000,14 @@ var runAllAutomation = setInterval(function() {
         }
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
-            RenderNewTabs();
-            UpgradeBuildings();
+            setTimeout(RenderNewTabs, 0);
+            setTimeout(UpgradeBuildings, 0);
             if (Iinc == 5) {
-               autozig();
-               ResearchSolarRevolution();
-               Timepage();
-               Service();
-               Iinc = 0;
+                setTimeout(autozig, 0);
+                setTimeout(ResearchSolarRevolution, 0);
+                setTimeout(Timepage, 0);
+                setTimeout(Service, 0);
+                Iinc = 0;
             }
             Iinc++;
         }
