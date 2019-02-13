@@ -857,7 +857,7 @@ function UpgradeBuildings() {
 
 function ResearchSolarRevolution() {
         if (gamePage.religion.getRU('solarRevolution').val == 0){
-            if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.enabled && res.model.resourceIsLimited == false).length > 0){
+            if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.visible &&  res.model.enabled && res.model.resourceIsLimited == false).length > 0){
                     var btn = gamePage.tabs[5].rUpgradeButtons[5];
                             try {
                                 btn.controller.buyItem(btn.model, {}, function(result) {
