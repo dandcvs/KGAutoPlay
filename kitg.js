@@ -974,29 +974,29 @@ var runAllAutomation = setInterval(function() {
     if (tick != gamePage.timer.ticksTotal) {
         tick = gamePage.timer.ticksTotal;
 
-        autoBuild();
-        autoNip();
-        autoRefine();
+        setTimeout(autoBuild, 0);
+        setTimeout(autoNip, 0);
+        setTimeout(autoRefine, 0);
 
         if (gamePage.timer.ticksTotal % 3 === 0) {
-            autoObserve();
-            autoCraft2();
-            autoHunt();
-            autoAssign();
+            setTimeout(autoObserve, 0);
+            setTimeout(autoCraft2, 0);
+            setTimeout(autoHunt, 0);
+            setTimeout(autoAssign, 0);
             gamePage.villageTab.updateTab();
         }
 
         if (gamePage.timer.ticksTotal % 10 === 0) {
-            autoSpace();
-            energyControl();
+            setTimeout(autoSpace, 0);
+            setTimeout(energyControl, 0);
         }
 
         if (gamePage.timer.ticksTotal % 25 === 0) {
-            autoResearch();
-            autoWorkshop();
-            autoParty();
-            autoTrade();
-            autoPraise();
+             setTimeout(autoResearch, 0);
+             setTimeout(autoWorkshop, 0);
+             setTimeout(autoParty, 0);
+             setTimeout(autoTrade, 0);
+             setTimeout(autoPraise, 0);
         }
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
