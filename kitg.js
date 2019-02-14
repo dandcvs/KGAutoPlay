@@ -654,7 +654,7 @@ function autoAssign() {
         	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1,1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 ,5],
-            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ? 50+gamePage.religion.tclevel : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 ,5],
+            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ? 50+gamePage.religion.tclevel : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ,5],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",1,15] : ["gold", "geologist",1,15]
                 ];
 
@@ -956,7 +956,6 @@ function RenderNewTabs(){
         ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
     }
 }
-
 
 
 if (gamePage.ironWill){
