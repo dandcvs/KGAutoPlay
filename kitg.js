@@ -616,15 +616,15 @@ function autozig() {
                 btn[i].controller.updateEnabled(btn[i].model);
              }
 
-            if (btn.length < 3 || (btn.slice(btn.length - 3, btn.length ).filter(res => res.model.enabled).length > 0)) {
+            if (btn.length < 3 || (btn.slice(btn.length - 3, btn.length ).filter(res => res.model.enabled).length > 0) || (gamePage.religionTab.zgUpgradeButtons[0].model.prices[1].val < gamePage.resPool.get('tears').value * 0.1) ) {
                 for (var i = btn.length - 1; i >= 0; i--) {
                     if (btn[i] && btn[i].model.metadata.unlocked ) {
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-                                btn[i].update();
-                                gamePage.msg('Build in Ziggurats: ' + btn[i].model.name );
-                                }
+                                    btn[i].update();
+                                    gamePage.msg('Build in Ziggurats: ' + btn[i].model.name );
+                                    }
                                 });
                         } catch(err) {
                         console.log(err);
