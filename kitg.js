@@ -611,11 +611,11 @@ function autozig() {
                      });
 
             var btn = zig;
-            if (btn.length > 2){
-                 for (var i = btn.length - 1; i >= 0; i--) {
-                    btn[i].controller.updateEnabled(btn[i].model);
-                 }
-            }
+
+             for (var i = 0; i < btn.length; i++) {
+                btn[i].controller.updateEnabled(btn[i].model);
+             }
+
             if (btn.length < 3 || (btn.slice(btn.length - 3, btn.length - 1).filter(res => res.model.enabled).length > 0)) {
                 for (var i = btn.length - 1; i >= 0; i--) {
                     if (btn[i] && btn[i].model.metadata.unlocked ) {
