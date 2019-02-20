@@ -623,7 +623,7 @@ function autozig() {
             }
         }
 
-        if (gamePage.resPool.get('tears').value > 10000 && gamePage.resPool.get('sorrow').value < gamePage.resPool.get('sorrow').maxValue){
+        if ( gamePage.resPool.get('sorrow').value < gamePage.resPool.get('sorrow').maxValue &&  gamePage.resPool.get('sorrow').value * 10000 < gamePage.resPool.get('tears').value ){
             var btn = [gamePage.religionTab.refineBtn]
             for (var i = 0; i < btn.length; i++) {
                 if (btn[i] && btn[i].model.visible == true) {
