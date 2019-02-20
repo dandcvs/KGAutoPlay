@@ -630,6 +630,7 @@ function autozig() {
                     try {
                          btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                             if (result) {
+                                gamePage.msg('Refine tears: BLS(' + gamePage.resPool.get('sorrow').value  + ')');
                             }
                             });
                     } catch(err) {
