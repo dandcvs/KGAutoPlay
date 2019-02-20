@@ -33,7 +33,7 @@ gamePage.ui.renderFilters();
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
-'<a id="scriptOptions" onclick="selectOptions()"> | ScriptKittiesMod </a>' +
+'<a id="scriptOptions" onclick="selectOptions()"> | KGAutoPlay </a>' +
 
 '<div id="optionSelect" style="display:none; margin-top:-130px; margin-left:-30px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
@@ -103,7 +103,6 @@ function autoPraise(){
 	if (gamePage.religionTab.visible) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
-            //if (gamePage.religion.getProductionBonus() < 900){
 
             if (gamePage.religion.getProductionBonus() <= getFaithProdCap()){
                 gamePage.religion.praise();
