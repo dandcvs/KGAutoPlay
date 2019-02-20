@@ -192,16 +192,6 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-//        if (gamePage.ui.activeTabId != 'Bonfire'){
-//            gamePage.tabs[0].update();
-//        }
-
-//         var btn = gamePage.tabs[0].buttons;
-//         for (i = 0 ;i < btn.length; i++) {
-//            btn[i].controller.updateEnabled(btn[i].model);
-//        }
-
-//        var btn = gamePage.tabs[0].buttons.filter(res => res.model.enabled && res.model.metadata && res.model.metadata.unlocked);
         var btn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.unlocked);
         for (i = 0 ;i < btn.length; i++) {
              btn[i].controller.updateEnabled(btn[i].model);
