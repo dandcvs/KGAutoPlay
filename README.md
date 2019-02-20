@@ -42,4 +42,3 @@ Currently now this script will automatically do the following:
 
 13.Adapt Challenges(Iron Will, Atheism)
 
-14
