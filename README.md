@@ -1,13 +1,13 @@
-# ScriptKittiesMod
+# KGAutoPlay
 A script to automate playing the addicting <a href="http://bloodrizer.ru/games/kittens/#">Kittens Game</a>
 
-Original script on <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</a>
+Based on script <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</a>
 
 ## How do I use the script?
 
 If you want to use this, feel free to bookmark:
 
-    javascript:(function(){var d=document,s=d.createElement('script');s.src='https://rawgit.com/dandcvs/ScriptKittiesMod/master/kitg.js';d.body.appendChild(s);})();
+    javascript:(function(){var d=document,s=d.createElement('script');s.src='https://rawgit.com/dandcvs/KGAutoPlay/master/kitg.js';d.body.appendChild(s);})();
 
 or just paste it directly into the console. Once loaded, the button to get to the ScriptKitties option menu is in the bottom right "footer" links.
 
