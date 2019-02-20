@@ -16,28 +16,29 @@ or just paste it directly into the console. Once loaded, the button to get to th
 
 Currently now this script will automatically do the following:
 
-1.Build + Space + void
+1.Purchase:(Bonfire, Space, Void).
 
-2.AutoCraft
+2.Craft resources.
 
-3.AutoHunt
+3.Hunt.
 
-4.Trade on triggers, feed elders
+4.Trade.
 
-5.Praise and research , transcend
+5.Feed elders.
 
-6.Research Ziggurats upgrades, sacrifice unicorns and alicorns
+6.Religion management:(Praise, research upgrades, transcend, faith reset)
 
-7.Research Science
+7.Ziggurats management:(research upgrades, sacrifice unicorns and alicorns, refine time cristals)
 
-8.Upgrade Workshop
+8.Research Science
 
-9.Festival for 30 years
+9.Workshop Upgrades
 
-10.Energy Control
+10.Festival
 
-11.Allocating kittens to jobs
+11.Energy Control
 
-12.Adapt Challenges(Iron Will, Atheism)
+12.Allocating kittens to jobs
 
-Still need some testing
+13.Adapt Challenges(Iron Will, Atheism)
+
