@@ -346,7 +346,7 @@ function autoTrade() {
                     if (unoRes.value > unoRes.maxValue * 0.95){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > 5000 && (gamePage.timer.ticksTotal % 650 === 0 || (unoRes.value > Math.min(gamePage.resPool.get("timeCrystal").value*10000, gamePage.resPool.get("relic").value*10000*25 )))) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/100000/2),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                     }
                     //Feed elders
                     if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
