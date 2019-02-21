@@ -7,7 +7,7 @@ Based on script <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</
 
 If you want to use this, feel free to bookmark:
 
-    javascript:(function(){var d=document,s=d.createElement('script');s.src='https://cdn.jsdelivr.net/gh/dandcvs/KGAutoPlay@master/kitg.js';d.body.appendChild(s);})();
+    javascript:(function(){var d=document,s=d.createElement('script');s.src='https://raw.githubusercontent.com/dandcvs/KGAutoPlay/master/kitg.js';d.body.appendChild(s);})();
 
 or just paste it directly into the console. Once loaded, the button to get to the ScriptKitties option menu is in the bottom right "footer" links.
 
