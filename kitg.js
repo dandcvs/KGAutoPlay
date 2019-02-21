@@ -407,7 +407,7 @@ function autoCraft2() {
             let  resourcesAll = [
                 ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000)],
                 ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000)],
-                ["steel", [["iron",100],["coal",100]],500],
+                ["steel", [["iron",100],["coal",100]],Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1,50000)],
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000)],
                 ["concrate", [["steel",25],["slab",2500]],0],
                 ["gear", [["steel",15]],25],
