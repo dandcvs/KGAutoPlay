@@ -416,7 +416,7 @@ function autoCraft2() {
                 ["scaffold", [["beam",50]],0],
                 ["ship", [["scaffold",100],["plate",150],["starchart",gamePage.resPool.get("ship").value < 100 ? 25 : gamePage.workshop.get("geodesy").researched ? 25 : 100500]],100],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
-                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,100500)],
+                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000)],
                 ["parchment", [["furs",175]],0],
                 ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? gamePage.resPool.get('culture').value > 1500 ? 50 : 0 : 110],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ?  Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500) : 110],
