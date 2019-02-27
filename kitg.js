@@ -555,13 +555,18 @@ function autozig() {
         }
         gamePage.religionTab.update();
 
+
         if (gamePage.religionTab.sacrificeBtn && gamePage.resPool.get('unicorns').value > gamePage.resPool.get('tears').value ){
-            if(gamePage.religionTab.sacrificeBtn.model.allLink.visible){
-                gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(result){
-                 if (result) {
-                     gamePage.religionTab.sacrificeBtn.update();
-                 }
-                });
+            var btn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.unlocked && res.model.metadata.name == 'unicornPasture');
+
+            if (btn.length > 0 &&  ((btn[0].model.prices[0].val - gamePage.resPool.get('unicorns').value) / (gamePage.getResourcePerTick('unicorns', true) * gamePage.getRateUI()))/60 > 5)
+                if(gamePage.religionTab.sacrificeBtn.model.allLink.visible){
+                    gamePage.religionTab.sacrificeBtn.model.allLink.handler(gamePage.religionTab.sacrificeBtn.model,function(result){
+                     if (result) {
+                         gamePage.religionTab.sacrificeBtn.update();
+                     }
+                    });
+                }
             }
         }
 
