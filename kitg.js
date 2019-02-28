@@ -610,7 +610,7 @@ function autozig() {
                 btn[i].controller.updateEnabled(btn[i].model);
              }
 
-            if (btn.length < 2 || (btn.slice(btn.length - 2, btn.length ).filter(res => res.model.enabled).length > 0) || (gamePage.religionTab.zgUpgradeButtons[0].model.prices[1].val < gamePage.resPool.get('tears').value * 0.1) ) {
+            if (btn.length < 2 || (btn.slice(btn.length - 2, btn.length ).filter(res => res.model.enabled).length > 0) || (gamePage.religionTab.zgUpgradeButtons[0].model.prices[1].val < gamePage.resPool.get('tears').value * 0.1) || (gamePage.religionTab.zgUpgradeButtons[6].model.prices[1].val < gamePage.resPool.get('tears').value * 0.1 && gamePage.religionTab.zgUpgradeButtons[6].model.prices[2].val < gamePage.resPool.get('unobtainium').value) ) {
                 for (var i = btn.length - 1; i >= 0; i--) {
                     if (btn[i] && btn[i].model.metadata.unlocked ) {
                         try {
