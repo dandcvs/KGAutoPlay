@@ -490,18 +490,22 @@ function autoResearch() {
         var btn = gamePage.tabs[2].buttons.filter(res => res.model.metadata.unlocked && res.model.enabled);
         for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
-                try {
-                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                        if (result) {
-                            btn[i].update();
-                            gamePage.msg('Researched: ' + btn[i].model.name );
-                            return;
+                if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked)))
+                    {}
+                    else{
+                        try {
+                            btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Researched: ' + btn[i].model.name );
+                                    return;
+                                }
+                            });
+                        } catch(err) {
+                        console.log(err);
                         }
-                    });
-                } catch(err) {
-                console.log(err);
+                    }
                 }
-            }
         }
     }
 }
