@@ -938,10 +938,8 @@ function Timepage() {
 
 function Service(){
     gamePage.ui.render();
-    if (gamePage.resPool.get("zebras").value == 0) {
-        if (!switches["Iron Will"]) {
-            gamePage.ironWill = false;
-        }
+    if (!switches["Iron Will"]) {
+        gamePage.ironWill = false;
     }
 
 }
@@ -964,6 +962,9 @@ function RenderNewTabs(){
 if (gamePage.ironWill){
     if (gamePage.resPool.get("zebras").value == 0) {
         gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
+    }
+    else {
+        switches["Iron Will"] = true
     }
 
 }
