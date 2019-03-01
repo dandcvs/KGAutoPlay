@@ -963,8 +963,8 @@ if (gamePage.ironWill){
     if (gamePage.resPool.get("zebras").value == 0) {
         gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
     }
-    else {
-        switches["Iron Will"] = true
+    else if (!switches["Iron Will"]){
+        autoSwitchEnergy('Iron Will',  'IronWill')
     }
 
 }
