@@ -741,7 +741,7 @@ function energyControl() {
                 [bldBioLab,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldOilWell,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldFactory,0.1],
-                [bldCalciner,0.101],
+                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.1] : [bldCalciner,0.101],
                 [bldAccelerator,0.1],
                 [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value : 9999],
                 [spcMoonBase,0.3]
@@ -838,6 +838,7 @@ function UpgradeBuildings() {
                 if (gamePage.ironWill) {
                     if (gamePage.bld.getBuildingExt('smelter').meta.val >= gamePage.bld.getBuildingExt('smelter').meta.on){
                         gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.val);
+                        gamePage.bld.getBuildingExt('calciner').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 1000), gamePage.bld.getBuildingExt('calciner').meta.val);
                     }
                 }
                 else if (gamePage.bld.getBuildingExt('smelter').meta.val > gamePage.bld.getBuildingExt('smelter').meta.on){
@@ -848,6 +849,7 @@ function UpgradeBuildings() {
             if (gamePage.ironWill) {
                 if (gamePage.bld.getBuildingExt('amphitheatre').meta.val > 3){
                     gamePage.bld.getBuildingExt('smelter').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 100), gamePage.bld.getBuildingExt('smelter').meta.on--);
+                    gamePage.bld.getBuildingExt('calciner').meta.on= Math.min(Math.floor(gamePage.resPool.get('minerals').value / 1000), gamePage.bld.getBuildingExt('calciner').meta.val);
                 }
                 else {
                     gamePage.bld.getBuildingExt('smelter').meta.on= 0;
