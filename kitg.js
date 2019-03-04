@@ -281,6 +281,7 @@ function autoSpace() {
                                 if(!spBuild[i].model.metadata.effects.maxKittens){
                                     spBuild[i].controller.buyItem(spBuild[i].model, {}, function(result) {
                                     if (result) {
+                                        spBuild[i].update();
                                         gamePage.msg('Build in Space: ' + spBuild[i].model.name);
                                         return;
                                     }
