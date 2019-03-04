@@ -889,17 +889,29 @@ function Timepage() {
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
-						VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
-							if (result) {
-							    VoidBuild[i].update();
-                                gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
+					    if (gamePage.ironWill){
+					        if(!VoidBuild[i].model.metadata.effects.maxKittens){
+                                VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
+                                if (result) {
+                                    VoidBuild[i].update();
+                                    gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
+                                }
+                                });
 							}
-							});
+						}else{
+                            VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
+                            if (result) {
+                                VoidBuild[i].update();
+                                gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
+                            }
+                            });
+						}
 					}
 				}
 			} catch(err) {
 			    console.log(err);
 			}
+
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
