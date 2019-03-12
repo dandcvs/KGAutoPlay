@@ -1026,10 +1026,10 @@ var runAllAutomation = setInterval(function() {
         if (gamePage.timer.ticksTotal % 151 === 0) {
             setTimeout(RenderNewTabs, 0);
             setTimeout(UpgradeBuildings, 0);
+            setTimeout(Timepage, 0);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
                 setTimeout(ResearchSolarRevolution, 0);
-                setTimeout(Timepage, 0);
                 setTimeout(Service, 0);
                 Iinc = 0;
             }
