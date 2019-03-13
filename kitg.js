@@ -916,7 +916,7 @@ function Timepage() {
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
-            if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && (gamePage.calendar.cycle != 5 || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8 )) {
+            if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8 )) {
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
                 if (chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
                     chronoforge[0].model.x100Link.handler(chronoforge[0].model);
