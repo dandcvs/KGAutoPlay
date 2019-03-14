@@ -277,7 +277,7 @@ function autoSpace() {
                 try {
                     for (i = 0 ;i < spBuild.length; i++) {
                         if (spBuild[i].model.metadata.unlocked) {
-                            if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && (spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0)){
+                            if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0){
                                 return;
                             }
                             else if (gamePage.ironWill){
