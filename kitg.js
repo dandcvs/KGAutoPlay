@@ -547,10 +547,16 @@ function autoParty() {
 		var catpower = gamePage.resPool.get('manpower').value;
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
+		var tclvl = Math.min(gamePage.religion.tclevel,1);
 
 		if (catpower > 1500 && culture > 5000 && parchment > 2500) {
 			if (gamePage.calendar.festivalDays < 400*30) {
-				gamePage.village.holdFestival(1);
+			    if(catpower > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
+			        gamePage.village.holdFestival(tclvl);
+			    }
+			    else{
+				    gamePage.village.holdFestival(1);
+				}
 			}
 		}
 	}
