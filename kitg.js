@@ -547,7 +547,7 @@ function autoParty() {
 		var catpower = gamePage.resPool.get('manpower').value;
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
-		var tclvl = Math.min(gamePage.religion.tclevel,1);
+		var tclvl = Math.max(gamePage.religion.tclevel,1);
 
 		if (catpower > 1500 && culture > 5000 && parchment > 2500) {
 			if (gamePage.calendar.festivalDays < 400*30) {
