@@ -593,7 +593,7 @@ function autozig() {
                 });
             }
         }
-        if (gamePage.resPool.get('timeCrystal').value > 50 && gamePage.resPool.get('timeCrystal').value / Math.max(gamePage.resPool.get("relic").value,1) > 1.3 && gamePage.resPool.get("relic").value > 100) {
+        if (gamePage.resPool.get('timeCrystal').value > 50 && gamePage.resPool.get('timeCrystal').value / Math.max(gamePage.resPool.get("relic").value,1) > 3 && gamePage.resPool.get("relic").value > 100) {
             if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
                 gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(result){
                     if (result) {
