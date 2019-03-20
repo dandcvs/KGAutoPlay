@@ -415,7 +415,7 @@ function autoCraft2() {
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000)],
                 ["concrate", [["steel",25],["slab",2500]],0],
                 ["gear", [["steel",15]],25],
-                ["alloy", [["steel",75],["titanium",10]],Math.min(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1,1000)],
+                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1,100),1000)],
                 ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*gamePage.getCraftRatio()+1,50000)],
                 ["scaffold", [["beam",50]],0],
                 ["ship", [["scaffold",100],["plate",150],["starchart",gamePage.resPool.get("ship").value < 100 ? 25 : gamePage.workshop.get("geodesy").researched ? 25 : 100500]],100],
