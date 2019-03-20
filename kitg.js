@@ -278,7 +278,7 @@ function autoSpace() {
                     for (i = 0 ;i < spBuild.length; i++) {
                         if (spBuild[i].model.metadata.unlocked) {
                             if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0){
-                                break;
+                                {}
                             }
                             else if (gamePage.ironWill){
                                 if(!spBuild[i].model.metadata.effects.maxKittens){
@@ -900,7 +900,7 @@ function Timepage() {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 					    if (i != 3 && VoidBuild[3].model.enabled && VoidBuild[3].model.metadata.val < 5){
-                            break;
+                            {}
                         }
 					    else if (gamePage.ironWill){
 					        if(!VoidBuild[i].model.metadata.effects.maxKittens){
