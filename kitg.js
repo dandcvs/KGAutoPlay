@@ -447,6 +447,10 @@ function autoCraft2() {
                 }
                 if (upgrades_craft[i][0].unlocked ){
                     for (var j = 0; j < upgrades_craft[i][1].length; j++) {
+                        if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value >= upgrades_craft[i][1][j][1]){
+                            continue;
+                        }
+
                         for (var g = 0; g < resourcesAll.length; g++) {
                             if (resourcesAll[g][0] == upgrades_craft[i][1][j][0]) {
                                 resourcesAll[g][2] =  upgrades_craft[i][1][j][1]
