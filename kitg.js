@@ -24,6 +24,13 @@ var switches = {"Energy Control":true,"Iron Will":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
+var upgrades_craft = [
+[gamePage.workshop.get("miningDrill"),[["steel",750]]],
+[gamePage.workshop.get("oxidation"),[["steel",5000]]],
+[gamePage.workshop.get("fluidizedReactors"),[["alloy",200]]],
+[gamePage.workshop.get("steelPlants"),[["gear",750]]]
+];
+
 game.console.filters = $.extend(true, game.console.filters, {"trade": {
 				title: "Trade",
 				enabled: true,
@@ -408,40 +415,79 @@ var resources = [
 function autoCraft2() {
 
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
+            // [name,resurces,countlimit,paragonBool,craftableBool]
             let  resourcesAll = [
-                ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000)],
-                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000)],
-                ["steel", [["iron",100],["coal",100]],Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1,50000)],
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000)],
-                ["concrate", [["steel",25],["slab",2500]],0],
-                ["gear", [["steel",15]],25],
-                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1),50),1000)],
-                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*gamePage.getCraftRatio()+1,50000)],
-                ["scaffold", [["beam",50]],0],
-                ["ship", [["scaffold",100],["plate",150],["starchart",gamePage.resPool.get("ship").value < 100 ? 25 : gamePage.workshop.get("geodesy").researched ? 25 : 100500]],100],
-                ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0],
-                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000)],
-                ["parchment", [["furs",175]],0],
-                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? gamePage.resPool.get('culture').value > 1600 ? 50 : 0 : 110],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? gamePage.science.get('astronomy').researched ?  Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500): 0 : 110],
-                ["blueprint", [["compedium",25],["science",25000]],0],
-                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000)],
-                ["megalith", [["slab",50],["beam",25],["plate",5]],0]
+                ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
+                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000),true, true],
+                ["steel", [["iron",100],["coal",100]],Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1,50000),true, true],
+                ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000),true, true],
+                ["concrate", [["steel",25],["slab",2500]],0,true, true],
+                ["gear", [["steel",15]],25,true, true],
+                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1),50),1000),true, true],
+                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*gamePage.getCraftRatio()+1,50000),true, true],
+                ["scaffold", [["beam",50]],0,true, true],
+                ["ship", [["scaffold",100],["plate",150],["starchart",gamePage.resPool.get("ship").value < 100 ? 25 : gamePage.workshop.get("geodesy").researched ? 25 : 100500]],100,true, true],
+                ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
+                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
+                ["parchment", [["furs",175]],0,true, true],
+                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? gamePage.resPool.get('culture').value > 1600 ? 50 : 0 : 110,true, true],
+                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? gamePage.science.get('astronomy').researched ?  Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500): 0 : 110,true, true],
+                ["blueprint", [["compedium",25],["science",25000]],0,true, true],
+                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
+                ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
             ]
             var flag = true;
             var cnt = 0;
-            var resourcesAllF = resourcesAll.filter(res => gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2],gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
-                return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
-                             });
+            let resourcesAll_Fix = [];
+
+            for (var i = 0; i < upgrades_craft.length; i++)  {
+                if (upgrades_craft[i][0].researched ) {
+                    upgrades_craft.splice(i,1);
+                    break;
+                }
+                if (upgrades_craft[i][0].unlocked ){
+                    for (var j = 0; j < upgrades_craft[i][1].length; j++) {
+                        for (var g = 0; g < resourcesAll.length; g++) {
+                            if (resourcesAll[g][0] == upgrades_craft[i][1][j][0]) {
+                                resourcesAll[g][2] =  upgrades_craft[i][1][j][1]
+                                resourcesAll[g][3] =  false
+                                resourcesAll[g][4] =  true
+                            }
+                        }
+                        let respack = resourcesAll.filter(res => res[0] == upgrades_craft[i][1][j][0])[0][1]
+                        let reslist = []
+                        for (var g = 0; g < respack.length; g++) {
+                            reslist[reslist.length] = respack[g][0]
+                        }
+
+                        for (var g = 0; g < resourcesAll.length; g++) {
+                             for (var b = 0; b < resourcesAll[g][1].length; b++) {
+                                if ( resourcesAll[g][0] != upgrades_craft[i][1][j][0] && reslist.indexOf(resourcesAll[g][1][b][0]) > 0 || resourcesAll[g][1][b][0] == upgrades_craft[i][1][j][0]) {
+                                    resourcesAll[g][4] =  false
+                                }
+                             }
+                        }
+                    }
+                    break;
+                }
+            }
+
+
+            var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
+            return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
+            });
+
+
+
             for (var i = 0; i < resourcesAllF.length; i++) {
                 var curResTarget = gamePage.resPool.get(resourcesAllF[i][0]);
-                if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked) {
+                if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked && resourcesAllF[i][4]) {
                      flag = true;
                      cnt = 0;
-                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value)) {
+                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
                         if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
                              for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2), Math.ceil(Math.min(resourcesAllF[i][2] , gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
+                                cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/2), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
                              }
                         }
                      }
