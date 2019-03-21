@@ -28,7 +28,8 @@ var upgrades_craft = [
 [gamePage.workshop.get("miningDrill"),[["steel",750]]],
 [gamePage.workshop.get("oxidation"),[["steel",5000]]],
 [gamePage.workshop.get("fluidizedReactors"),[["alloy",200]]],
-[gamePage.workshop.get("steelPlants"),[["gear",750]]]
+[gamePage.workshop.get("steelPlants"),[["gear",750]]],
+[gamePage.workshop.get("rotaryKiln"),[["gear",500]]]
 ];
 
 game.console.filters = $.extend(true, game.console.filters, {"trade": {
