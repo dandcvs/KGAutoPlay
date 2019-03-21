@@ -448,7 +448,7 @@ function autoCraft2() {
                 }
                 if (upgrades_craft[i][0].unlocked ){
                     for (var j = 0; j < upgrades_craft[i][1].length; j++) {
-                        if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value >= upgrades_craft[i][1][j][1]){
+                        if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value >= upgrades_craft[i][1][j][1]*1.2){
                             continue;
                         }
 
