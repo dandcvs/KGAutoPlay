@@ -56,6 +56,7 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 $("#footerLinks").append(htmlMenuAddition);
 
+
 function selectOptions() {
 	$("#optionSelect").toggle();
 }
