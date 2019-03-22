@@ -440,7 +440,6 @@ function autoCraft2() {
             ]
             var flag = true;
             var cnt = 0;
-            let resourcesAll_Fix = [];
 
             for (var i = 0; i < upgrades_craft.length; i++)  {
                 if (upgrades_craft[i][0].researched ) {
@@ -951,7 +950,7 @@ function Timepage() {
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
-					    if (i != 3 && VoidBuild[3].model.enabled && VoidBuild[3].model.metadata.val < 5){
+					    if (i != 3 && VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.metadata.val < 5){
                             {}
                         }
 					    else if (gamePage.ironWill){
