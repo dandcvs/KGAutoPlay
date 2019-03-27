@@ -240,7 +240,7 @@ function autoBuild() {
                       {
                             if ((!gamePage.workshop.get("goldOre").researched && btn[i].model.prices.filter(res => res.name == 'science').length > 0) ||
                                 (!gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
-                                ((gamePage.bld.buildingsData[27].unlocked && gamePage.bld.buildingsData[27].val <= 5 && gamePage.bld.buildingsData[27].name != btn[i].model.metadata.name) && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
+                                ((gamePage.bld.getBuildingExt('amphitheatre').meta.unlocked && gamePage.bld.getBuildingExt('amphitheatre').meta.val <= 5 && gamePage.bld.getBuildingExt('amphitheatre').meta.name != btn[i].model.metadata.name) && btn[i].model.prices.filter(res => res.name == 'minerals').length > 0) ||
                                 (((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked)||(!gamePage.science.get('philosophy').researched && gamePage.science.get('philosophy').unlocked)||(!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked)) && btn[i].model.prices.filter(res => res.name == 'science').length > 0 && btn[i].model.prices.filter(res => res.name == 'science')[0].val > 1000)
                             )
                             {}
