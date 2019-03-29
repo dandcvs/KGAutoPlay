@@ -1010,14 +1010,18 @@ function Timepage() {
                 }
             }
             try {
-                for (i = 1 ;i < chronoforge.length; i++) {
-                    if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
-                        chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
-                            if (result) {
-                                chronoforge[i].update();
-                                gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
-                            }
-                            });
+                if (gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0)
+                {}
+                else{
+                    for (i = 1 ;i < chronoforge.length; i++) {
+                        if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
+                            chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
+                                if (result) {
+                                    chronoforge[i].update();
+                                    gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
+                                }
+                                });
+                        }
                     }
                 }
             } catch(err) {
