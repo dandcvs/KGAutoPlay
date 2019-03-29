@@ -646,7 +646,7 @@ function autozig() {
             }
         }
 
-        if (gamePage.resPool.get('alicorn').value > 25 && (gamePage.resPool.get('alicorn').value > gamePage.resPool.get("timeCrystal").value || (gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0))) {
+        if (gamePage.resPool.get('alicorn').value > 25 && (gamePage.resPool.get('alicorn').value > gamePage.resPool.get("timeCrystal").value || (gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1))) {
             if (gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.visible){
                 gamePage.religionTab.sacrificeAlicornsBtn.model.allLink.handler(gamePage.religionTab.sacrificeAlicornsBtn.model,function(result){
                  if (result) {
@@ -655,7 +655,7 @@ function autozig() {
                 });
             }
         }
-        if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0) && gamePage.resPool.get('timeCrystal').value > 50 && gamePage.resPool.get('timeCrystal').value / Math.max(gamePage.resPool.get("relic").value,1) > 3 && gamePage.resPool.get("relic").value > 100) {
+        if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1) && gamePage.resPool.get('timeCrystal').value > 50 && gamePage.resPool.get('timeCrystal').value / Math.max(gamePage.resPool.get("relic").value,1) > 3 && gamePage.resPool.get("relic").value > 100) {
             if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
                 gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(result){
                     if (result) {
