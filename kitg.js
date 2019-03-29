@@ -25,11 +25,11 @@ var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
 var upgrades_craft = [
-[gamePage.workshop.get("miningDrill"),[["steel",750]]],
-[gamePage.workshop.get("oxidation"),[["steel",5000]]],
-[gamePage.workshop.get("fluidizedReactors"),[["alloy",200]]],
-[gamePage.workshop.get("steelPlants"),[["gear",750]]],
-[gamePage.workshop.get("rotaryKiln"),[["gear",500]]]
+[gamePage.workshop.get("miningDrill"),[["steel",750*1.2]]],
+[gamePage.workshop.get("oxidation"),[["steel",5000*1.2]]],
+[gamePage.workshop.get("fluidizedReactors"),[["alloy",200*1.2]]],
+[gamePage.workshop.get("steelPlants"),[["gear",750*1.2]]],
+[gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
 
 game.console.filters = $.extend(true, game.console.filters, {"trade": {
