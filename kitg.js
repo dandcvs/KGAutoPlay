@@ -475,8 +475,11 @@ function autoCraft2() {
 
                         for (var g = 0; g < resourcesAll.length; g++) {
                              for (var b = 0; b < resourcesAll[g][1].length; b++) {
-                                if ( resourcesAll[g][0] != upgrades_craft[i][1][j][0] && reslist.indexOf(resourcesAll[g][1][b][0]) > 0 || resourcesAll[g][1][b][0] == upgrades_craft[i][1][j][0]) {
-                                    resourcesAll[g][4] =  false
+                                if ( (resourcesAll[g][0] != upgrades_craft[i][1][j][0] && reslist.indexOf(resourcesAll[g][1][b][0]) > 0) || resourcesAll[g][1][b][0] == upgrades_craft[i][1][j][0]) {
+                                    if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value < upgrades_craft[i][1][j][1] ) {
+                                        resourcesAll[g][4] =  false
+                                    }
+
                                 }
                              }
                         }
