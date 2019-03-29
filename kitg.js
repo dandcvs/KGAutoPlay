@@ -361,7 +361,7 @@ function autoTrade() {
             let coalRes = gamePage.resPool.get('coal');
             if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
-                    if (unoRes.value > unoRes.maxValue * 0.95 || (gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0) ){
+                    if (unoRes.value > unoRes.maxValue * 0.95 || (gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1) ){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > 5000 && (gamePage.timer.ticksTotal % 650 === 0 || (unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 )))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
@@ -989,7 +989,7 @@ function Timepage() {
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
             if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8 )) {
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-                if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0) && chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
+                if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1) && chronoforge[0].model.x100Link.visible && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
                     chronoforge[0].model.x100Link.handler(chronoforge[0].model);
                     chronoforge[0].update();
                 }
@@ -1011,7 +1011,7 @@ function Timepage() {
             }
             try {
                 for (i = 1 ;i < chronoforge.length; i++) {
-                    if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.time.meta[0].meta[4].val == 0)
+                    if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1 )
                     {}
                     else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
                         chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
