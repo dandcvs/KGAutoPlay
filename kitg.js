@@ -994,7 +994,7 @@ function Timepage() {
                 if (gamePage.calendar.cycle == 5 && gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled) {
                     gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled = false
                 }
-                else if ( gamePage.calendar.day > 0 ) {
+                else if ( gamePage.calendar.day > 0 && !gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled) {
                     gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled = true
                 }
             }
