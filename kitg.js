@@ -889,6 +889,11 @@ function UpgradeBuildings() {
     if (gamePage.diplomacy.hasUnlockedRaces()){
         gamePage.diplomacy.unlockRandomRace();
     }
+    if (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.bld.getBuildingExt('reactor').meta.isAutomationEnabled && gamePage.bld.getBuildingExt('reactor').meta.val > 0 && gamePage.workshop.get("thoriumReactors").researched && gamePage.resPool.get('thorium').value > 10000) {
+        gamePage.bld.getBuildingExt('reactor').meta.isAutomationEnabled = true
+    }
+
+
     var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0);
     for (var i = 0; i < mblds.length; i++) {
         mblds[i].stage = 1;
