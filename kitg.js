@@ -991,7 +991,7 @@ function Timepage() {
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
             if (gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.unlocked) {
-                if (gamePage.calendar.cycle == 5) {
+                if (gamePage.calendar.cycle == 5 && gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled) {
                     gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled = false
                 }
                 else if ( gamePage.calendar.day > 0 ) {
