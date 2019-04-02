@@ -999,7 +999,7 @@ function Timepage() {
                 if (gamePage.calendar.cycle == 5 && gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
                     gamePage.time.getCFU("blastFurnace").isAutomationEnabled = false
                 }
-                else if ( gamePage.calendar.day > 0 && !gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
+                else if (gamePage.calendar.cycle != 5 && gamePage.calendar.day > 0 && !gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
                     gamePage.time.getCFU("blastFurnace").isAutomationEnabled = true
                 }
             }
