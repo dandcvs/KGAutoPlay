@@ -996,11 +996,11 @@ function Timepage() {
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
             if (gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.unlocked) {
-                if (gamePage.calendar.cycle == 5 && gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled) {
-                    gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled = false
+                if (gamePage.calendar.cycle == 5 && gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
+                    gamePage.time.getCFU("blastFurnace").isAutomationEnabled = false
                 }
-                else if ( gamePage.calendar.day > 0 && !gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled) {
-                    gamePage.timeTab.cfPanel.children[0].children[2].model.metadata.isAutomationEnabled = true
+                else if ( gamePage.calendar.day > 0 && !gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
+                    gamePage.time.getCFU("blastFurnace").isAutomationEnabled = true
                 }
             }
 
