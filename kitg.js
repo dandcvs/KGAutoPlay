@@ -1099,6 +1099,7 @@ function SellSpaceAndReset(){
                    let optsell = gamePage.opts.hideSell
                     gamePage.opts.hideSell = false
                     //sell all space
+                    gamePage.tabs[6].planetPanels[4].children[1].model.metadata.on = gamePage.tabs[6].planetPanels[4].children[1].model.metadata.val
                     for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
                             var spBuild = gamePage.tabs[6].planetPanels[z].children;
                             try {
