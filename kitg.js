@@ -43,12 +43,14 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 '<a id="scriptOptions" onclick="selectOptions()"> | KGAutoPlay </a>' +
 
-'<div id="optionSelect" style="display:none; margin-top:-130px; margin-left:-30px; width:200px" class="dialog help">' +
+'<div id="optionSelect" style="display:none; margin-top:-150px; margin-left:-30px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
 
 '<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
 '<hr size=5>' +
 '<button id="autoEnergy" style="color:black" onclick="autoSwitchEnergy(\'Energy Control\',  \'autoEnergy\')"> Energy Control </button></br>' +
+'<hr size=3>' +
+'<button id="killSwitch" onclick="SellSpaceAndReset();">Sell Space and Reset</button> </br>' +
 '<hr size=3>' +
 '<button id="IronWill" style="color:red" onclick="autoSwitchEnergy(\'Iron Will\',  \'IronWill\')"> IronWill </button></br>' +
 '</div>' +
@@ -1086,8 +1088,42 @@ if (gamePage.ironWill){
     else if (!switches["Iron Will"]){
         autoSwitchEnergy('Iron Will',  'IronWill')
     }
-
 }
+
+
+function SellSpaceAndReset(){
+     if (!gamePage.challenges.currentChallenge) {
+        msg = "Sell all space and Reset?";
+        gamePage.ui.confirm($I("reset.prompt.title"), msg, function(confirmed) {
+            if (confirmed) {
+                   let optsell = gamePage.opts.hideSell
+                    gamePage.opts.hideSell = false
+                    //sell all space
+                    for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
+                            var spBuild = gamePage.tabs[6].planetPanels[z].children;
+                            try {
+                                for (i = 0 ;i < spBuild.length; i++) {
+                                    if (spBuild[i].model.metadata.unlocked && spBuild[i].model.metadata.val > 1) {
+                                            spBuild[i].controller.sellInternal(spBuild[i].model,1);
+                                        }
+                                }
+
+                            } catch(err) {
+                            console.log(err);
+                            }
+                    }
+
+                    gamePage.opts.hideSell = optsell
+                    game.resetAutomatic();
+            }
+        });
+     }
+     else {
+         gamePage.msg('You are in challenge now, please reset manually.');
+     }
+}
+
+
 
 
 gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render());
