@@ -1103,7 +1103,7 @@ function SellSpaceAndReset(){
                             var spBuild = gamePage.tabs[6].planetPanels[z].children;
                             try {
                                 for (i = 0 ;i < spBuild.length; i++) {
-                                    if (spBuild[i].model.metadata.unlocked && spBuild[i].model.metadata.val > 1) {
+                                    if (spBuild[i].model.metadata.unlocked && spBuild[i].model.metadata.val > 1 && spBuild[i].model.metadata.name != "containmentChamber") {
                                             spBuild[i].controller.sellInternal(spBuild[i].model,1);
                                         }
                                 }
