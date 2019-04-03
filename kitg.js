@@ -367,7 +367,7 @@ function autoTrade() {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                     }
                     //Feed elders
-                    if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val * 5 + 5){
+                    if (gamePage.resPool.get("necrocorn").value >= 1 && gamePage.diplomacy.get("leviathans").energy < (gamePage.religion.getZU("marker").val * 5 + 5)/5 + gamePage.resPool.get("necrocorn").value){
                         gamePage.diplomacy.feedElders();
                     }
                 }
@@ -943,16 +943,16 @@ function ResearchSolarRevolution() {
         if (gamePage.religion.getRU('solarRevolution').val == 0){
             if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.visible &&  res.model.enabled && res.model.resourceIsLimited == false).length > 0){
                     var btn = gamePage.tabs[5].rUpgradeButtons[5];
-                            try {
-                                btn.controller.buyItem(btn.model, {}, function(result) {
-                                    if (result) {
-                                        btn.update();
-                                        gamePage.msg('Religion researched: ' + btn.model.name);
-                                    }
-                                });
-                            } catch(err) {
-                                console.log(err);
+                    try {
+                        btn.controller.buyItem(btn.model, {}, function(result) {
+                            if (result) {
+                                btn.update();
+                                gamePage.msg('Religion researched: ' + btn.model.name);
                             }
+                        });
+                    } catch(err) {
+                        console.log(err);
+                    }
             }
 	    }
 }
@@ -967,7 +967,7 @@ function Timepage() {
             if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
                 VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
                 if (result) {
-                    gamePage.msg('Cryochamber Fixed' );
+                    gamePage.msg('Cryochamber Fixed');
                 }
                 });
             }
