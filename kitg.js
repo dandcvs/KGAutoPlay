@@ -978,25 +978,30 @@ function Timepage() {
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
-					    if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.prices[1].val < 1050) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[5].model.prices[1].val < 1050 )) ){
+					    if ((gamePage.workshop.get("voidAspiration").unlocked && !gamePage.workshop.get("voidAspiration").researched) || (gamePage.science.get("paradoxalKnowledge").unlocked && !gamePage.science.get("paradoxalKnowledge").researched)){
                             {}
                         }
-					    else if (gamePage.ironWill){
-					        if(!VoidBuild[i].model.metadata.effects.maxKittens){
+                        else{
+                            if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.prices[1].val < 1050) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[5].model.prices[1].val < 1050 )) ){
+                                {}
+                            }
+                            else if (gamePage.ironWill){
+                                if(!VoidBuild[i].model.metadata.effects.maxKittens){
+                                    VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
+                                    if (result) {
+                                        VoidBuild[i].update();
+                                        gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
+                                    }
+                                    });
+                                }
+                            }else{
                                 VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
                                 if (result) {
                                     VoidBuild[i].update();
                                     gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
                                 }
                                 });
-							}
-						}else{
-                            VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
-                            if (result) {
-                                VoidBuild[i].update();
-                                gamePage.msg('Build in Time: ' + VoidBuild[i].model.name );
                             }
-                            });
 						}
 					}
 				}
