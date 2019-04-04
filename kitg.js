@@ -978,7 +978,7 @@ function Timepage() {
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
-					    if ((gamePage.workshop.get("voidAspiration").unlocked && !gamePage.workshop.get("voidAspiration").researched) || (gamePage.science.get("paradoxalKnowledge").unlocked && !gamePage.science.get("paradoxalKnowledge").researched)){
+					    if (gamePage.workshop.get("voidAspiration").unlocked && !gamePage.workshop.get("voidAspiration").researched){
                             {}
                         }
                         else{
