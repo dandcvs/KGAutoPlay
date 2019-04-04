@@ -978,7 +978,7 @@ function Timepage() {
 			try {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
-					    if ((i != 3 && i != 5 ) && ((VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.prices[1].val < 1050) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[5].model.prices[1].val < 1050 )) ){
+					    if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.prices[1].val < 1050) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[5].model.prices[1].val < 1050 )) ){
                             {}
                         }
 					    else if (gamePage.ironWill){
