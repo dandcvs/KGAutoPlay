@@ -207,7 +207,7 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited);
+        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && craftPriority[2] > 0 ? ((res.model.metadata.name == craftPriority[0]) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1).length == 0 || (res.model.metadata.name in NotPriority_blds)) ) : res.model.metadata );
         for (i = 0 ;i < btn.length; i++) {
              btn[i].controller.updateEnabled(btn[i].model);
              if  (btn[i].model.enabled){
@@ -424,14 +424,20 @@ var resources = [
                 ];
 
 var Priority_blds = {
-    "hut" : gamePage.ironWill ? 0 : 10,
-    "logHouse" : gamePage.ironWill ? 0 : 10,
-    "mansion" : gamePage.ironWill ? 0 : 7,
-    "steamworks" :4,
-    "factory"  : 5,
-    "reactor" : 8
+    "hut" : 3,
+    "logHouse" : 3,
+    "mansion" : 1.5,
+    "magneto" : 1.2,
+    "factory"  : 1.3,
+    "reactor" : 3,
+    "warehouse" : 0.01,
+    "smelter" : 2
 };
-var craftPriority = [[],[],0]
+
+var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","lumberMill","steamworks"];
+
+
+var craftPriority = [[],[],0,[]]
 var cntcrafts = 0
 
 function autoCraft2() {
@@ -439,23 +445,26 @@ function autoCraft2() {
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             // [name,resurces,countlimit,paragonBool,craftableBool]
 
+            //finding priority bld for now
             if (cntcrafts == 0 || cntcrafts == 100 || craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val) {
                 let allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 let prior = [];
-                let maxPriority = 1;
                 for (var i = 0; i < allblds.length; i++)  {
-                    if (allblds[i].model.metadata.name in Priority_blds) {
+                    if (allblds[i].model.metadata.name in Priority_blds && allblds[i].model.metadata.val > 0) {
                         prior[prior.length] = [Priority_blds[allblds[i].model.metadata.name], allblds[i].model.metadata.name, allblds[i].model.prices]
-                        maxPriority = Math.max(Priority_blds[allblds[i].model.metadata.name],maxPriority)
                     }
-                    else {
+                    else if ((allblds[i].model.metadata.val > 0 ||  allblds[i].model.enabled) && NotPriority_blds.indexOf(allblds[i].model.metadata.name) === -1)  {
                         prior[prior.length] = [1, allblds[i].model.metadata.name, allblds[i].model.prices]
                     }
                 }
-                prior = prior.filter(res => res[0] == maxPriority).sort(function(a, b) {
-                    return ( a[2].sort(function(c, d) { return (d.val - c.val); })[0].val - b[2].sort(function(c, d) { return (d.val - c.val); })[0].val);
+                prior = prior.sort(function(a, b) {
+                    return ( a[2].sort(function(c, d) { return (d.val - c.val); })[0].val/a[0] - b[2].sort(function(c, d) { return (d.val - c.val); })[0].val/b[0]);
                 });
-                craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val]
+                let reslist = []
+                for (var i = 0; i < prior[0][2].length; i++)  {
+                    reslist[reslist.length] = prior[0][2][i].name
+                }
+                craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist]
                 console.log(craftPriority)
             }
 
@@ -490,6 +499,7 @@ function autoCraft2() {
             var flag = true;
             var cnt = 0;
 
+            //priority upgrades
             for (var i = 0; i < upgrades_craft.length; i++)  {
                 if (upgrades_craft[i][0].researched ) {
                     upgrades_craft.splice(i,1);
@@ -529,6 +539,7 @@ function autoCraft2() {
                 }
             }
 
+            //priority bluildings
             let reslist = {}
             for (var i = 0; i < craftPriority[1].length; i++)  {
                 reslist[craftPriority[1][i].name] = craftPriority[1][i].val
@@ -541,7 +552,7 @@ function autoCraft2() {
                     resourcesAll[g][4] =  true
                 }else{
                     for (var i = 0; i < resourcesAll[g][1].length; i++) {
-                        if (resourcesAll[g][1][i][0] in reslist ) {
+                        if (resourcesAll[g][1][i][0] in reslist && !(resourcesAll[g][0] in reslist) && resourcesAll[g][0] != "ship" ) {
                              resourcesAll[g][4] =  false
                         }
                     }
