@@ -201,9 +201,13 @@ function autoPraise(){
 	}
 }
 
+
+
+
+
 // Build buildings automatically
 function autoBuild() {
-        var btn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.unlocked);
+        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited);
         for (i = 0 ;i < btn.length; i++) {
              btn[i].controller.updateEnabled(btn[i].model);
              if  (btn[i].model.enabled){
@@ -419,12 +423,47 @@ var resources = [
 			["unobtainium", "eludium", 1000]
                 ];
 
-
+var Priority_blds = {
+    "hut" : gamePage.ironWill ? 0 : 10,
+    "logHouse" : gamePage.ironWill ? 0 : 10,
+    "mansion" : gamePage.ironWill ? 0 : 7,
+    "steamworks" :4,
+    "factory"  : 5,
+    "reactor" : 8
+};
+var craftPriority = [[],[],0]
+var cntcrafts = 0
 
 function autoCraft2() {
 
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             // [name,resurces,countlimit,paragonBool,craftableBool]
+
+            if (cntcrafts == 0 || cntcrafts == 100 || craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val) {
+                let allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
+                let prior = [];
+                let maxPriority = 1;
+                for (var i = 0; i < allblds.length; i++)  {
+                    if (allblds[i].model.metadata.name in Priority_blds) {
+                        prior[prior.length] = [Priority_blds[allblds[i].model.metadata.name], allblds[i].model.metadata.name, allblds[i].model.prices]
+                        maxPriority = Math.max(Priority_blds[allblds[i].model.metadata.name],maxPriority)
+                    }
+                    else {
+                        prior[prior.length] = [1, allblds[i].model.metadata.name, allblds[i].model.prices]
+                    }
+                }
+                prior = prior.filter(res => res[0] == maxPriority).sort(function(a, b) {
+                    return ( a[2].sort(function(c, d) { return (d.val - c.val); })[0].val - b[2].sort(function(c, d) { return (d.val - c.val); })[0].val);
+                });
+                craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val]
+                console.log(craftPriority)
+            }
+
+            cntcrafts+=1
+
+            if (cntcrafts > 100) {
+                cntcrafts == 1
+            }
 
             let  resourcesAll = [
                 ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
@@ -489,6 +528,28 @@ function autoCraft2() {
                     break;
                 }
             }
+
+            let reslist = {}
+            for (var i = 0; i < craftPriority[1].length; i++)  {
+                reslist[craftPriority[1][i].name] = craftPriority[1][i].val
+            }
+
+            for (var g = 0; g < resourcesAll.length; g++) {
+                if (resourcesAll[g][0] in reslist) {
+                    resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                    resourcesAll[g][3] =  false
+                    resourcesAll[g][4] =  true
+                }else{
+                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
+                        if (resourcesAll[g][1][i][0] in reslist ) {
+                             resourcesAll[g][4] =  false
+                        }
+                    }
+
+                }
+            }
+
+
 
 
             var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
