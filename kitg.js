@@ -207,7 +207,7 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && craftPriority[2] > 0 ? ((res.model.metadata.name == craftPriority[0]) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1).length == 0 || (res.model.metadata.name in NotPriority_blds)) ) : res.model.metadata );
+        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && craftPriority[0] != [] ? ((res.model.metadata.name == craftPriority[0]) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1).length == 0 || (res.model.metadata.name in NotPriority_blds)) ) : res.model.metadata );
         for (i = 0 ;i < btn.length; i++) {
              btn[i].controller.updateEnabled(btn[i].model);
              if  (btn[i].model.enabled){
@@ -342,7 +342,7 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
-        if  (gamePage.resPool.get('titanium').value > 5000 && gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
+        if  ((gamePage.resPool.get('titanium').value > 5000 || gamePage.bld.getBuildingExt('reactor').meta.val > 0 ) && gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
         if ((gamePage.resPool.get('titanium').value < gamePage.resPool.get('paragon').value < 1000 ? gamePage.resPool.get('paragon').value : 200000 || gamePage.resPool.get('blueprint').value < 100) && gamePage.diplomacy.get('zebras').unlocked  && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
@@ -424,17 +424,22 @@ var resources = [
                 ];
 
 var Priority_blds = {
-    "hut" : 3,
-    "logHouse" : 3,
+    "hut" : 4,
+    "logHouse" : 4,
     "mansion" : 1.5,
     "magneto" : 1.2,
-    "factory"  : 1.3,
-    "reactor" : 3,
+    "factory"  : 1.1,
+    "reactor" : 1.2,
     "warehouse" : 0.01,
-    "smelter" : 2
+    "harbor" : 0.01,
+    "smelter" : 4,
+    "observatory" : 1,
+    "oilWell" : 1,
+    "lumberMill" : 0.01,
+    "calciner" : 1.1
 };
 
-var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","lumberMill","steamworks"];
+var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere"];
 
 
 var craftPriority = [[],[],0,[]]
@@ -446,19 +451,21 @@ function autoCraft2() {
             // [name,resurces,countlimit,paragonBool,craftableBool]
 
             //finding priority bld for now
-            if (cntcrafts == 0 || cntcrafts == 100 || craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val) {
+            if (cntcrafts == 0 || cntcrafts >= 100 || craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val) {
                 let allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 let prior = [];
                 for (var i = 0; i < allblds.length; i++)  {
-                    if (allblds[i].model.metadata.name in Priority_blds && allblds[i].model.metadata.val > 0) {
+                    if (allblds[i].model.metadata.name in Priority_blds && (allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val ) : true)) {
                         prior[prior.length] = [Priority_blds[allblds[i].model.metadata.name], allblds[i].model.metadata.name, allblds[i].model.prices]
                     }
-                    else if ((allblds[i].model.metadata.val > 0 ||  allblds[i].model.enabled) && NotPriority_blds.indexOf(allblds[i].model.metadata.name) === -1)  {
+                    else if ((allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val) : true) && NotPriority_blds.indexOf(allblds[i].model.metadata.name) === -1)  {
                         prior[prior.length] = [1, allblds[i].model.metadata.name, allblds[i].model.prices]
                     }
                 }
                 prior = prior.sort(function(a, b) {
-                    return ( a[2].sort(function(c, d) { return (d.val - c.val); })[0].val/a[0] - b[2].sort(function(c, d) { return (d.val - c.val); })[0].val/b[0]);
+//                    return ( a[2].sort(function(c, d) { return (d.val - c.val); })[0].val/a[0] - b[2].sort(function(c, d) { return (d.val - c.val); })[0].val/b[0]);
+                    return ( a[2].sort(function(c, d) { return ((d.val > gamePage.resPool.get(d.name).value ? d.val  : d.val - gamePage.resPool.get(d.name).value - d.val ) - (c.val > gamePage.resPool.get(c.name).value ? c.val  :  c.val - gamePage.resPool.get(c.name).value - c.val )); })[0].val/a[0] - b[2].sort(function(c, d) { return ((d.val > gamePage.resPool.get(d.name).value ? d.val  : d.val - gamePage.resPool.get(d.name).value - d.val ) - (c.val > gamePage.resPool.get(c.name).value ? c.val  : c.val - gamePage.resPool.get(c.name).value - c.val )); })[0].val/b[0]);
+//                    return ( (a[2].sort(function(c, d) { return (d.val - c.val); })[0].val - gamePage.resPool.get(a[2].sort(function(c, d) { return (d.val - c.val); })[0].name).value)/a[0] - (b[2].sort(function(c, d) { return (d.val - c.val); })[0].val -  gamePage.resPool.get(b[2].sort(function(c, d) { return (d.val - c.val); })[0].name).value)/b[0]);
                 });
                 let reslist = []
                 for (var i = 0; i < prior[0][2].length; i++)  {
@@ -466,12 +473,13 @@ function autoCraft2() {
                 }
                 craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist]
                 console.log(craftPriority)
+                cntcrafts = 1
             }
 
             cntcrafts+=1
 
             if (cntcrafts > 100) {
-                cntcrafts == 1
+                cntcrafts = 1
             }
 
             let  resourcesAll = [
@@ -498,6 +506,31 @@ function autoCraft2() {
             ]
             var flag = true;
             var cnt = 0;
+
+            //priority bluildings
+            let reslist = {}
+            for (var i = 0; i < craftPriority[1].length; i++)  {
+                reslist[craftPriority[1][i].name] = craftPriority[1][i].val
+            }
+
+            for (var g = 0; g < resourcesAll.length; g++) {
+                if (resourcesAll[g][0] in reslist) {
+                    resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                    resourcesAll[g][3] =  false
+                    resourcesAll[g][4] =  true
+                }else{
+                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
+                        if (resourcesAll[g][1][i][0] in reslist && !(resourcesAll[g][0] in reslist) && resourcesAll[g][0] != "ship" ) {
+                            if (gamePage.resPool.get(resourcesAll[g][1][i][0]).value < reslist[resourcesAll[g][1][i][0]]*1.2) {
+                                resourcesAll[g][4] =  false
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
 
             //priority upgrades
             for (var i = 0; i < upgrades_craft.length; i++)  {
@@ -539,26 +572,7 @@ function autoCraft2() {
                 }
             }
 
-            //priority bluildings
-            let reslist = {}
-            for (var i = 0; i < craftPriority[1].length; i++)  {
-                reslist[craftPriority[1][i].name] = craftPriority[1][i].val
-            }
 
-            for (var g = 0; g < resourcesAll.length; g++) {
-                if (resourcesAll[g][0] in reslist) {
-                    resourcesAll[g][2] = reslist[resourcesAll[g][0]]
-                    resourcesAll[g][3] =  false
-                    resourcesAll[g][4] =  true
-                }else{
-                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
-                        if (resourcesAll[g][1][i][0] in reslist && !(resourcesAll[g][0] in reslist) && resourcesAll[g][0] != "ship" ) {
-                             resourcesAll[g][4] =  false
-                        }
-                    }
-
-                }
-            }
 
 
 
