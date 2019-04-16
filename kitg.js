@@ -1168,6 +1168,7 @@ var runAllAutomation = setInterval(function() {
 
          if (gamePage.timer.ticksTotal % 50 === 0) {
              setTimeout(Timepage, 0);
+             setTimeout(ResearchSolarRevolution, 0);
         }
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
@@ -1175,7 +1176,6 @@ var runAllAutomation = setInterval(function() {
             setTimeout(UpgradeBuildings, 0);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
-                setTimeout(ResearchSolarRevolution, 0);
                 setTimeout(Service, 0);
                 Iinc = 0;
             }
