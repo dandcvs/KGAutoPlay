@@ -71,13 +71,8 @@ function clearOptionHelpDiv() {
 function clearScript() {
 	$("#farRightColumn").remove();
 	$("#PriorityLabel").remove();
-	$("#buildingSelect").remove();
-	$("#spaceSelect").remove();
 	$("#scriptOptions").remove();
 	clearInterval(runAllAutomation);
-	autoBuildCheck = null;
-	bldSelectAddition = null;
-	spaceSelectAddition = null;
 	htmlMenuAddition = null;
 }
 
@@ -621,7 +616,7 @@ function autoCraft2() {
                             }
                         }
                         if (craftPriority[0] != []) {
-                                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = upgrades_craft[i][0].label
+                                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText += ' / ' +  upgrades_craft[i][0].label
                         }
                         break;
                     }
