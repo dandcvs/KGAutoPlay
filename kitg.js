@@ -59,6 +59,8 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 $("#footerLinks").append(htmlMenuAddition);
 
 
+$("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header").append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
+
 function selectOptions() {
 	$("#optionSelect").toggle();
 }
@@ -68,6 +70,7 @@ function clearOptionHelpDiv() {
 
 function clearScript() {
 	$("#farRightColumn").remove();
+	$("#PriorityLabel").remove();
 	$("#buildingSelect").remove();
 	$("#spaceSelect").remove();
 	$("#scriptOptions").remove();
@@ -469,7 +472,7 @@ function autoCraft2() {
                     "logHouse" : 4,
                     "mansion" :  gamePage.resPool.get("titanium").value > 100 ? 1.5 : 0.00000001,
                     "steamworks" : gamePage.bld.getBuildingExt('magneto').meta.val > 0 ? 1 : 0.00000001,
-                    "magneto" : gamePage.resPool.get("titanium").value > 100 ? 0.5 : 0.00000001,
+                    "magneto" : gamePage.resPool.get("titanium").value > 50 ? 1 : 0.00000001,
                     "factory"  : gamePage.resPool.get("titanium").value > 100 ? 3 : 0.00000001,
                     "reactor" : gamePage.resPool.get("titanium").value > 100 ? 10 : 0.00000001,
                     "warehouse" : 0.01,
@@ -497,8 +500,6 @@ function autoCraft2() {
                     }
                 }
                 prior = prior.sort(function(a, b) {
-//                    return ( Object.keys(a[2]).reduce((c, d) => c + Math.max(0, a[2][d].val - gamePage.resPool.get(a[2][d].name).value ),0)/a[0] -  Object.keys(b[2]).reduce((c, d) => c + Math.max(0,  b[2][d].val - gamePage.resPool.get(b[2][d].name).value ),0)/b[0]);
-//                    return ( Object.keys(a[2]).reduce((c, d) => c + a[2][d].val,0)/a[0] -  Object.keys(b[2]).reduce((c, d) => c + b[2][d].val ,0)/b[0]);
 
                     return ( Object.keys(a[2]).reduce(function(c, d) {
                     var s = 1
@@ -514,7 +515,6 @@ function autoCraft2() {
                              }
                         }
                     }
-
 
                     return c + s } , 0)/a[0] - Object.keys(b[2]).reduce(function(c, d) {
                     var s = 1
@@ -552,11 +552,14 @@ function autoCraft2() {
                      }
                 }
                 craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
-                console.log(craftPriority)
                 cntcrafts = 1
             }
 
             cntcrafts+=1
+            if (craftPriority[0] != []) {
+                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
+            }
+
 
             if (cntcrafts > 200) {
                 cntcrafts = 1
@@ -579,8 +582,6 @@ function autoCraft2() {
                     }
                 }
             }
-
-
 
             //priority upgrades
             if (gamePage.resPool.get('ship').value) {
@@ -619,14 +620,13 @@ function autoCraft2() {
                                  }
                             }
                         }
+                        if (craftPriority[0] != []) {
+                                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = upgrades_craft[i][0].label
+                        }
                         break;
                     }
                 }
             }
-
-//            console.log(resourcesAll)
-
-
 
 
             var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
@@ -654,7 +654,7 @@ function autoCraft2() {
 
 
                              }
-                             cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) : cnt
+                             cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? Math.ceil(cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value))  : cnt
 //                             console.log(curResTarget, cnt)
                         }
                      }
