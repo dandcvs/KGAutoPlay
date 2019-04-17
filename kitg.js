@@ -26,8 +26,8 @@ var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 
 var upgrades_craft = [
 [gamePage.workshop.get("miningDrill"),[["steel",750*1.2]]],
-[gamePage.workshop.get("oxidation"),[["steel",5000*1.2]]],
 [gamePage.workshop.get("fluidizedReactors"),[["alloy",200*1.2]]],
+[gamePage.workshop.get("oxidation"),[["steel",5000*1.2]]],
 [gamePage.workshop.get("steelPlants"),[["gear",750*1.2]]],
 [gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
@@ -205,7 +205,7 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && craftPriority[0] != [] ? ((res.model.metadata.name == craftPriority[0]) || (NotPriority_blds.indexOf(res.model.metadata.name) > -1) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1 ).length == 0 ) ) : res.model.metadata );
+        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && Object.keys(craftPriority[0]).length > 0 ? ((res.model.metadata.name == craftPriority[0]) || (NotPriority_blds.indexOf(res.model.metadata.name) > -1) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1 ).length == 0 ) ) : res.model.metadata );
         for (i = 0 ;i < btn.length; i++) {
              btn[i].controller.updateEnabled(btn[i].model);
              if  (btn[i].model.enabled){
@@ -461,7 +461,7 @@ function autoCraft2() {
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
             ]
 
-            if (cntcrafts == 0 || cntcrafts >= 200 || craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val) {
+            if ((cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val)) && (!gamePage.ironWill || gamePage.religion.getRU("solarRevolution").val == 1 )) {
                 var Priority_blds = {
                     "hut" : 4,
                     "logHouse" : 4,
@@ -481,17 +481,18 @@ function autoCraft2() {
                     "pasture" : gamePage.bld.getBuildingExt('pasture').meta.stage == 1 ? 0.01 : 1,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 : 1,
-                    "ziggurat" : gamePage.resPool.get("blueprint").value > 500 ? 1 : 0.01
+                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 5 : gamePage.resPool.get("blueprint").value > 500 ? 1 : 0.01
                 };
                 var allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
                 for (var i = 0; i < allblds.length; i++)  {
-
-                    if (allblds[i].model.metadata.name in Priority_blds && (allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val ) : true)) {
-                        prior[prior.length] = [Priority_blds[allblds[i].model.metadata.name], allblds[i].model.metadata.name, allblds[i].model.prices]
-                    }
-                    else if ((allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val) : true) && NotPriority_blds.indexOf(allblds[i].model.metadata.name) === -1)  {
-                        prior[prior.length] = [1, allblds[i].model.metadata.name, allblds[i].model.prices]
+                    if (!gamePage.ironWill || (!allblds[i].model.metadata.effects.maxKittens)) {
+                        if (allblds[i].model.metadata.name in Priority_blds && (allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val ) : true)) {
+                            prior[prior.length] = [Priority_blds[allblds[i].model.metadata.name], allblds[i].model.metadata.name, allblds[i].model.prices]
+                        }
+                        else if ((allblds[i].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[i].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[i].model.prices.filter(res => res.name == "blueprint")[0].val) : true) && NotPriority_blds.indexOf(allblds[i].model.metadata.name) === -1)  {
+                            prior[prior.length] = [1, allblds[i].model.metadata.name, allblds[i].model.prices]
+                        }
                     }
                 }
                 prior = prior.sort(function(a, b) {
@@ -531,27 +532,29 @@ function autoCraft2() {
 
 
                 //priority bluildings
-                reslist = {}
-                reslist2 = []
-                for (var i = 0; i < prior[0][2].length; i++)  {
-                     reslist[prior[0][2][i].name] = prior[0][2][i].val
-                     reslist2[reslist2.length] = prior[0][2][i].name
+                if (prior.length > 0) {
+                    reslist = {}
+                    reslist2 = []
+                    for (var i = 0; i < prior[0][2].length; i++)  {
+                         reslist[prior[0][2][i].name] = prior[0][2][i].val
+                         reslist2[reslist2.length] = prior[0][2][i].name
 
-                     for (var g = 0; g < resourcesAll.length; g++)  {
-                        if (prior[0][2][i].name == resourcesAll[g][0]) {
-                            for (var h = 0; h < resourcesAll[g][1].length;h++) {
-                                reslist[resourcesAll[g][1][h][0]] = isNaN(reslist[resourcesAll[g][1][h][0]]) ?  (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)  : Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
-                                reslist2[reslist2.length] = resourcesAll[g][1][h][0]
+                         for (var g = 0; g < resourcesAll.length; g++)  {
+                            if (prior[0][2][i].name == resourcesAll[g][0]) {
+                                for (var h = 0; h < resourcesAll[g][1].length;h++) {
+                                    reslist[resourcesAll[g][1][h][0]] = isNaN(reslist[resourcesAll[g][1][h][0]]) ?  (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)  : Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
+                                    reslist2[reslist2.length] = resourcesAll[g][1][h][0]
+                                }
                             }
-                        }
-                     }
+                         }
+                    }
+                    craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
                 }
-                craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
                 cntcrafts = 1
             }
 
             cntcrafts+=1
-            if (craftPriority[0] != []) {
+            if (Object.keys(craftPriority[0]).length > 0) {
                 $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
             }
 
@@ -561,25 +564,15 @@ function autoCraft2() {
             }
 
             for (var g = 0; g < resourcesAll.length; g++) {
-                if (resourcesAll[g][0] == "ship") {
-
-                }else if (gamePage.science.get("navigation").researched && gamePage.resPool.get('ship').value < 100 && gamePage.resPool.get("plate").value < 150 && 'iron' in reslist) {
-
-                }else if (resourcesAll[g][0] in reslist) {
+                if (resourcesAll[g][0] in reslist) {
                     resourcesAll[g][2] = reslist[resourcesAll[g][0]]
                     resourcesAll[g][3] =  false
                     resourcesAll[g][4] =  true
-                }else{
-                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
-                        if (resourcesAll[g][1][i][0] in reslist ) {
-                                resourcesAll[g][4] =  false
-                        }
-                    }
                 }
             }
 
             //priority upgrades
-            if (gamePage.resPool.get('ship').value) {
+            if (gamePage.resPool.get('ship').value > 0) {
                 for (var i = 0; i < upgrades_craft.length; i++)  {
                     if (upgrades_craft[i][0].researched ) {
                         upgrades_craft.splice(i,1);
@@ -615,7 +608,7 @@ function autoCraft2() {
                                  }
                             }
                         }
-                        if (craftPriority[0] != []) {
+                        if (Object.keys(craftPriority[0]).length > 0) {
                                 $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText += ' / ' +  upgrades_craft[i][0].label
                         }
                         break;
@@ -638,19 +631,12 @@ function autoCraft2() {
                      if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
                         if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
                              for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-//                                cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1), Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
                                 if (cnt == 0){
                                    cnt = Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1)
                                 }
-
                                 cnt = Math.min(cnt, Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1))
-
-//                                cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) : cnt
-
-
                              }
                              cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? Math.ceil(cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value))  : cnt
-//                             console.log(curResTarget, cnt)
                         }
                      }
                      else{
@@ -684,11 +670,17 @@ function autoCraft2() {
                 }
             }
             for (var i = 0; i < resources.length; i++) {
+
                     var curRes = gamePage.resPool.get(resources[i][0]);
                     var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
-                    var resourcePerCraft = (resourcePerTick * 3);
-                    if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
-                        gamePage.craft(resources[i][1], (resourcePerCraft / resources[i][2]));
+                    var resourcePerCraft = Math.min((resourcePerTick * 5),curRes.value);
+                    if (Object.keys(craftPriority[0]).length > 0  && craftPriority[3].indexOf(resources[i][0]) != -1 ) {
+                        if (curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
+                            gamePage.craft(resources[i][1], Math.ceil((resourcePerCraft / resources[i][2])-1));
+                        }
+                    }
+                    else if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
+                        gamePage.craft(resources[i][1], Math.ceil((resourcePerCraft / resources[i][2])-1));
                     }
             }
 	    }
@@ -873,8 +865,8 @@ function autozig() {
 function autoAssign() {
         var resourcesAssign = [
        		["catnip", "farmer",gamePage.resPool.get("beam").value > gamePage.resPool.get("catnip").maxValue ? gamePage.resPool.get("beam").value / gamePage.resPool.get("catnip").maxValue + 9 :9,1],
-            ["wood", "woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue : 1 , 2],
-        	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue : 1 ,2],
+            ["wood", "woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
+        	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1,1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 ,5],
             ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ? 50+gamePage.religion.tclevel : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ,5],
@@ -1005,10 +997,7 @@ function autoRefine() {
         if (!gamePage.workshopTab.visible ){
                     btn = gamePage.tabs[0].buttons[1];
                     price = gamePage.tabs[0].buttons[1].model.prices[0].val;
-                    limit = Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value,Math.trunc(gamePage.resPool.get('catnip').value/price));
-                    if (gamePage.timer.ticksTotal % 151 === 0){
-                         gamePage.msg('Refine catnip');
-                    }
+                    limit = Math.ceil(Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value,Math.trunc(gamePage.resPool.get('catnip').value/price)));
 
                     for (var i = 0; i < limit; i++) {
                         if (btn.model.enabled) {
