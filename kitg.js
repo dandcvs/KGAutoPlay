@@ -461,7 +461,7 @@ function autoCraft2() {
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
             ]
 
-            if ((cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val)) && (!gamePage.ironWill || gamePage.religion.getRU("solarRevolution").val == 1 )) {
+            if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
                     "hut" : 4,
                     "logHouse" : 4,
@@ -477,7 +477,7 @@ function autoCraft2() {
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
                     "lumberMill" : 0.005,
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? 1.1 : 0.00000001,
-                    "biolab" : 0.01,
+                    "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 :0.01,
                     "pasture" : gamePage.bld.getBuildingExt('pasture').meta.stage == 1 ? 0.01 : 1,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 : 1,
