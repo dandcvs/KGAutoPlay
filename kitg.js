@@ -555,7 +555,7 @@ function autoCraft2() {
 
             cntcrafts+=1
             if (Object.keys(craftPriority[0]).length > 0) {
-                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
+                $("#PriorityLabel")[0].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
             }
 
 
@@ -609,7 +609,7 @@ function autoCraft2() {
                             }
                         }
                         if (Object.keys(craftPriority[0]).length > 0) {
-                                $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText += ' / ' +  upgrades_craft[i][0].label
+                              $("#PriorityLabel")[0].innerText += ' / ' +  upgrades_craft[i][0].label
                         }
                         break;
                     }
