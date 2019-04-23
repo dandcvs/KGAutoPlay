@@ -32,12 +32,15 @@ var upgrades_craft = [
 [gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
 
-game.console.filters = $.extend(true, game.console.filters, {"trade": {
-				title: "Trade",
-				enabled: true,
-				unlocked: false
-			}});
-gamePage.ui.renderFilters();
+if (!game.console.filters.trade) {
+    game.console.filters = $.extend(true, game.console.filters, {"trade": {
+                    title: "Trade",
+                    enabled: true,
+                    unlocked: false
+                }});
+    gamePage.ui.renderFilters();
+}
+
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
