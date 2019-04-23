@@ -5,7 +5,6 @@ var bldOilWell = gamePage.bld.buildingsData[20];
 var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
-var bldDataCenter = gamePage.bld.buildingsData[6];
 
 
 var spcContChamber = gamePage.space.meta[5].meta[1];
@@ -958,8 +957,7 @@ function energyControl() {
                 (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.1] : [bldCalciner,0.101],
                 [bldAccelerator,0.1],
                 [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value : 9999],
-                [spcMoonBase,0.3],
-                [bldDataCenter, bldDataCenter.stage == 1 ? 8 : 0.01]
+                [spcMoonBase,0.3]
                  ];
 
             if (proVar>conVar) {
