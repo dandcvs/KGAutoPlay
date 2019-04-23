@@ -1159,7 +1159,7 @@ function Timepage() {
 
             if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && gamePage.time.heat == 0 )  )) {
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-                if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1) && ((chronoforge[0].model.x100Link && chronoforge[0].model.x100Link.visible) || (chronoforge[0].model.nextCycleLink.visible && chronoforge[0].model.nextCycleLink.title == "x100") ) && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
+                if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1) && ((chronoforge[0].model.x100Link && chronoforge[0].model.x100Link.visible) || (chronoforge[0].model.nextCycleLink && chronoforge[0].model.nextCycleLink.visible && chronoforge[0].model.nextCycleLink.title == "x100") ) && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 100 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*100){
                     if (chronoforge[0].model.nextCycleLink) {
                         chronoforge[0].model.nextCycleLink.handler(chronoforge[0].model);
                     }
@@ -1168,7 +1168,7 @@ function Timepage() {
                     }
                     chronoforge[0].update();
                 }
-                else if (gamePage.calendar.cycle != 4 && ((chronoforge[0].model.x5Link && chronoforge[0].model.x5Link.visible) || (chronoforge[0].model.nextCycleLink.visible && chronoforge[0].model.nextCycleLink.title == "x5") ) && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
+                else if (gamePage.calendar.cycle != 4 && ((chronoforge[0].model.x5Link && chronoforge[0].model.x5Link.visible) || (chronoforge[0].model.nextCycleLink && chronoforge[0].model.nextCycleLink.visible && chronoforge[0].model.nextCycleLink.title == "x5") ) && gamePage.getEffect("heatMax") - gamePage.time.heat > factor*5 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val*5){
                     if (chronoforge[0].model.nextCycleLink) {
                         chronoforge[0].model.nextCycleLink.handler(chronoforge[0].model);
                     }
