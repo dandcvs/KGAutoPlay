@@ -1300,7 +1300,6 @@ var runAllAutomation = setInterval(function() {
 
         if (gamePage.timer.ticksTotal % 30 === 0) {
              setTimeout(Timepage, 0);
-             setTimeout(ResearchSolarRevolution, 0);
         }
 
 
