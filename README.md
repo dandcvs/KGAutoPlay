@@ -16,7 +16,7 @@ or just paste it directly into the console. Once loaded, the button to get to th
 
 Currently now this script will automatically do the following:
 
-1.Purchase:(Bonfire, Space, Void).
+1.Purchase:(Bonfire(with priority for bld that accelerate progress), Space, Void).
 
 2.Craft resources.
 
@@ -30,17 +30,19 @@ Currently now this script will automatically do the following:
 
 7.Ziggurats management:(research upgrades, sacrifice unicorns and alicorns, refine time cristals)
 
-8.Research Science
+8.Chronoforge management:(Combust time crystals)
 
-9.Workshop Upgrades
+9.Research Science
 
-10.Festival
+10.Workshop Upgrades
 
-11.Energy Control
+11.Festival
 
-12.Allocating kittens to jobs
+12.Energy Control
 
-13.Adapt Challenges(Iron Will, Atheism)
+13.Allocating kittens to jobs
+
+14.Adapt Challenges(Iron Will, Atheism)
 
 
 Also added "Trade" tag to Log Filters.
