@@ -28,7 +28,7 @@ Currently now this script will automatically do the following:
 
 6.Religion management:(Praise, research upgrades, transcend, faith reset)
 
-7.Ziggurats management:(research upgrades, sacrifice unicorns and alicorns, refine time cristals)
+7.Ziggurats management:(Research upgrades, sacrifice unicorns and alicorns, refine time cristals)
 
 8.Chronoforge management:(Combust time crystals)
 
