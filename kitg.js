@@ -576,31 +576,6 @@ function autoCraft2() {
                 }
             }
 
-//            for (var g = 0; g < resourcesAll.length; g++) {
-//
-//                 if (resourcesAll[g][0] in reslist) {
-//                    resourcesAll[g][2] = reslist[resourcesAll[g][0]]
-//                    resourcesAll[g][3] =  false
-//                    resourcesAll[g][4] =  true
-//                 }
-//                 else if (['ship','tanker','alloy','eludium','parchment',"manuscript","compedium","blueprint","thorium"].indexOf(resourcesAll[g][0]) === -1) {
-//                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
-//                        if (resourcesAll[g][1][i][0] in reslist ) {
-//                                resourcesAll[g][4] =  false
-//                        }
-//                    }
-//                 }
-//
-////                else{
-////                    for (var i = 0; i < resourcesAll[g][1].length; i++) {
-////                        if (resourcesAll[g][1][i][0] in reslist ) {
-////                                resourcesAll[g][4] =  false
-////                        }
-////                    }
-////                }
-//
-////            console.log(reslist)
-//            }
 
             //priority upgrades
             if (gamePage.resPool.get('ship').value > 0) {
