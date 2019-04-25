@@ -63,7 +63,7 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 $("#footerLinks").append(htmlMenuAddition);
 
 
-$("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header").append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
+$(document.querySelector('#rightColumn > div.right-tab-header')).append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
 
 function selectOptions() {
 	$("#optionSelect").toggle();
@@ -559,12 +559,7 @@ function autoCraft2() {
 
             cntcrafts+=1
             if (Object.keys(craftPriority[0]).length > 0) {
-                if($("#PriorityLabel")[0]) {
-                    $("#PriorityLabel")[0].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
-                }
-                else if ( $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2]){
-                    $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
-                }
+                $("#PriorityLabel")[0].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
             }
 
 
@@ -617,12 +612,7 @@ function autoCraft2() {
                             }
                         }
                         if (Object.keys(craftPriority[0]).length > 0) {
-                               if($("#PriorityLabel")[0]) {
-                                    $("#PriorityLabel")[0].innerText += ' / ' +  upgrades_craft[i][0].label
-                               }
-                               else if ( $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2]){
-                                    $("html body.scheme_null div#gamePageContainer div#game div#rightColumn.column div.right-tab-header")[0].children[2].innerText += ' / ' +  upgrades_craft[i][0].label
-                               }
+                               $("#PriorityLabel")[0].innerText += ' / ' +  upgrades_craft[i][0].label
                         }
                         break;
                     }
@@ -1288,7 +1278,7 @@ function SellSpaceAndReset(){
 
 
 
-gamePage.tabs.filter(tab => tab.tabName != "Stats" ).forEach(tab => tab.render());
+gamePage.tabs.filter(tab => tab.tabId != "Stats" ).forEach(tab => tab.render());
 
 // This function keeps track of the game's ticks and uses math to execute these functions at set times relative to the game.
 gamePage.ui.render();
