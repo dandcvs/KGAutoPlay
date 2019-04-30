@@ -1092,7 +1092,7 @@ function ResearchSolarRevolution() {
         GlobalMsg['solarRevolution'] = ''
         if (gamePage.religion.getRU('solarRevolution').val == 0){
             if (gamePage.science.get('theology').researched){
-                GlobalMsg['solarRevolution'] =  gamePage.science.get('theology').label
+                GlobalMsg['solarRevolution'] =  gamePage.religion.getRU("solarRevolution").label
             }
             if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.visible &&  res.model.enabled && res.model.resourceIsLimited == false).length > 0){
                     var btn = gamePage.tabs[5].rUpgradeButtons[5];
@@ -1112,7 +1112,7 @@ function ResearchSolarRevolution() {
 
 function Timepage() {
         GlobalMsg['relicStation'] = ''
-
+        GlobalMsg['voidAspiration'] = ''
         if (gamePage.science.get('voidSpace').researched || gamePage.workshop.get("chronoforge").researched ){
             gamePage.timeTab.update();
         }
@@ -1131,7 +1131,9 @@ function Timepage() {
 				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 					    if (gamePage.workshop.get("voidAspiration").unlocked && !gamePage.workshop.get("voidAspiration").researched){
-                            {}
+                            {
+                                GlobalMsg['voidAspiration'] = gamePage.workshop.get("voidAspiration").label
+                            }
                         }
                         else{
                             if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[3].model.prices[1].val < 1050) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[5].model.prices[1].val < 1050 )) ){
@@ -1174,7 +1176,7 @@ function Timepage() {
             }
 
             if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched){
-                GlobalMsg['relicStation'] = 'Collect "antimatter" for ' + gamePage.workshop.get("relicStation").label;
+                GlobalMsg['relicStation'] = gamePage.workshop.get("relicStation").label + ' ' + Math.round((gamePage.resPool.get("antimatter").value/gamePage.workshop.get("relicStation").prices[1].val)*100) + '%';
             }
 
 
