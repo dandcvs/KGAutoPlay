@@ -19,6 +19,7 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var IincKAssign = 0;
 var tick = 0
+var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':''};
 
 var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true,"Iron Will":false}
@@ -344,6 +345,12 @@ function autoSpace() {
 
 // Trade automatically
 function autoTrade() {
+        GlobalMsg["ressourceRetrieval"] = ''
+        if (gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * 0.1)
+        {
+          GlobalMsg["ressourceRetrieval"] = gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.label + '(' + (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val+1) + ') ' + Math.round((gamePage.resPool.get("timeCrystal").value / gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val) * 100) + '%'
+        }
+
         if  ((gamePage.resPool.get('titanium').value > 5000 || gamePage.bld.getBuildingExt('reactor').meta.val > 0 ) && gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
@@ -441,6 +448,8 @@ function autoCraft2() {
         if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             // [name,resurces,countlimit,paragonBool,craftableBool]
             var flag = true;
+            GlobalMsg['tech'] = ''
+            GlobalMsg['craft'] = ''
             //finding priority bld for now
             var  resourcesAll = [
                 ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
@@ -560,7 +569,7 @@ function autoCraft2() {
 
             cntcrafts+=1
             if (Object.keys(craftPriority[0]).length > 0) {
-                $("#PriorityLabel")[0].innerText = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
+                GlobalMsg['craft']  = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
             }
 
 
@@ -614,7 +623,7 @@ function autoCraft2() {
                             }
                         }
                         if (Object.keys(craftPriority[0]).length > 0) {
-                               $("#PriorityLabel")[0].innerText += ' / ' +  upgrades_craft[i][0].label
+                            GlobalMsg['tech']  = upgrades_craft[i][0].label
                         }
                         break;
                     }
@@ -1080,7 +1089,11 @@ function UpgradeBuildings() {
 }
 
 function ResearchSolarRevolution() {
+        GlobalMsg['solarRevolution'] = ''
         if (gamePage.religion.getRU('solarRevolution').val == 0){
+            if (gamePage.science.get('theology').researched){
+                GlobalMsg['solarRevolution'] =  gamePage.science.get('theology').label
+            }
             if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.visible &&  res.model.enabled && res.model.resourceIsLimited == false).length > 0){
                     var btn = gamePage.tabs[5].rUpgradeButtons[5];
                     try {
@@ -1098,12 +1111,13 @@ function ResearchSolarRevolution() {
 }
 
 function Timepage() {
+        GlobalMsg['relicStation'] = ''
+
         if (gamePage.science.get('voidSpace').researched || gamePage.workshop.get("chronoforge").researched ){
             gamePage.timeTab.update();
         }
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
-
             if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
                 VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
                 if (result) {
@@ -1158,6 +1172,12 @@ function Timepage() {
                     gamePage.time.getCFU("blastFurnace").isAutomationEnabled = true
                 }
             }
+
+            if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched){
+                GlobalMsg['relicStation'] = 'Collect "antimatter" for ' + gamePage.workshop.get("relicStation").label;
+            }
+
+
 
 
             if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && gamePage.time.heat == 0 )  )) {
@@ -1277,6 +1297,17 @@ function SellSpaceAndReset(){
      }
 }
 
+function LabelMsg(){
+   let gmsgarr = []
+   for (let key of Object.keys(GlobalMsg)) {
+     if (GlobalMsg[key]) {
+        gmsgarr[gmsgarr.length] = GlobalMsg[key]
+     }
+   }
+   $("#PriorityLabel")[0].innerText = gmsgarr.join(' / ')
+}
+
+
 
 
 
@@ -1292,6 +1323,7 @@ var runAllAutomation = setInterval(function() {
         setTimeout(autoBuild, 0);
         setTimeout(autoNip, 0);
         setTimeout(autoRefine, 0);
+        setTimeout(LabelMsg, 0);
 
         if (gamePage.timer.ticksTotal % 3 === 0) {
             setTimeout(autoObserve, 0);
