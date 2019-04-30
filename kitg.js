@@ -64,7 +64,8 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 $("#footerLinks").append(htmlMenuAddition);
 
 
-$(document.querySelector('#rightColumn > div.right-tab-header')).append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
+//$(document.querySelector('#rightColumn > div.right-tab-header')).append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
+$(document.querySelector("#midColumn")).append("<a id='PriorityLabel' title = 'Low priority for building construction and some tehnology.'></a>")
 
 function selectOptions() {
 	$("#optionSelect").toggle();
@@ -1306,7 +1307,7 @@ function LabelMsg(){
         gmsgarr[gmsgarr.length] = GlobalMsg[key]
      }
    }
-   $("#PriorityLabel")[0].innerText = gmsgarr.join(' / ')
+   $("#PriorityLabel")[0].innerText = 'KGAutoPlay:\n' + gmsgarr.join(' / ')
 }
 
 
