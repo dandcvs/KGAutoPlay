@@ -1036,7 +1036,7 @@ function UpgradeBuildings() {
     }
 
 
-    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || gamePage.spaceTab.visible ));
+    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || gamePage.space.getProgram("orbitalLaunch").val == 1 ));
     for (var i = 0; i < mblds.length; i++) {
         mblds[i].stage = 1;
         mblds[i].val = 0;
