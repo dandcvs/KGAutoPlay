@@ -1036,13 +1036,14 @@ function UpgradeBuildings() {
     }
 
 
-    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0);
+    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || gamePage.spaceTab.visible ));
     for (var i = 0; i < mblds.length; i++) {
         mblds[i].stage = 1;
         mblds[i].val = 0;
         mblds[i].value = 0;
         mblds[i].on = 0;
     }
+
     if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
         gamePage.bld.getBuildingExt('steamworks').meta.on = gamePage.bld.getBuildingExt('steamworks').meta.val;
     }
