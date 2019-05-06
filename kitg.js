@@ -130,14 +130,14 @@ function autoPraise(){
                         }
                     }
                 }
-                if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
+                if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
                     gamePage.religion.praise();
                 }
             }
             else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
             }
-            else if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
+            else if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
                     gamePage.religion.praise();
             }
             if (gamePage.religion.getRU("transcendence").on){
@@ -153,7 +153,7 @@ function autoPraise(){
                     self.game.msg($I("religion.transcend.msg.success", [gamePage.religion.tclevel]));
                 }
             }
-	    } else if ((gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
+	    } else if ((gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
                 var btn = gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))));
                 for (var i = 0; i < btn.length; i++) {
                     if (btn[i].model.enabled && btn[i].model.visible) {
@@ -169,10 +169,10 @@ function autoPraise(){
                         }
                     }
                 }
-                if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
+                if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
                     gamePage.religion.praise();
                 }
-        } else if (gamePage.resPool.get("faith").value == gamePage.resPool.get("faith").maxValue){
+        } else if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
               gamePage.religion.praise();
         }
 
