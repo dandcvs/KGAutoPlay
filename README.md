@@ -9,7 +9,7 @@ If you want to use this, feel free to bookmark:
 
     javascript:(function(){var d=document,s=d.createElement('script');s.src='https://dandcvs.github.io/KGAutoPlay/kitg.js';d.body.appendChild(s);})();
 
-or just paste it directly into the console. Once loaded, the button to get to the ScriptKitties option menu is in the bottom right "footer" links.
+or just paste it directly into the console. Once loaded, the button to get to the KGAutoPlay option menu is in the bottom right "footer" links.
 
 
 ## What does it do?
