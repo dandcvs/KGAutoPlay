@@ -868,6 +868,7 @@ function autozig() {
     }
 }
 
+
 // Auto assign new kittens to selected job
 function autoAssign() {
         var resourcesAssign = [

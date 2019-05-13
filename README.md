@@ -3,6 +3,8 @@ A script to automate playing the addicting <a href="http://bloodrizer.ru/games/k
 
 Based on script <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</a>
 
+
+
 ## How do I use the script?
 
 If you want to use this, feel free to bookmark:
@@ -16,31 +18,33 @@ or just paste it directly into the console. Once loaded, the button to get to th
 
 Currently now this script will automatically do the following:
 
-1.Purchase:(Bonfire(with priority for bld that accelerate progress), Space, Void).
+1. Purchase:(Bonfire(with priority for bld that accelerate progress), Space, Void).
 
-2.Craft resources.
+1. Craft resources.
 
-3.Hunt.
+1. Hunt.
 
-4.Trade.
+1. Trade.
 
-5.Feed elders.
+1. Feed elders.
 
-6.Religion management:(Praise, research upgrades, transcend, faith reset)
+1. Religion management:(Praise, research upgrades, transcend, faith reset)
 
-7.Ziggurats management:(Research upgrades, sacrifice unicorns and alicorns, refine time cristals)
+1. Ziggurats management:(Research upgrades, sacrifice unicorns and alicorns, refine time cristals)
 
-8.Chronoforge management:(Combust time crystals)
+1. Chronoforge management:(Combust time crystals)
 
-9.Research Science
+1. Research Science
 
-10.Workshop Upgrades
+1. Workshop Upgrades
 
-11.Festival
+1. Festival
 
-12.Energy Control
+1. Energy Control
 
-13.Allocating kittens to jobs
+1. Allocating kittens to jobs
 
-14.Adapt Challenges(Iron Will, Atheism)
+1. Adapt Challenges(Iron Will, Atheism)
 
+##
+If you have any suggestions for optimization or adding new features please create a new issue. But also do not forget that the script is positioned as a fully automated.
