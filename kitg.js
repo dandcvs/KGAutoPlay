@@ -470,7 +470,7 @@ function autoCraft2() {
 
             if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : 3.5,
+                    "hut" : 3,
                     "logHouse" : 5,
                     "mansion" :  gamePage.resPool.get("titanium").value > 100 ? 1.5 : 0.00000001,
                     "steamworks" : gamePage.bld.getBuildingExt('magneto').meta.val > 0 ? 1 : 0.00000001,
