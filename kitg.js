@@ -1176,9 +1176,8 @@ function Timepage() {
 
 
 
-
-            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && gamePage.time.heat == 0 )  )) {
-                var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
+            var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
+            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5) ) )  )) {
                 if (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)) && (chronoforge[0].model.sameCycleRestartLink && chronoforge[0].model.sameCycleRestartLink.visible)  && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 45 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val * (gamePage.time.meta[0].meta[4].val >= 3 ? 45 : 100)){
                     if (chronoforge[0].model.sameCycleRestartLink) {
                         chronoforge[0].model.sameCycleRestartLink.handler(chronoforge[0].model);
