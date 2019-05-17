@@ -223,7 +223,7 @@ function autoBuild() {
                              }
                  }
                  else if (btn[i].model.metadata.name == "aiCore"){
-                     if ( btn[i].model.metadata.val < spcEntangler.val*2.5){
+                     if ( btn[i].model.metadata.val < Math.floor(spcEntangler.val*2.5)){
                         try {
                                 btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
