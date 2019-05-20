@@ -34,6 +34,8 @@ Currently now this script will automatically do the following:
 
 1. Chronoforge management:(Combust time crystals)
 
+1. Temporal Control:(if "Chronosurge" researched)
+
 1. Research Science
 
 1. Workshop Upgrades
