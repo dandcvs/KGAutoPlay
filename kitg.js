@@ -1131,7 +1131,7 @@ function Timepage() {
                             }
                         }
                         else{
-                            if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > Math.max(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val) * 0.1) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > Math.max(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val) * 0.1 )) ){
+                            if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val) * 0.1) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val) * 0.1 )) ){
                                 {}
                             }
                             else if (gamePage.ironWill){
