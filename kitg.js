@@ -386,6 +386,15 @@ function autoTrade() {
                     if (gamePage.resPool.get("necrocorn").value >= 1 &&  gamePage.diplomacy.get("leviathans").energy < (gamePage.religion.getZU("marker").val * 5 + 5) && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val + gamePage.resPool.get("necrocorn").value){
                         gamePage.diplomacy.feedElders();
                     }
+                    //blackcoin  speculation
+                    if (gamePage.resPool.get("blackcoin").value > 0 && gamePage.calendar.cryptoPrice > 1099 ) {
+                        gamePage.diplomacy.sellEcoin()
+                    }
+                    if (gamePage.resPool.get("relic").value > 1000 + gamePage.resPool.get("blackcoin").value*1000 && gamePage.calendar.cryptoPrice < 900 ) {
+                        gamePage.diplomacy.buyEcoin()
+                    }
+
+
                 }
 
                 let tradersAll = [
