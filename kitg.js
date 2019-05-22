@@ -19,6 +19,7 @@ var deadScript = "Script is dead";
 var Iinc = 0;
 var IincKAssign = 0;
 var tick = 0
+var LeviTradeCnt = 0;
 var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':''};
 
 var goldebBuildings = ["temple","tradepost"];
@@ -369,13 +370,19 @@ function autoTrade() {
             let coalRes = gamePage.resPool.get('coal');
             if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
+                    LeviTradeCnt += 1;
                     if (gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
-                    }else if(unoRes.value > 5000 && (unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
+                    }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
+                    }else if(unoRes.value > 5000 && LeviTradeCnt > 50 ) {
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
+                        console.log(LeviTradeCnt, gamePage.timer.ticksTotal)
+                        LeviTradeCnt = 0;
                     }
+
                     //Feed elders
                     if (gamePage.resPool.get("necrocorn").value >= 1 &&  gamePage.diplomacy.get("leviathans").energy < (gamePage.religion.getZU("marker").val * 5 + 5) && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val + gamePage.resPool.get("necrocorn").value){
                         gamePage.diplomacy.feedElders();
@@ -667,19 +674,24 @@ function autoCraft2() {
                                 else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 1))) {
                                     flag = false;
                                 }
-                                else {
-                                    if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
-                                        if (resourcesAllF[i][0] == "eludium") {
-                                           if (gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
-                                                 cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
-                                           }
-                                        }
-                                        else{
-                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
-                                        }
 
+                                if (flag && ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0))) {
+                                    cnt = cnt == 0 ? 1 : cnt
+                                    if (resourcesAllF[i][0] == "eludium") {
+                                       if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
+                                            if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
+                                                 cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                            }
+                                       }else {
+                                           cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                       }
                                     }
+                                    else{
+                                        cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
+                                    }
+
                                 }
+
 
 
                          }
