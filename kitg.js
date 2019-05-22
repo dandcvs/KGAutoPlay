@@ -373,7 +373,7 @@ function autoTrade() {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
-                    }else if(unoRes.value > 5000 && (gamePage.timer.ticksTotal % 650 === 0 || (unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 )))) {
+                    }else if(unoRes.value > 5000 && (unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                     }
                     //Feed elders
@@ -670,10 +670,12 @@ function autoCraft2() {
                                 else {
                                     if ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0)) {
                                         if (resourcesAllF[i][0] == "eludium") {
-                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                           if (gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
+                                                 cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                           }
                                         }
                                         else{
-                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]-1);
+                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
                                         }
 
                                     }
@@ -1361,10 +1363,10 @@ var runAllAutomation = setInterval(function() {
         }
 
         if (gamePage.timer.ticksTotal % 25 === 0) {
+             setTimeout(autoTrade, 0);
              setTimeout(autoResearch, 0);
              setTimeout(autoWorkshop, 0);
              setTimeout(autoParty, 0);
-             setTimeout(autoTrade, 0);
              setTimeout(autoPraise, 0);
         }
 
