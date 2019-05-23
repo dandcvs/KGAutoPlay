@@ -238,6 +238,21 @@ function autoBuild() {
                          }
                      }
                  }
+                 else if (btn[i].model.metadata.name == "chronosphere"){
+                     if ( gamePage.calendar.year > 20 || gamePage.resPool.get("timeCrystal").value > 500 || btn[i].model.metadata.val == 0){
+                        try {
+                                btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                                if (result) {
+                                    btn[i].update();
+                                    gamePage.msg('Build: ' + btn[i].model.name );
+                                    return;
+                                }
+                                });
+                         } catch(err) {
+                             console.log(err);
+                         }
+                     }
+                 }
                  else if (gamePage.ironWill){
                        if (!btn[i].model.metadata.effects.maxKittens)
                       {
@@ -1222,7 +1237,7 @@ function Timepage() {
 
 
             var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
+            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || gamePage.calendar.year == 0) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
                 if ((!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)) && (chronoforge[0].model.sameCycleRestartLink && chronoforge[0].model.sameCycleRestartLink.visible)  && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 45 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val * (gamePage.time.meta[0].meta[4].val >= 3 ? 45 : 100))  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5) ) ) ){
                     if (chronoforge[0].model.sameCycleRestartLink) {
                         chronoforge[0].model.sameCycleRestartLink.handler(chronoforge[0].model);
@@ -1248,22 +1263,24 @@ function Timepage() {
                         }
                 }
             }
-            try {
-                for (i = 1 ;i < chronoforge.length; i++) {
-                    if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05) )
-                    {}
-                    else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
-                        chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
-                            if (result) {
-                                chronoforge[i].update();
-                                gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
-                            }
-                            });
+            if (gamePage.calendar.year > 20 || gamePage.resPool.get("timeCrystal").value > 500) {
+                try {
+                    for (i = 1 ;i < chronoforge.length; i++) {
+                        if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05) )
+                        {}
+                        else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
+                            chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
+                                if (result) {
+                                    chronoforge[i].update();
+                                    gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
+                                }
+                                });
+                        }
                     }
-                }
 
-            } catch(err) {
-                console.log(err);
+                } catch(err) {
+                    console.log(err);
+                }
             }
         }
 
