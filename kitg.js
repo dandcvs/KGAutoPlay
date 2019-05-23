@@ -1014,13 +1014,13 @@ function energyControl() {
             FreeEnergy = Math.abs(proVar - conVar);
 
             var EnergyPriority = [
-                [bldSmelter,0.1],
+                [bldSmelter,0.09],
                 [bldBioLab,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldOilWell,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
-                [bldFactory,0.1],
-                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.1] : [bldCalciner,0.101],
-                [bldAccelerator,0.1],
-                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value : 9999],
+                [bldFactory,0.09],
+                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09] : [bldCalciner,0.101],
+                [bldAccelerator,0.09],
+                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999],
                 [spcMoonBase,0.3]
                  ];
 
