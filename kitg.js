@@ -399,7 +399,7 @@ function autoTrade() {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                     }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
-                    }else if(unoRes.value > 5000 && (LeviTradeCnt > 30 || switches['CollectResBReset'] )) {
+                    }else if(unoRes.value > 5000 && (LeviTradeCnt > 15 || switches['CollectResBReset'] )) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                         LeviTradeCnt = 0;
                     }
@@ -817,14 +817,14 @@ function autoWorkshop() {
 // Festival automatically
 function autoParty() {
 	if (gamePage.science.get("drama").researched) {
-		var catpower = gamePage.resPool.get('manpower').value;
+		var catpowerP = gamePage.resPool.get('manpower').value;
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
 		var tclvl = Math.max(gamePage.religion.tclevel,1);
 
-		if (catpower > 1500 && culture > 5000 && parchment > 2500) {
+		if (catpowerP > 1500 && culture > 5000 && parchment > 2500) {
 			if (gamePage.calendar.festivalDays < 400*30) {
-			    if(catpower > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
+			    if(catpowerP > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
 			        gamePage.village.holdFestival(tclvl);
 			    }
 			    else{
@@ -1021,13 +1021,13 @@ function energyControl() {
             FreeEnergy = Math.abs(proVar - conVar);
 
             var EnergyPriority = [
-                [bldSmelter,0.1],
+                [bldSmelter,0.09],
                 [bldBioLab,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
                 [bldOilWell,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
-                [bldFactory,0.1],
-                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.1] : [bldCalciner,0.101],
-                [bldAccelerator,0.1],
-                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value : 9999],
+                [bldFactory,0.09],
+                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09] : [bldCalciner,0.101],
+                [bldAccelerator,0.09],
+                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999],
                 [spcMoonBase,0.3]
                  ];
 
@@ -1248,7 +1248,7 @@ function Timepage() {
 
 
             var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
+            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || (gamePage.calendar.year < 1000 && gamePage.calendar.cycle != 5)) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
                 if ((!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)) && (chronoforge[0].model.sameCycleRestartLink && chronoforge[0].model.sameCycleRestartLink.visible)  && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 45 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val * (gamePage.time.meta[0].meta[4].val >= 3 ? 45 : 100))  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5) ) ) ){
                     if (chronoforge[0].model.sameCycleRestartLink) {
                         chronoforge[0].model.sameCycleRestartLink.handler(chronoforge[0].model);
@@ -1274,24 +1274,26 @@ function Timepage() {
                         }
                 }
             }
-            try {
-                for (i = 1 ;i < chronoforge.length; i++) {
-                    if (!switches['CollectResBReset'] ) {
-                        if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05) )
-                        {}
-                        else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
-                            chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
-                                if (result) {
-                                    chronoforge[i].update();
-                                    gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
-                                }
-                                });
+            if (gamePage.religion.getZU("marker").val > 10  || gamePage.resPool.get("timeCrystal").value > 500) {
+                try {
+                    for (i = 1 ;i < chronoforge.length; i++) {
+                        if (!switches['CollectResBReset'] ) {
+                            if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05) )
+                            {}
+                            else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
+                                chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
+                                    if (result) {
+                                        chronoforge[i].update();
+                                        gamePage.msg('Build in Time: ' + chronoforge[i].model.name );
+                                    }
+                                    });
+                            }
                         }
                     }
-                }
 
-            } catch(err) {
-                console.log(err);
+                } catch(err) {
+                    console.log(err);
+                }
             }
         }
 
