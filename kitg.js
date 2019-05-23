@@ -239,7 +239,7 @@ function autoBuild() {
                      }
                  }
                  else if (btn[i].model.metadata.name == "chronosphere"){
-                     if ( gamePage.calendar.year > 20 || gamePage.resPool.get("timeCrystal").value > 500 || btn[i].model.metadata.val == 0){
+                     if ( gamePage.religion.getZU("marker").val > 10 || gamePage.resPool.get("timeCrystal").value > 500 || btn[i].model.metadata.val == 0){
                         try {
                                 btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
@@ -1237,7 +1237,7 @@ function Timepage() {
 
 
             var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || gamePage.calendar.year == 0) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
+            if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || (gamePage.calendar.year < 1000 && gamePage.calendar.cycle != 5)) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.1)) || gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.8  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5) ) ) )  )) {
                 if ((!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)) && (chronoforge[0].model.sameCycleRestartLink && chronoforge[0].model.sameCycleRestartLink.visible)  && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * 45 && gamePage.resPool.get("timeCrystal").value > chronoforge[0].model.prices[0].val * (gamePage.time.meta[0].meta[4].val >= 3 ? 45 : 100))  || ( gamePage.time.meta[0].meta[4].val >= 3 && (gamePage.time.heat == 0 || (gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax") && gamePage.resPool.get("timeCrystal").value > 45 && gamePage.calendar.cycle == 5) ) ) ){
                     if (chronoforge[0].model.sameCycleRestartLink) {
                         chronoforge[0].model.sameCycleRestartLink.handler(chronoforge[0].model);
@@ -1263,7 +1263,7 @@ function Timepage() {
                         }
                 }
             }
-            if (gamePage.calendar.year > 20 || gamePage.resPool.get("timeCrystal").value > 500) {
+            if (gamePage.religion.getZU("marker").val > 10 || gamePage.resPool.get("timeCrystal").value > 500) {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05) )
