@@ -392,7 +392,7 @@ function autoTrade() {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                     }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
-                    }else if(unoRes.value > 5000 && LeviTradeCnt > 20 ) {
+                    }else if(unoRes.value > 5000 && LeviTradeCnt > 15 ) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
                         LeviTradeCnt = 0;
                     }
