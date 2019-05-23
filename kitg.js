@@ -844,7 +844,7 @@ function autozig() {
                 });
             }
         }
-        if ((gamePage.resPool.get('timeCrystal').value > 50 && !gamePage.workshop.get("chronoforge").researched) || (!(gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)) && gamePage.resPool.get('timeCrystal').value > 50 && gamePage.resPool.get('timeCrystal').value / Math.max(gamePage.resPool.get("relic").value,1) > 3 && gamePage.resPool.get("relic").value > 100)) {
+        if (gamePage.resPool.get('timeCrystal').value > 50 && !gamePage.workshop.get("chronoforge").researched) {
             if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
                 gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(result){
                     if (result) {
