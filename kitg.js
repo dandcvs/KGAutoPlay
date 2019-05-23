@@ -41,7 +41,7 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 '<a id="scriptOptions" onclick="selectOptions()"> | KGAutoPlay </a>' +
 
-'<div id="optionSelect" style="display:none; margin-top:-170px; margin-left:-40px; width:200px" class="dialog help">' +
+'<div id="optionSelect" style="display:none; margin-top:-210px; margin-left:-60px; width:200px" class="dialog help">' +
 '<a href="#" onclick="clearOptionHelpDiv();" style="position: absolute; top: 10px; right: 15px;">close</a>' +
 
 '<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
@@ -200,7 +200,6 @@ function autoPraise(){
         }
 	}
 }
-
 
 
 
@@ -415,7 +414,7 @@ function autoTrade() {
                         if (gamePage.resPool.get("blackcoin").value > 0 && gamePage.calendar.cryptoPrice > 1099 ) {
                             gamePage.diplomacy.sellEcoin()
                         }
-                        if (gamePage.resPool.get("relic").value > 1000 + gamePage.resPool.get("blackcoin").value*1000 && gamePage.calendar.cryptoPrice < 900 ) {
+                        if (!switches['CollectResBReset'] || gamePage.resPool.get("relic").value > 1000 + gamePage.resPool.get("blackcoin").value*1000 && gamePage.calendar.cryptoPrice < 900 ) {
                             gamePage.diplomacy.buyEcoin()
                         }
                     }
