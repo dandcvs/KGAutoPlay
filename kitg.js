@@ -242,7 +242,7 @@ function autoBuild() {
                          }
                      }
                      else if (btn[i].model.metadata.name == "chronosphere"){
-                         if ( gamePage.religion.getZU("marker").val > 10 || gamePage.resPool.get("timeCrystal").value > 500 || btn[i].model.metadata.val == 0){
+                         if ( gamePage.religion.getZU("marker").val > 5 || gamePage.resPool.get("timeCrystal").value > 500 || btn[i].model.metadata.val == 0){
                             try {
                                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                     if (result) {
@@ -1273,7 +1273,7 @@ function Timepage() {
                         }
                 }
             }
-            if (gamePage.religion.getZU("marker").val > 10  || gamePage.resPool.get("timeCrystal").value > 500) {
+            if (gamePage.religion.getZU("marker").val > 5  || gamePage.resPool.get("timeCrystal").value > 500) {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
