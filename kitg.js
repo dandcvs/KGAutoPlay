@@ -1431,11 +1431,11 @@ var runAllAutomation = setInterval(function() {
         }
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
-            setTimeout(RenderNewTabs, 0);
+            setTimeout(RenderNewTabs, 15);
             setTimeout(UpgradeBuildings, 0);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
-                setTimeout(Service, 0);
+                setTimeout(Service, 15);
                 Iinc = 0;
             }
             Iinc++;
