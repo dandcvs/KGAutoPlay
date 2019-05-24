@@ -820,7 +820,6 @@ function autoParty() {
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
 		var tclvl = Math.max(gamePage.religion.tclevel,1);
-
 		if (catpowerP > 1500 && culture > 5000 && parchment > 2500) {
 			if (gamePage.calendar.festivalDays < 400*30) {
 			    if(catpowerP > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
@@ -1396,30 +1395,30 @@ var runAllAutomation = setInterval(function() {
     if (tick != gamePage.timer.ticksTotal) {
         tick = gamePage.timer.ticksTotal;
 
-        setTimeout(autoBuild, 0);
+        setTimeout(autoBuild, 10);
         setTimeout(autoNip, 0);
-        setTimeout(autoRefine, 0);
+        setTimeout(autoRefine, 1);
         setTimeout(LabelMsg, 0);
 
         if (gamePage.timer.ticksTotal % 3 === 0) {
             setTimeout(autoObserve, 0);
-            setTimeout(autoCraft2, 0);
-            setTimeout(autoHunt, 0);
+            setTimeout(autoCraft2, 1);
+            setTimeout(autoHunt, 1);
             setTimeout(autoAssign, 0);
             gamePage.villageTab.updateTab();
         }
 
         if (gamePage.timer.ticksTotal % 10 === 0) {
-            setTimeout(autoSpace, 0);
+            setTimeout(autoSpace, 10);
             setTimeout(energyControl, 0);
         }
 
         if (gamePage.timer.ticksTotal % 25 === 0) {
-             setTimeout(autoTrade, 0);
-             setTimeout(autoResearch, 0);
-             setTimeout(autoWorkshop, 0);
              setTimeout(autoParty, 0);
-             setTimeout(autoPraise, 0);
+             setTimeout(autoTrade, 1);
+             setTimeout(autoResearch, 2);
+             setTimeout(autoWorkshop, 2);
+             setTimeout(autoPraise, 2);
         }
 
         if (gamePage.timer.ticksTotal % 30 === 0) {
