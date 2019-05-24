@@ -866,7 +866,7 @@ function autozig() {
             }
         }
         if (gamePage.resPool.get('timeCrystal').value > 50 && !gamePage.workshop.get("chronoforge").researched) {
-            if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
+            if (gamePage.religionTab.refineTCBtn.model && gamePage.religionTab.refineTCBtn.model.allLink.visible){
                 gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(result){
                     if (result) {
                         gamePage.religionTab.refineTCBtn.update();
