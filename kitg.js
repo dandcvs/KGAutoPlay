@@ -1026,7 +1026,7 @@ function energyControl() {
                 (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09] : [bldCalciner,0.101],
                 [bldAccelerator,0.09],
                 [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999],
-                [spcMoonBase,0.3]
+                [spcMoonBase,0.2]
                  ];
 
             if (proVar>conVar) {
