@@ -395,11 +395,11 @@ function autoTrade() {
                     if (gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
-                    }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-5)*10000*25 ))) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
+                    }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*25 ))) {
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
                     }else if(unoRes.value > 5000 && (LeviTradeCnt > 15 || switches['CollectResBReset'] )) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/200000),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
                         LeviTradeCnt = 0;
                     }
 
@@ -1364,7 +1364,7 @@ function SellSpaceAndReset(){
                     }
 
                     gamePage.opts.hideSell = optsell
-                    game.resetAutomatic();
+                    gamePage.resetAutomatic();
             }
         });
      }
