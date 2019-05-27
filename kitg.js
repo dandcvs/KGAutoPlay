@@ -1177,17 +1177,22 @@ function Timepage() {
         }
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
-//            if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
-//                VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
-//                if (result) {
-//                    gamePage.msg('Cryochamber Fixed');
-//                }
-//                });
-//            }
+            let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val)
+            if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
+                if ( 500 > cf * 0.1){
+                    {}
+                }else {
+                    VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
+                    if (result) {
+                        gamePage.msg('Cryochamber Fixed');
+                    }
+                    });
+                }
+            }
 
 
 			try {
-				for (i = 0 ;i < VoidBuild.length; i++) {
+				for (i = 1 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 
 					    if (!switches['CollectResBReset'] ) {
@@ -1197,8 +1202,6 @@ function Timepage() {
                                 }
                             }
                             else{
-                                let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val)
-
                                 if (((i != 3 && i != 5 ) || (i == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[i].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 )) ){
                                     {}
                                 }
