@@ -1177,17 +1177,17 @@ function Timepage() {
         }
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
-            if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
-                VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
-                if (result) {
-                    gamePage.msg('Cryochamber Fixed');
-                }
-                });
-            }
+//            if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
+//                VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
+//                if (result) {
+//                    gamePage.msg('Cryochamber Fixed');
+//                }
+//                });
+//            }
 
 
 			try {
-				for (i = 1 ;i < VoidBuild.length; i++) {
+				for (i = 0 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 
 					    if (!switches['CollectResBReset'] ) {
