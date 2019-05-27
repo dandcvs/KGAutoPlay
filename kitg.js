@@ -1364,7 +1364,11 @@ function SellSpaceAndReset(){
                     }
 
                     gamePage.opts.hideSell = optsell
-                    gamePage.resetAutomatic();
+                    setTimeout(function() { gamePage.resetAutomatic(); }, 10000);
+                    console.log("reset will be in 10 sec")
+                    $("#PriorityLabel")[0].innerText = "reset will be in 10 sec"
+                    clearInterval(runAllAutomation);
+
             }
         });
      }
