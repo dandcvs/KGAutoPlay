@@ -242,7 +242,7 @@ function autoBuild() {
                          }
                      }
                      else if (btn[i].model.metadata.name == "chronosphere"){
-                         if ( gamePage.religion.getZU("marker").val > 1  || gamePage.resPool.get("timeCrystal").value > 500 ){
+                         if (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 1 && gamePage.diplomacy.get('leviathans').duration != 0) || gamePage.resPool.get("timeCrystal").value > 500 ){
                             try {
                                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                     if (result) {
