@@ -1276,7 +1276,7 @@ function Timepage() {
                         }
                 }
             }
-            if (gamePage.religion.getZU("marker").val > 1  || gamePage.resPool.get("timeCrystal").value > 500) {
+            if (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 1 && gamePage.diplomacy.get('leviathans').duration != 0) || gamePage.resPool.get("timeCrystal").value > 500 ) {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
