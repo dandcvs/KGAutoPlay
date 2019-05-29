@@ -242,7 +242,7 @@ function autoBuild() {
                          }
                      }
                      else if (btn[i].model.metadata.name == "chronosphere"){
-                         if (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 1 && gamePage.diplomacy.get('leviathans').duration != 0) || gamePage.resPool.get("timeCrystal").value > 500 ){
+                         if ( (gamePage.religion.getZU("marker").val > 10 && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()[1].val > 100) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()[0].val  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val )) ){
                             try {
                                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                     if (result) {
@@ -1276,7 +1276,7 @@ function Timepage() {
                         }
                 }
             }
-            if (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 1 && gamePage.diplomacy.get('leviathans').duration != 0) || gamePage.resPool.get("timeCrystal").value > 500 ) {
+            if ( (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value > 100 || gamePage.religion.getZU("marker").val > 10 )) || gamePage.resPool.get("timeCrystal").value > 500 ) {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
@@ -1390,6 +1390,26 @@ function LabelMsg(){
    $("#PriorityLabel")[0].innerText =  gmsgarr.join(' / ')
 }
 
+function Chronosphere10SummPrices() {
+	 	var bldPrices = gamePage.bld.getBuildingExt('chronosphere').get('prices');
+		var ratio = gamePage.bld.getPriceRatioWithAccessor(gamePage.bld.getBuildingExt('chronosphere'));
+
+		var prices = [];
+        var sumVal = 0;
+
+		for (var i = 0; i< bldPrices.length; i++){
+		    sumVal = 0;
+		    for (var g = gamePage.bld.getBuildingExt('chronosphere').meta.val; g < Math.max(gamePage.bld.getBuildingExt('chronosphere').meta.val+1,11); g++){
+		        sumVal+= bldPrices[i].val * Math.pow(ratio, g)
+		    }
+
+			prices.push({
+				val: sumVal,
+				name: bldPrices[i].name
+			});
+		}
+	    return prices;
+}
 
 
 
