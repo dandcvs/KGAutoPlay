@@ -20,7 +20,7 @@ var Iinc = 0;
 var IincKAssign = 0;
 var tick = 0
 var LeviTradeCnt = 0;
-var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':''};
+var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':'','chronosphere':''};
 
 var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true, "Iron Will":false, "CollectResBReset":false}
@@ -1381,6 +1381,12 @@ function SellSpaceAndReset(){
 }
 
 function LabelMsg(){
+    GlobalMsg['chronosphere'] = ''
+    if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10){
+        GlobalMsg['chronosphere'] = gamePage.bld.getBuildingExt('chronosphere').meta.label + '(1-10) ' +  Math.min(Math.round((gamePage.resPool.get("timeCrystal").value/Chronosphere10SummPrices()[1].val)*100),Math.round((gamePage.resPool.get("unobtainium").value/Chronosphere10SummPrices()[0].val)*100)) + '%';
+    }
+
+
    let gmsgarr = []
    for (let key of Object.keys(GlobalMsg)) {
      if (GlobalMsg[key]) {
