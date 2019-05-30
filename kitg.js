@@ -1284,7 +1284,7 @@ function Timepage() {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
-                            if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)  && (gamePage.time.meta[0].meta[4].val <= 3 || gamePage.religion.getZU("marker").val > 1) )
+                            if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[4].unlocked && (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? Math.min(chronoforge[i].model.prices[0].val,gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val > 2 ? 0.1 : 0.05)  && (gamePage.time.meta[0].meta[4].val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
                             else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
                                 chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
