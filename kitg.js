@@ -1385,7 +1385,7 @@ function SellSpaceAndReset(){
 
 function LabelMsg(){
     GlobalMsg['chronosphere'] = ''
-    if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value > 0){
+    if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.resPool.get("unobtainium").value > 0 && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value > 0){
         GlobalMsg['chronosphere'] = gamePage.bld.getBuildingExt('chronosphere').meta.label + '(1-10) ' +  Math.min(Math.round((gamePage.resPool.get("timeCrystal").value/Chronosphere10SummPrices()[1].val)*100),Math.round((gamePage.resPool.get("unobtainium").value/Chronosphere10SummPrices()[0].val)*100)) + '%';
     }
 
