@@ -312,7 +312,7 @@ function autoSpace() {
                                 if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0){
                                     {}
                                 }
-                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && (gamePage.space.getBuilding("orbitalArray").val >= 15 && spBuild[i].model.prices.filter(res => res.name == 'eludium').length > 0)){
+                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && ((spBuild[i].model.name != 'orbitalArray' && spBuild[i].model.prices.filter(res => res.name == 'eludium').length > 0 ) || (spBuild[i].model.name == 'orbitalArray' && gamePage.space.getBuilding("orbitalArray").val >= 15) )){
                                     {}
                                 }
                                 else if (gamePage.ironWill){
@@ -1384,7 +1384,7 @@ function SellSpaceAndReset(){
 
 function LabelMsg(){
     GlobalMsg['chronosphere'] = ''
-    if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.resPool.get("unobtainium").value > 0 && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value > 0){
+    if (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.resPool.get("unobtainium").value > gamePage.bld.getBuildingExt('chronosphere').meta.prices[0].val  && gamePage.resPool.get("timeCrystal").value > 0){
         GlobalMsg['chronosphere'] = gamePage.bld.getBuildingExt('chronosphere').meta.label + '(1-10) ' +  Math.min(Math.round((gamePage.resPool.get("timeCrystal").value/Chronosphere10SummPrices()[1].val)*100),Math.round((gamePage.resPool.get("unobtainium").value/Chronosphere10SummPrices()[0].val)*100)) + '%';
     }
 
