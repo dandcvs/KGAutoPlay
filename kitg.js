@@ -867,15 +867,17 @@ function autozig() {
                 });
             }
         }
-        if (gamePage.resPool.get('timeCrystal').value > 50 && !gamePage.workshop.get("chronoforge").researched) {
-            if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.allLink.visible){
-                gamePage.religionTab.refineTCBtn.model.allLink.handler(gamePage.religionTab.refineTCBtn.model,function(result){
+        if (gamePage.resPool.get('relic').value  < 5 && gamePage.resPool.get('timeCrystal').value > 50 && !gamePage.workshop.get("chronoforge").researched) {
+            if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.visible){
+                gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {}, function(result) {
                     if (result) {
-                        gamePage.religionTab.refineTCBtn.update();
+                         gamePage.religionTab.refineTCBtn.update();
                     }
-                });
+                    });
             }
+
         }
+
 
         if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.metadata.unlocked).length > 0){
             zig = gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.visible).sort(function(a, b) {
