@@ -312,7 +312,7 @@ function autoSpace() {
                                 if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0){
                                     {}
                                 }
-                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && spBuild[i].model.prices.filter(res => res.name == 'unobtainium' || res.name == 'eludium').length > 0){
+                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && spBuild[i].model.prices.filter(res => res.name == 'eludium').length > 0){
                                     {}
                                 }
                                 else if (gamePage.ironWill){
@@ -876,7 +876,6 @@ function autozig() {
                 });
             }
         }
-
 
         if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.metadata.unlocked).length > 0){
             zig = gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.visible).sort(function(a, b) {
