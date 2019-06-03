@@ -1023,30 +1023,31 @@ function energyControl() {
             FreeEnergy = Math.abs(proVar - conVar);
 
             var EnergyPriority = [
-                [bldSmelter,0.09],
-                [bldBioLab,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
-                [bldOilWell,Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1)],
-                [bldFactory,0.09],
-                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09] : [bldCalciner,0.101],
-                [bldAccelerator,0.09],
-                [spcContChamber,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999],
-                [spcMoonBase,0.2]
+                [bldSmelter,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
+                [bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1) ,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
+                [bldBioLab,(gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.2) ? 0.2 : Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1),gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "biolab")],
+                [bldFactory,0.01,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "factory")],
+                (gamePage.ironWill && Math.floor(gamePage.resPool.get('minerals').value / 1000) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [bldCalciner,0.101,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
+                [bldAccelerator,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
+                [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
+                [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null,0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null]
                  ];
 
             if (proVar>conVar) {
-                EnergyInc = EnergyPriority.filter(res => res[0].val > res[0].on && proVar > (conVar + res[0].effects.energyConsumption)).sort(function(a, b) {
+                EnergyInc = EnergyPriority.filter(res => res[0] && res[0].val > res[0].on && proVar > (conVar + res[0].effects.energyConsumption)).sort(function(a, b) {
                     return a[1] - b[1];
                 });
                 if (EnergyInc.length > 0){
-                    EnergyInc[0][0].on+= Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on);
+                      EnergyInc[0][2].controller.on(EnergyInc[0][2].model,Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on));
                 }
+
             }
             else if (proVar<conVar) {
-                EnergyDec = EnergyPriority.filter(res => res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
+                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
                     return b[1] - a[1];
                 });
                 if (EnergyDec.length > 0){
-                    EnergyDec[0][0].on-= Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on);
+                    EnergyDec[0][2].controller.off(EnergyDec[0][2].model,Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on));
                 }
             }
         }
@@ -1104,13 +1105,11 @@ function UpgradeBuildings() {
         gamePage.bld.getBuildingExt('reactor').meta.isAutomationEnabled = true
     }
 
-
     var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || gamePage.space.getProgram("orbitalLaunch").val == 1 ));
+    var upgradeTarget;
     for (var i = 0; i < mblds.length; i++) {
-        mblds[i].stage = 1;
-        mblds[i].val = 0;
-        mblds[i].value = 0;
-        mblds[i].on = 0;
+        upgradeTarget = gamePage.tabs[0].buttons.find(res => res.model.metadata && res.model.metadata.name == mblds[i].name);
+        upgradeTarget.controller.upgradeCallback(upgradeTarget.model,{});
     }
 
     if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
