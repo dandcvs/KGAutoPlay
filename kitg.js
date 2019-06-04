@@ -1188,21 +1188,36 @@ function Timepage() {
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
             let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val)
-            if (gamePage.workshop.get("turnSmoothly").researched && VoidBuild[0].model.visible) {
-                if ( 500 > cf * 0.1){
-                    {}
-                }else {
-                    VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
-                    if (result) {
-                        gamePage.msg('Cryochamber Fixed');
+            if (gamePage.workshop.get("turnSmoothly").researched) {
+                if (VoidBuild[0].model.visible) {
+                    if ( 500 > cf * 0.1){
+                        {}
+                    }else {
+                        VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
+                        if (result) {
+                            gamePage.msg('Cryochamber Fixed');
+                        }
+                        });
                     }
-                    });
+                }
+
+                if (VoidBuild[1].model.visible) {
+                    if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1) ){
+                        {}
+                    }else {
+                        VoidBuild[1].controller.buyItem(VoidBuild[1].model, {}, function(result) {
+                        if (result) {
+                            VoidBuild[1].update();
+                            gamePage.msg('Build in Time: ' + VoidBuild[1].model.name );
+                        }
+                        });
+                    }
                 }
             }
 
 
 			try {
-				for (i = 1 ;i < VoidBuild.length; i++) {
+				for (i = 3 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 
 					    if (!switches['CollectResBReset'] ) {
