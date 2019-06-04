@@ -369,9 +369,15 @@ function autoTrade() {
           GlobalMsg["ressourceRetrieval"] = gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.label + '(' + (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val+1) + ') ' + Math.round((gamePage.resPool.get("timeCrystal").value / gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val) * 100) + '%'
         }
 
+        if (gamePage.time.meta[0].meta[4].val >= 1 && gamePage.resPool.get("timeCrystal").value < 1){
+                if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0 && gamePage.resPool.get('unobtainium').value > 5000) {
+                    gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),1);
+                }
+        }
         if  ((gamePage.resPool.get('titanium').value > 5000 || gamePage.bld.getBuildingExt('reactor').meta.val > 0 ) && gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
+
         if ((gamePage.resPool.get('titanium').value < gamePage.resPool.get('paragon').value < 1000 ? gamePage.resPool.get('paragon').value : 200000 || gamePage.resPool.get('blueprint').value < 100) && gamePage.diplomacy.get('zebras').unlocked  && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             if (gamePage.religion.getRU('solarRevolution').val == 1) {
                 gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
@@ -448,6 +454,7 @@ function autoTrade() {
                 }
             }
         }
+
 }
 
 // Hunt automatically
