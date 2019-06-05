@@ -312,7 +312,7 @@ function autoSpace() {
                                 if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[i].model.prices.filter(res => res.name == 'antimatter').length > 0){
                                     {}
                                 }
-                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && ((spBuild[i].model.metadata.name != 'orbitalArray' && spBuild[i].model.prices.filter(res => res.name == 'eludium').length > 0 ) || (spBuild[i].model.metadata.name == 'orbitalArray' && gamePage.space.getBuilding("orbitalArray").val >= 10) )){
+                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && (gamePage.calendar.cycle == 5 && spBuild[i].model.prices.filter(res => res.name == 'eludium' || res.name == 'unobtainium').length > 0 )){
                                     {}
                                 }
                                 else if (gamePage.ironWill){
