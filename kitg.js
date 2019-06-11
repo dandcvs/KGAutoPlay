@@ -1033,6 +1033,10 @@ function energyControl() {
             conVar = gamePage.resPool.energyCons;
             FreeEnergy = Math.abs(proVar - conVar);
 
+            if (gamePage.tabs[6].planetPanels[4] && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue && spcContChamber.on < spcContChamber.val) {
+                gamePage.tabs[6].planetPanels[4].children[1].controller.on(gamePage.tabs[6].planetPanels[4].children[1].model,1);
+            }
+
             var EnergyPriority = [
                 [bldSmelter,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
                 [bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1) ,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
