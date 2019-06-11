@@ -1033,7 +1033,7 @@ function energyControl() {
             conVar = gamePage.resPool.energyCons;
             FreeEnergy = Math.abs(proVar - conVar);
 
-            if (gamePage.tabs[6].planetPanels[4] && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue && spcContChamber.on < spcContChamber.val) {
+            if (gamePage.tabs[6].planetPanels[4] && (gamePage.resPool.get("antimatter").value + gamePage.space.getBuilding("sunlifter").val * 45)  >= gamePage.resPool.get("antimatter").maxValue && spcContChamber.on < spcContChamber.val) {
                 gamePage.tabs[6].planetPanels[4].children[1].controller.on(gamePage.tabs[6].planetPanels[4].children[1].model,1);
             }
 
