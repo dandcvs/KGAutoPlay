@@ -956,19 +956,21 @@ function autoAssign() {
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 ];
 
-        let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
-        let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
+        if (Object.keys(craftPriority[0]).length < 1 || ["hut","logHouse"].indexOf(craftPriority[0]) > -1 ) {
+            let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
+            let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
 
-        if (logHtBtn && (logHtBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.3 || logHtBtn.model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.3)){
-            if (gamePage.resPool.get('wood').value < logHtBtn.model.prices[0].val){
+            if (logHtBtn && (logHtBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.3 || logHtBtn.model.prices[1].val < gamePage.resPool.get('minerals').maxValue * 0.3)){
+                if (gamePage.resPool.get('wood').value < logHtBtn.model.prices[0].val){
+                    resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
+                }
+                if ( gamePage.resPool.get('minerals').value < logHtBtn.model.prices[1].val){
+                    resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
+                }
+            }
+            else if (hutBtn && hutBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.3){
                 resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
             }
-            if ( gamePage.resPool.get('minerals').value < logHtBtn.model.prices[1].val){
-                resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
-            }
-        }
-        else if (hutBtn && hutBtn.model.prices[0].val < gamePage.resPool.get('wood').maxValue * 0.3){
-            resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
         }
 
 	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
