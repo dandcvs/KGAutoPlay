@@ -724,8 +724,10 @@ function autoCraft2() {
                                             if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
                                                  cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
                                             }
-                                       }else {
+                                       }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
                                            cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                       }else {
+                                           cnt = 0;
                                        }
                                     }
                                     else{
