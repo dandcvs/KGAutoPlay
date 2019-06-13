@@ -114,9 +114,11 @@ function autoPraise(){
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
+            //reset faith with voidResonance > 0
             if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
             }
+
             if (gamePage.religion.getProductionBonus() <= getFaithProdCap()){
                 gamePage.religion.praise();
             }
@@ -146,6 +148,7 @@ function autoPraise(){
             else if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
                     gamePage.religion.praise();
             }
+
             if (gamePage.religion.getRU("transcendence").on){
                 var tclevel = gamePage.religion.getTranscendenceLevel();
                 //Transcend one Level at a time
@@ -809,6 +812,8 @@ function autoWorkshop() {
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
                 if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
+                {}
+                else if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && btn[i].model.metadata.name != "relicStation" && btn[i].model.prices.filter(res => res.name == 'antimatter').length > 0)
                 {}
                 else{
                     try {
