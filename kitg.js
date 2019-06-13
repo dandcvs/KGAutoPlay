@@ -114,6 +114,9 @@ function autoPraise(){
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
+            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+                gamePage.religionTab.resetFaithInternal(1.01);
+            }
             if (gamePage.religion.getProductionBonus() <= getFaithProdCap()){
                 gamePage.religion.praise();
             }
