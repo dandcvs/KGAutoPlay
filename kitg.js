@@ -1322,7 +1322,7 @@ function Timepage() {
                         }
                 }
             }
-            if ( (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value > 100 || gamePage.religion.getZU("marker").val > 10 )) || gamePage.resPool.get("timeCrystal").value > 500 ) {
+            if ( (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value > 100 || (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 0 && gamePage.workshop.get("chronoforge").researched)) )) || gamePage.resPool.get("timeCrystal").value > 500 ) {
                 try {
                     for (i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
