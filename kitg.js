@@ -495,7 +495,8 @@ var cnt = 0
 
 function autoCraft2() {
 
-        if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
+//        if (true) {
+//        if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
             // [name,resurces,countlimit,paragonBool,craftableBool]
             var flag = true;
             GlobalMsg['tech'] = ''
@@ -560,7 +561,6 @@ function autoCraft2() {
                     }
                 }
                 prior = prior.sort(function(a, b) {
-
                     return ( Object.keys(a[2]).reduce(function(c, d) {
                     var s = 1
                     if (a[2][d].val >  gamePage.resPool.get(a[2][d].name).value) {
@@ -594,7 +594,6 @@ function autoCraft2() {
 
                 });
 
-
                 //priority bluildings
                 if (prior.length > 0) {
                     reslist = {}
@@ -627,153 +626,151 @@ function autoCraft2() {
                 cntcrafts = 1
             }
 
-            for (var g = 0; g < resourcesAll.length; g++) {
-                if (resourcesAll[g][0] in reslist) {
-                    resourcesAll[g][2] = reslist[resourcesAll[g][0]]
-                    resourcesAll[g][3] =  false
-                    resourcesAll[g][4] =  true
-                }
-            }
-
-
-            //priority upgrades
-            if (gamePage.resPool.get('ship').value > 0) {
-                for (var i = 0; i < upgrades_craft.length; i++)  {
-                    if (upgrades_craft[i][0].researched ) {
-                        upgrades_craft.splice(i,1);
-                        break;
-                    }
-                    if (upgrades_craft[i][0].unlocked ){
-                        for (var j = 0; j < upgrades_craft[i][1].length; j++) {
-                            if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value >= upgrades_craft[i][1][j][1]*1.2){
-                                continue;
-                            }
-
-                            for (var g = 0; g < resourcesAll.length; g++) {
-                                if (resourcesAll[g][0] == upgrades_craft[i][1][j][0]) {
-                                    resourcesAll[g][2] =  upgrades_craft[i][1][j][1]
-                                    resourcesAll[g][3] =  false
-                                    resourcesAll[g][4] =  true
-                                }
-                            }
-                            let respack = resourcesAll.filter(res => res[0] == upgrades_craft[i][1][j][0])[0][1]
-                            reslist = []
-                            for (var g = 0; g < respack.length; g++) {
-                                reslist[reslist.length] = respack[g][0]
-                            }
-
-                            for (var g = 0; g < resourcesAll.length; g++) {
-                                 for (var b = 0; b < resourcesAll[g][1].length; b++) {
-                                    if ( (resourcesAll[g][0] != upgrades_craft[i][1][j][0] && reslist.indexOf(resourcesAll[g][1][b][0]) > 0) || resourcesAll[g][1][b][0] == upgrades_craft[i][1][j][0]) {
-                                        if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value < upgrades_craft[i][1][j][1] ) {
-                                            resourcesAll[g][4] =  false
-                                        }
-                                    }
-                                 }
-                            }
-                        }
-                        if (Object.keys(craftPriority[0]).length > 0) {
-                            GlobalMsg['tech']  = upgrades_craft[i][0].label
-                        }
-                        break;
+            if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
+                for (var g = 0; g < resourcesAll.length; g++) {
+                    if (resourcesAll[g][0] in reslist) {
+                        resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                        resourcesAll[g][3] =  false
+                        resourcesAll[g][4] =  true
                     }
                 }
-            }
 
 
-            var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
-            return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
-            });
-
-
-
-            for (var i = 0; i < resourcesAllF.length; i++) {
-                var curResTarget = gamePage.resPool.get(resourcesAllF[i][0]);
-                if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked && resourcesAllF[i][4]) {
-                     flag = true;
-                     cnt = 0;
-                     if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
-                        if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
-                            if (resourcesAllF[i][0] == "eludium")
-                            {
-                                for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                    cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
-                                }
-                            } else {
-                                 for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                    if (cnt == 0){
-                                       cnt = Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1)
-                                    }
-                                    cnt = Math.min(cnt, Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1))
-                                 }
-                                 cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? Math.ceil(cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value))  : cnt
-                             }
+                //priority upgrades
+                if (gamePage.resPool.get('ship').value > 0) {
+                    for (var i = 0; i < upgrades_craft.length; i++)  {
+                        if (upgrades_craft[i][0].researched ) {
+                            upgrades_craft.splice(i,1);
+                            break;
                         }
-
-                     }
-                     else{
-                         for (var x = 0; x < resourcesAllF[i][1].length; x++) {
-                                tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
-                                tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
-
-                                if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value*2 > tmpvalue)) {
-                                    flag = false;
-                                }
-                                else if (tmpvalueMax != 0 && ((curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 1))) {
-                                    flag = false;
+                        if (upgrades_craft[i][0].unlocked ){
+                            for (var j = 0; j < upgrades_craft[i][1].length; j++) {
+                                if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value >= upgrades_craft[i][1][j][1]*1.2){
+                                    continue;
                                 }
 
-                                if (flag && ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0))) {
-                                    cnt = cnt == 0 ? 1 : cnt
-                                    if (resourcesAllF[i][0] == "eludium") {
-                                       if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
-                                            if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
-                                                 cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                for (var g = 0; g < resourcesAll.length; g++) {
+                                    if (resourcesAll[g][0] == upgrades_craft[i][1][j][0]) {
+                                        resourcesAll[g][2] =  upgrades_craft[i][1][j][1]
+                                        resourcesAll[g][3] =  false
+                                        resourcesAll[g][4] =  true
+                                    }
+                                }
+                                let respack = resourcesAll.filter(res => res[0] == upgrades_craft[i][1][j][0])[0][1]
+                                reslist = []
+                                for (var g = 0; g < respack.length; g++) {
+                                    reslist[reslist.length] = respack[g][0]
+                                }
+
+                                for (var g = 0; g < resourcesAll.length; g++) {
+                                     for (var b = 0; b < resourcesAll[g][1].length; b++) {
+                                        if ( (resourcesAll[g][0] != upgrades_craft[i][1][j][0] && reslist.indexOf(resourcesAll[g][1][b][0]) > 0) || resourcesAll[g][1][b][0] == upgrades_craft[i][1][j][0]) {
+                                            if (gamePage.resPool.get(upgrades_craft[i][1][j][0]).value < upgrades_craft[i][1][j][1] ) {
+                                                resourcesAll[g][4] =  false
                                             }
-                                       }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
-                                           cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
-                                       }else {
-                                           cnt = 0;
-                                       }
-                                    }
-                                    else{
-                                        cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
-                                    }
-
+                                        }
+                                     }
                                 }
+                            }
+                            if (Object.keys(craftPriority[0]).length > 0) {
+                                GlobalMsg['tech']  = upgrades_craft[i][0].label
+                            }
+                            break;
+                        }
+                    }
+                }
 
 
+                var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
+                return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
+                });
+
+
+
+                for (var i = 0; i < resourcesAllF.length; i++) {
+                    var curResTarget = gamePage.resPool.get(resourcesAllF[i][0]);
+                    if (gamePage.workshop.getCraft(resourcesAllF[i][0]).unlocked && resourcesAllF[i][4]) {
+                         flag = true;
+                         cnt = 0;
+                         if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
+                            if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
+                                if (resourcesAllF[i][0] == "eludium")
+                                {
+                                    for (var x = 0; x < resourcesAllF[i][1].length; x++) {
+                                        cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
+                                    }
+                                } else {
+                                     for (var x = 0; x < resourcesAllF[i][1].length; x++) {
+                                        if (cnt == 0){
+                                           cnt = Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1)
+                                        }
+                                        cnt = Math.min(cnt, Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])-1))
+                                     }
+                                     cnt = cnt + curResTarget.value > Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) ? Math.ceil(cnt + curResTarget.value - Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value))  : cnt
+                                 }
+                            }
 
                          }
-                     }
+                         else{
+                                 for (var x = 0; x < resourcesAllF[i][1].length; x++) {
+                                            tmpvalue =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).value
+                                            tmpvalueMax =  gamePage.resPool.get(resourcesAllF[i][1][x][0]).maxValue
 
-                     if (flag == true && cnt > 0) {
-                        if (resourcesAllF[i][0] == "ship") {
-                            if (gamePage.resPool.get("ship").value < 5000 || gamePage.resPool.get("starchart").value > 1500){
-                                gamePage.craft(resourcesAllF[i][0], cnt);
+                                            if ((tmpvalue < resourcesAllF[i][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value*2 > tmpvalue)) {
+                                                flag = false;
+                                            }
+                                            else if (tmpvalueMax != 0 && (((gamePage.resPool.get('paragon').value < 100 && !(gamePage.religion.getRU('solarRevolution').val == 1) ) &&  Object.keys(craftPriority[0]).length > 0 && resourcesAllF[i][1].filter(ff2 => craftPriority[3].indexOf(ff2[0]) != -1 ).length != 0 ) || (curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax < 1))) {
+                                                flag = false;
+                                            }
+
+                                            if (flag && ((cnt > (tmpvalue / resourcesAllF[i][1][x][1])) || (cnt == 0))) {
+                                                cnt = cnt == 0 ? 1 : cnt
+                                                if (resourcesAllF[i][0] == "eludium") {
+                                                   if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
+                                                        if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
+                                                             cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                                        }
+                                                   }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
+                                                       cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/3);
+                                                   }else {
+                                                       cnt = 0;
+                                                   }
+                                                }
+                                                else{
+                                                    cnt = Math.ceil(tmpvalue / resourcesAllF[i][1][x][1]/2);
+                                                }
+                                            }
+                                 }
+                         }
+
+                         if (flag == true && cnt > 0) {
+                            if (resourcesAllF[i][0] == "ship") {
+                                if (gamePage.resPool.get("ship").value < 5000 || gamePage.resPool.get("starchart").value > 1500){
+                                    gamePage.craft(resourcesAllF[i][0], cnt);
+                                }
+                            }
+                            else {
+                               gamePage.craft(resourcesAllF[i][0], cnt);
+                            }
+                         }
+                    }
+                }
+                for (var i = 0; i < resources.length; i++) {
+
+                        var curRes = gamePage.resPool.get(resources[i][0]);
+                        var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
+                        var resourcePerCraft = Math.min((resourcePerTick * 5),curRes.value);
+                        if (Object.keys(craftPriority[0]).length > 0  && craftPriority[3].indexOf(resources[i][0]) != -1 ) {
+                            if (curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
+                                gamePage.craft(resources[i][1], Math.ceil((resourcePerCraft / resources[i][2])-1));
                             }
                         }
-                        else {
-                           gamePage.craft(resourcesAllF[i][0], cnt);
-                        }
-                     }
-                }
-            }
-            for (var i = 0; i < resources.length; i++) {
-
-                    var curRes = gamePage.resPool.get(resources[i][0]);
-                    var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
-                    var resourcePerCraft = Math.min((resourcePerTick * 5),curRes.value);
-                    if (Object.keys(craftPriority[0]).length > 0  && craftPriority[3].indexOf(resources[i][0]) != -1 ) {
-                        if (curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
+                        else if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
                             gamePage.craft(resources[i][1], Math.ceil((resourcePerCraft / resources[i][2])-1));
                         }
-                    }
-                    else if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[i][1]).unlocked) {
-                        gamePage.craft(resources[i][1], Math.ceil((resourcePerCraft / resources[i][2])-1));
-                    }
+                }
             }
-	    }
+//	    }
 }
 
 
