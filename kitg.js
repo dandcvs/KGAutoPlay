@@ -1094,22 +1094,28 @@ function autoNip() {
 function autoRefine() {
     if ( ((gamePage.village.getKittens() < 14) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 )))) {
         if (!gamePage.workshopTab.visible ){
-                    btn = gamePage.tabs[0].buttons[1];
-                    price = gamePage.tabs[0].buttons[1].model.prices[0].val;
-                    limit = Math.ceil(Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value, Math.trunc(gamePage.resPool.get('catnip').value/price)-1));
+                    if (gamePage.tabs[0].buttons[1].model.x100Link.visible && gamePage.tabs[0].buttons[2].model.resourceIsLimited ){
+                        gamePage.tabs[0].buttons[1].model.x100Link.handler(gamePage.tabs[0].buttons[1].model);
+                    }else {
+                        btn = gamePage.tabs[0].buttons[1];
+                        price = gamePage.tabs[0].buttons[1].model.prices[0].val;
+                        limit = Math.ceil(Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value, Math.trunc(gamePage.resPool.get('catnip').value/price)-1));
 
-                    for (var i = 0; i < limit; i++) {
-                        if (btn.model.enabled) {
-                             try {
-                                    btn.controller.buyItem(btn.model, {}, function(result) {
-                                            if (result) {
-                                            }
-                                    });
-                                 } catch(err) {
-                                    console.log(err);
-                                 }
+
+                        for (var i = 0; i < limit; i++) {
+                            if (btn.model.enabled) {
+                                 try {
+                                        btn.controller.buyItem(btn.model, {}, function(result) {
+                                                if (result) {
+                                                }
+                                        });
+                                     } catch(err) {
+                                        console.log(err);
+                                     }
+                            }
                         }
                     }
+
         }
         else if(gamePage.tabs[0].buttons[1].model.x100Link && gamePage.ironWill && gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) {
             if (gamePage.tabs[0].buttons[1].model.x100Link.visible){
