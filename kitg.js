@@ -1384,7 +1384,7 @@ if (gamePage.ironWill){
         gamePage.msg('"Iron Will" mode will be off after 755 game ticks (if not switched)');
     }
     else if (!switches["Iron Will"]){
-        autoSwitchEnergy('Iron Will',  'IronWill')
+        autoSwitch('Iron Will',  'IronWill')
     }
 }
 
