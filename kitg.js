@@ -1347,7 +1347,7 @@ function Timepage() {
 
 
         if (gamePage.workshop.get("turnSmoothly").researched) {
-            if ( !gamePage.time.isAccelerated && gamePage.resPool.get("temporalFlux").value == gamePage.resPool.get("temporalFlux").maxValue) {
+            if ( !gamePage.time.isAccelerated && gamePage.resPool.get("temporalFlux").value >= gamePage.resPool.get("temporalFlux").maxValue) {
                 gamePage.timeTab.children[0].children[0].children[0].controller.buyItem(gamePage.timeTab.children[0].children[0].children[0].model, {}, function(result) {
                     if (result) {
                     }
