@@ -536,7 +536,7 @@ function autoCraft2() {
                     "factory"  : gamePage.resPool.get("titanium").value > 100 ? 3 : 0.00000001,
                     "reactor" : gamePage.resPool.get("titanium").value > 100 ? 10 : 0.00000001,
                     "warehouse" : 0.01,
-                    "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || gamePage.resPool.get("gold").maxValue < 1000) ? 1 : 0.001,
+                    "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("gold").maxValue < 1000)) ? 1 : 0.001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? 4 : 0.001,
                     "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1) ? 100 :  (gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01,
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
