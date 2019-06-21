@@ -805,7 +805,7 @@ function autoResearch() {
 function autoWorkshop() {
     if (gamePage.workshopTab.visible) {
         gamePage.tabs[3].update();
-         var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked);
+         var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && res.id != "oilRefinery");
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
                 if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
