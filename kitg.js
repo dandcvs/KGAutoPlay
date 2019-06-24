@@ -806,30 +806,27 @@ function autoResearch() {
 function autoWorkshop() {
     if (gamePage.workshopTab.visible) {
         gamePage.tabs[3].update();
-        IWignores
          if (gamePage.ironWill) {
             var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel" && IWignores.indexOf(res.id) == -1);
          }else{
             var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel");
          }
          for (var i = 0; i < btn.length; i++) {
-            if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
-                if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
-                {}
-                else if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && btn[i].model.metadata.name != "relicStation" && btn[i].model.prices.filter(res => res.name == 'antimatter').length > 0)
-                {}
-                else{
-                    try {
-                        btn[i].controller.buyItem(btn[i].model, {}, function(result) {
-                            if (result) {
-                                btn[i].update();
-                                gamePage.msg('Upgraded: ' + btn[i].model.name );
-                                return;
-                            }
-                        });
-                    } catch(err) {
-                    console.log(err);
-                    }
+            if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
+            {}
+            else if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && btn[i].model.metadata.name != "relicStation" && btn[i].model.prices.filter(res => res.name == 'antimatter').length > 0)
+            {}
+            else{
+                try {
+                    btn[i].controller.buyItem(btn[i].model, {}, function(result) {
+                        if (result) {
+                            btn[i].update();
+                            gamePage.msg('Upgraded: ' + btn[i].model.name );
+                            return;
+                        }
+                    });
+                } catch(err) {
+                console.log(err);
                 }
             }
         }
