@@ -21,6 +21,7 @@ var IincKAssign = 0;
 var tick = 0
 var LeviTradeCnt = 0;
 var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':'','chronosphere':''};
+var IWignores = ["register", "mineralHoes", "ironHoes", "mineralAxes", "ironAxes", "steelAxe", "titaniumAxe", "alloyAxe", "unobtainiumAxe", "miningDrill", "unobtainiumDrill", "concreteHuts", "unobtainiumHuts", "eludiumHuts", "geodesy", "augumentation", "astrophysicists", "logistics", "internet", "neuralNetworks", "assistance", "factoryRobotics", "factoryOptimization", "spaceEngineers", "aiEngineers", "chronoEngineers"];
 
 var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true, "Iron Will":false, "CollectResBReset":false}
@@ -805,7 +806,12 @@ function autoResearch() {
 function autoWorkshop() {
     if (gamePage.workshopTab.visible) {
         gamePage.tabs[3].update();
-         var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && res.id != "biofuel");
+        IWignores
+         if (gamePage.ironWill) {
+            var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel" && IWignores.indexOf(res.id) == -1);
+         }else{
+            var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel");
+         }
          for (var i = 0; i < btn.length; i++) {
             if (btn[i].model.metadata.unlocked && btn[i].model.metadata.researched != true) {
                 if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
