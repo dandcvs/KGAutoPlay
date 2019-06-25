@@ -804,7 +804,7 @@ function autoWorkshop() {
     if (gamePage.workshopTab.visible) {
         gamePage.tabs[3].update();
          if (gamePage.ironWill && !gamePage.workshop.get("seti").researched) {
-            let IWignores = ['Register', 'Hoes', 'Axes', 'Drills', 'Huts', 'Geodesy', 'Augmentations', 'Astrophysicists', 'Logistics', 'Engineers', 'internet', 'neuralNetworks', 'Robotic','Optimization'];
+            let IWignores = ['Register', 'Hoes', 'Axes', 'Drills', 'Huts', 'Geodesy', 'Augmentations', 'Astrophysicists', 'Logistics', 'Engineers', 'internet', 'neuralNetworks', 'Robotic', 'Optimization'];
             let check_str = (str, checklist) => checklist.some((s) => str.toLowerCase().includes(s.toLowerCase()));
             var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel" && !check_str(res.id, IWignores));
          }else{
