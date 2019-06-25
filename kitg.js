@@ -804,7 +804,7 @@ function autoResearch() {
 function autoWorkshop() {
     if (gamePage.workshopTab.visible) {
         gamePage.tabs[3].update();
-         if (gamePage.ironWill) {
+         if (gamePage.ironWill && !gamePage.workshop.get("seti").researched) {
             var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel" && IWignores.indexOf(res.id) == -1);
          }else{
             var btn = gamePage.tabs[3].buttons.filter(res => res.model.metadata.unlocked && !res.model.metadata.researched && res.id != "biofuel");
