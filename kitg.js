@@ -1482,7 +1482,7 @@ var runAllAutomation = setInterval(function() {
     if (tick != gamePage.timer.ticksTotal) {
         tick = gamePage.timer.ticksTotal;
 
-        setTimeout(autoBuild, 10);
+        setTimeout(autoBuild, 2);
         setTimeout(autoNip, 0);
         setTimeout(autoRefine, 1);
         setTimeout(LabelMsg, 0);
@@ -1496,7 +1496,7 @@ var runAllAutomation = setInterval(function() {
         }
 
         if (gamePage.timer.ticksTotal % 10 === 0) {
-            setTimeout(autoSpace, 10);
+            setTimeout(autoSpace, 1);
             setTimeout(energyControl, 0);
         }
 
@@ -1515,14 +1515,15 @@ var runAllAutomation = setInterval(function() {
 
          if (gamePage.timer.ticksTotal % 50 === 0) {
              setTimeout(ResearchSolarRevolution, 0);
+             setTimeout(UpgradeBuildings, 1);
+
         }
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
-            setTimeout(RenderNewTabs, 15);
-            setTimeout(UpgradeBuildings, 0);
+            setTimeout(RenderNewTabs, 1);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
-                setTimeout(Service, 15);
+                setTimeout(Service, 2);
                 Iinc = 0;
             }
             Iinc++;
