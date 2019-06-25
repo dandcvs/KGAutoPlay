@@ -384,7 +384,7 @@ function autoTrade() {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
 
-        if ((gamePage.resPool.get('titanium').value < (gamePage.resPool.get('paragon').value < 1000 ? gamePage.resPool.get('paragon').value : 200000) || gamePage.resPool.get('blueprint').value < 100) && gamePage.diplomacy.get('zebras').unlocked  && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
+        if ( (gamePage.resPool.get('titanium').value < (gamePage.resPool.get('paragon').value < 1000 ? gamePage.resPool.get('paragon').value : 200000) || gamePage.resPool.get('blueprint').value < 100) && gamePage.diplomacy.get('zebras').unlocked  && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             if (gamePage.religion.getRU('solarRevolution').val == 1) {
                 gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), 1);
             }
@@ -694,7 +694,12 @@ function autoCraft2() {
                          cnt = 0;
                          if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
                             if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
-                                if (resourcesAllF[i][0] == "eludium")
+                                if (gamePage.ironWill && resourcesAllF[i][0] == "slab" ) {
+                                     for (var x = 0; x < resourcesAllF[i][1].length; x++) {
+                                        cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/10),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/10), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
+                                    }
+                                }
+                                else if (resourcesAllF[i][0] == "eludium")
                                 {
                                     for (var x = 0; x < resourcesAllF[i][1].length; x++) {
                                         cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/3), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
