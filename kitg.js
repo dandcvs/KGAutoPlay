@@ -1216,7 +1216,7 @@ function Timepage() {
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
             let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val)
-            if (gamePage.workshop.get("turnSmoothly").researched) {
+            if (gamePage.workshop.get("turnSmoothly").researched && !gamePage.ironWill) {
                 if (VoidBuild[0].model.visible) {
                     if ( 500 > cf * 0.1){
                         {}
