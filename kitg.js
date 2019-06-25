@@ -508,8 +508,8 @@ function autoCraft2() {
                 ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000),true, true],
                 ["steel", [["iron",100],["coal",100]],Math.min(Math.max(Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1),75),50000),true, true],
                 (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.tabs[0].buttons[25].model.resourceIsLimited) ?
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.tabs[0].buttons[25].model.prices[1].val, false, true] :
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 :gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000),true, true],
+                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.tabs[0].buttons[25].model.prices[1].val, false, true] :
+                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000),true, true],
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
                 ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),true, true],
@@ -519,8 +519,8 @@ function autoCraft2() {
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
                 ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
                 ["parchment", [["furs",175]],0,true, true],
-                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? gamePage.resPool.get('culture').value > 1600 ? 50 : 0 : 110,true, true],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? gamePage.science.get('astronomy').researched ?  Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500): 0 : 110,true, true],
+                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 110,true, true],
+                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500): 0) : 110,true, true],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
