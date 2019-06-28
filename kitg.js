@@ -605,7 +605,15 @@ function autoCraft2() {
                          for (var g = 0; g < resourcesAll.length; g++)  {
                             if (prior[0][2][i].name == resourcesAll[g][0]) {
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
-                                    reslist[resourcesAll[g][1][h][0]] = isNaN(reslist[resourcesAll[g][1][h][0]]) ?  (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)  : Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
+
+                                    if (isNaN(reslist[resourcesAll[g][1][h][0]])) {
+                                       let tmpval = (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,1)
+                                    }
+                                    else {
+                                       let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,1)
+                                    }
                                     reslist2[reslist2.length] = resourcesAll[g][1][h][0]
                                 }
                             }
