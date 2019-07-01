@@ -519,7 +519,7 @@ function autoCraft2() {
                 ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
                 ["parchment", [["furs",175]],0,true, true],
                 ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 110,true, true],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,500): 0) : 110,true, true],
+                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,1500): 0) : 110,true, true],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
