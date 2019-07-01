@@ -1466,7 +1466,7 @@ function Chronosphere10SummPrices() {
 
 		for (var i = 0; i< bldPrices.length; i++){
 		    sumVal = 0;
-		    for (var g = gamePage.bld.getBuildingExt('chronosphere').meta.val; g < Math.max(gamePage.bld.getBuildingExt('chronosphere').meta.val+1,11); g++){
+		    for (var g = gamePage.bld.getBuildingExt('chronosphere').meta.val; g <= Math.max(gamePage.bld.getBuildingExt('chronosphere').meta.val,9); g++){
 		        sumVal+= bldPrices[i].val * Math.pow(ratio, g)
 		    }
 
