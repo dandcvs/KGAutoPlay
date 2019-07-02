@@ -608,11 +608,11 @@ function autoCraft2() {
 
                                     if (isNaN(reslist[resourcesAll[g][1][h][0]])) {
                                        let tmpval = (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,gamePage.resPool.get(resourcesAll[g][1][h][0]).value +1)
                                     }
                                     else {
                                        let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][i].val - gamePage.resPool.get(prior[0][2][i].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,gamePage.resPool.get(resourcesAll[g][1][h][0]).value + 1)
                                     }
                                     reslist2[reslist2.length] = resourcesAll[g][1][h][0]
                                 }
