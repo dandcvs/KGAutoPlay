@@ -1500,7 +1500,6 @@ var runAllAutomation = setInterval(function() {
         if (gamePage.timer.ticksTotal % 3 === 0) {
             setTimeout(autoObserve, 0);
             setTimeout(autoCraft2, 1);
-            setTimeout(autoHunt, 1);
             setTimeout(autoAssign, 0);
             gamePage.villageTab.updateTab();
         }
@@ -1516,6 +1515,7 @@ var runAllAutomation = setInterval(function() {
              setTimeout(autoResearch, 2);
              setTimeout(autoWorkshop, 2);
              setTimeout(autoPraise, 2);
+             setTimeout(autoHunt, 3);
         }
 
         if (gamePage.timer.ticksTotal % 30 === 0) {
