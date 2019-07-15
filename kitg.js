@@ -506,8 +506,8 @@ function autoCraft2() {
                 ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
                 ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000),true, true],
                 ["steel", [["iron",100],["coal",100]],Math.min(Math.max(Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1),75),50000),true, true],
-                (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.tabs[0].buttons[25].model.resourceIsLimited) ?
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.tabs[0].buttons[25].model.prices[1].val, false, true] :
+                (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('reactor'))) ?
+                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.bld.getPrices('reactor')[1].val, false, true] :
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000),true, true],
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
