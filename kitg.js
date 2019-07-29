@@ -437,14 +437,14 @@ function autoTrade() {
                 }
 
                 let tradersAll = [
-                ['zebras',titRes,slabRes,0.9,50],
-                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500] : ['zebras',ironRes,slabRes,0.9,50],
-                ['nagas',mineralsRes,ivoryRes,0.9,500],
-                ['spiders',coalRes,scaffoldRes,0.9,50],
-                ['dragons',uranRes,titRes,0.9,250]
+                ['zebras',titRes,slabRes,0.9,50,1],
+                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500,1] : ['zebras',ironRes,slabRes,0.9,50,1],
+                gamePage.ironWill ? ['nagas',mineralsRes,ivoryRes,0.9,500,0.1] : ['nagas',mineralsRes,ivoryRes,0.9,500,1],
+                ['spiders',coalRes,scaffoldRes,0.9,50,1],
+                ['dragons',uranRes,titRes,0.9,250,1]
                 ]
 
-                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value && tr[2].value > tr[4]).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
+                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value * tr[5] && tr[2].value > tr[4]).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
                 if (trade) {
                     if (gamePage.ironWill) {
                         if (trade[0] == 'griffins' && trade[2].value > trade[2].maxValue * 0.8 ) {
@@ -692,7 +692,6 @@ function autoCraft2() {
                 var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1],Math.min(resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2], !res[3] ? resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2] : gamePage.resPool.get('paragon').value)) )).sort(function(a, b) {
                 return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
                 });
-
 
 
                 for (var i = 0; i < resourcesAllF.length; i++) {
