@@ -504,7 +504,7 @@ function autoCraft2() {
             //finding priority bld for now
             var  resourcesAll = [
                 ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
-                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000),true, true],
+                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000), gamePage.ironWill ? false : true, true],
                 ["steel", [["iron",100],["coal",100]],Math.min(Math.max(Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1),75),50000),true, true],
                 (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('reactor'))) ?
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.bld.getPrices('reactor')[1].val, false, true] :
@@ -701,7 +701,7 @@ function autoCraft2() {
                          cnt = 0;
                          if (curResTarget.value <= Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value)) {
                             if (gamePage.resPool.get(resourcesAllF[i][1][0][0]).value >= resourcesAllF[i][1][0][1]) {
-                                if (gamePage.ironWill && resourcesAllF[i][0] == "slab" ) {
+                                if (gamePage.ironWill && resourcesAllF[i][0] == "slab" && gamePage.bld.getBuildingExt("mint").meta.val == 0 ) {
                                      for (var x = 0; x < resourcesAllF[i][1].length; x++) {
                                         cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/10),Math.ceil((gamePage.resPool.get(resourcesAllF[i][1][x][0]).value / resourcesAllF[i][1][x][1])/10), Math.ceil(Math.min(resourcesAllF[i][2] , !resourcesAllF[i][3] ? resourcesAllF[i][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
                                     }
