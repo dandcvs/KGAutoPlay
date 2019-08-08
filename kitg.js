@@ -994,7 +994,7 @@ function autoAssign() {
             }
         }
 
-	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked);
+	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked && ( gamePage.challenges.currentChallenge != 'atheism' || res[0] != 'faith'));
 	    restmpq = restmp.sort(function(a, b) {
 	            if (gamePage.resPool.get(a[0]).value >= gamePage.resPool.get(a[0]).maxValue){
 	                atick = gamePage.resPool.get(a[0]).maxValue * 10;
