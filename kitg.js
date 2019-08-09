@@ -1194,7 +1194,7 @@ function UpgradeBuildings() {
 
 function ResearchSolarRevolution() {
         GlobalMsg['solarRevolution'] = ''
-        if (gamePage.religion.getRU('solarRevolution').val == 0){
+        if (gamePage.religion.getRU('solarRevolution').val == 0 && gamePage.challenges.currentChallenge != 'atheism'){
             if (gamePage.science.get('theology').researched){
                 GlobalMsg['solarRevolution'] =  gamePage.religion.getRU("solarRevolution").label
             }
