@@ -59,8 +59,8 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 $("#footerLinks").append(htmlMenuAddition);
 
 
-$(document.querySelector('#rightColumn > div.right-tab-header')).append("<a id='PriorityLabel' title = 'KGAutoPlay:\nLow priority for building construction and some tehnology.'></a>")
-//$(document.querySelector("#midColumn")).append("<a id='PriorityLabel' title = 'KGAutoPlay: Low priority for building construction and some tehnology.'></a>")
+$(document.querySelector('#rightColumn > div.right-tab-header')).append("<a id='PriorityLabel' title = 'KGAutoPlay:\nLow priority for building construction and some technology.'></a>")
+//$(document.querySelector("#midColumn")).append("<a id='PriorityLabel' title = 'KGAutoPlay: Low priority for building construction and some technology.'></a>")
 
 function selectOptions() {
 	$("#optionSelect").toggle();
