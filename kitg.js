@@ -1237,7 +1237,7 @@ function Timepage() {
                 }
 
                 if (VoidBuild[1].model.visible) {
-                    if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1) ){
+                    if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.max(Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1), 3) ){
                         {}
                     }else {
                         VoidBuild[1].controller.buyItem(VoidBuild[1].model, {}, function(result) {
