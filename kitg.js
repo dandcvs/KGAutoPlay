@@ -248,7 +248,7 @@ function autoBuild() {
                          }
                      }
                      else if (btn[i].model.metadata.name == "chronosphere"){
-                         if ( ( (gamePage.religion.getZU("marker").val > 10 || gamePage.workshop.get("chronoforge").researched) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()[1].val > 100) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()[0].val  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val )) ){
+                        if ( ( (gamePage.religion.getZU("marker").val > 10 || gamePage.workshop.get("chronoforge").researched) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && gamePage.time.meta[0].meta[4].val > 0 ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()[1].val > 100 && gamePage.time.meta[0].meta[4].val > 0) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()[0].val  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val )) ){
                             try {
                                     btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                     if (result) {
