@@ -851,14 +851,20 @@ function autoParty() {
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
 		var tclvl = Math.max(gamePage.religion.tclevel,1);
+
 		if (catpowerP > 1500 && culture > 5000 && parchment > 2500) {
-			if (gamePage.calendar.festivalDays < 400*30) {
-			    if(catpowerP > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
-			        gamePage.village.holdFestival(tclvl);
-			    }
-			    else{
-				    gamePage.village.holdFestival(1);
-				}
+		    if (gamePage.prestige.getPerk("carnivals").researched){
+                if (gamePage.calendar.festivalDays < 400*30) {
+                    if(catpowerP > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
+                        gamePage.village.holdFestival(tclvl);
+                    }
+                    else{
+                        gamePage.village.holdFestival(1);
+                    }
+                }
+			}
+			else if (gamePage.calendar.festivalDays == 0) {
+			    gamePage.village.holdFestival(1);
 			}
 		}
 	}
