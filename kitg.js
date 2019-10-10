@@ -411,7 +411,7 @@ function autoTrade() {
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
-                    }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-25)*10000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*25 ))) {
+                    }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-50)*10000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*50 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
                     }else if(unoRes.value > 5000 && ((LeviTradeCnt > 15 && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10)|| switches['CollectResBReset'] )) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
