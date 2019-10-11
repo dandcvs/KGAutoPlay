@@ -1272,7 +1272,7 @@ function Timepage() {
                                     {}
                                 }
                                 else if (gamePage.ironWill){
-                                    if(!VoidBuild[i].model.metadata.effects.maxKittens && (i != 6 || gamePage.time.meta[0].meta[4].val > 2 ) ){
+                                    if(!VoidBuild[i].model.metadata.effects.maxKittens ){
                                         VoidBuild[i].controller.buyItem(VoidBuild[i].model, {}, function(result) {
                                         if (result) {
                                             VoidBuild[i].update();
