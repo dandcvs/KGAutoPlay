@@ -1300,12 +1300,16 @@ function Timepage() {
 	    }
         if (gamePage.workshop.get("chronoforge").researched){
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
+            var tc_val = gamePage.resPool.get("timeCrystal").value
+            var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
+            var fast_combust = Math.max(tc_val, 600) < gamePage.resPool.get("void").value  && gamePage.time.meta[0].meta[4].val >= 1
+            var not_dark = gamePage.calendar.darkFutureYears(true) < 0
 
             if (gamePage.time.getCFU("blastFurnace").unlocked) {
                 if (gamePage.calendar.cycle == 5 && gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
                     gamePage.time.getCFU("blastFurnace").isAutomationEnabled = false
                 }
-                else if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.cycle != 5 && gamePage.calendar.day > 0 && !gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
+                else if (gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && ((gamePage.calendar.cycle != 5 && gamePage.calendar.day > 0) || fast_combust) && !gamePage.time.getCFU("blastFurnace").isAutomationEnabled) {
                     gamePage.time.getCFU("blastFurnace").isAutomationEnabled = true
                 }
             }
@@ -1315,10 +1319,7 @@ function Timepage() {
             }
 
 
-            var tc_val = gamePage.resPool.get("timeCrystal").value
-            var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-            var fast_combust = Math.max(tc_val, 600) < gamePage.resPool.get("void").value  && gamePage.time.meta[0].meta[4].val >= 1
-            var not_dark = gamePage.calendar.darkFutureYears(true) < 0
+
             if (!switches['CollectResBReset'] || gamePage.time.meta[0].meta[4].val >= 1) {
                 if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.calendar.year == 0 || gamePage.religion.getZU("blackPyramid").val > 0) && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || (gamePage.calendar.cycle != 5 || (gamePage.time.meta[0].meta[4].val >= 1 && tc_val >= 1 ))) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && (tc_val > (fast_combust ? 5 : 45) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) && gamePage.space.getBuilding('sunlifter').val > 0 ))  || ( gamePage.time.meta[0].meta[4].val >= 1 && ((gamePage.time.heat == 0 && (gamePage.calendar.cycle != 5 || (gamePage.calendar.season > 0 && gamePage.time.meta[0].meta[4].val >= 3) ))  || ( (fast_combust ? true : gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax")) && tc_val > (gamePage.time.meta[0].meta[4].val >= 3 ? 5 : 100) && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || (fast_combust ? true : gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5 && gamePage.calendar.day < 10)  ) ) ) )  )) {
                     if (factor * (not_dark ? 250 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 250)) <= gamePage.getEffect("heatMax") && tc_val >= 250 && gamePage.calendar.cycle != 4 && gamePage.time.meta[0].meta[4].val >= 3) {
