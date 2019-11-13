@@ -18,7 +18,8 @@ var FreeEnergy = 0;
 var deadScript = "Script is dead";
 var Iinc = 0;
 var IincKAssign = 0;
-var tick = 0
+var tick = 0;
+var tick_inactive = 0;
 var LeviTradeCnt = 0;
 var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':'','chronosphere':''};
 
@@ -1507,25 +1508,27 @@ gamePage.ui.render();
 var runAllAutomation = setInterval(function() {
     if (tick != gamePage.timer.ticksTotal) {
         tick = gamePage.timer.ticksTotal;
-
         setTimeout(autoBuild, 2);
         setTimeout(autoNip, 0);
         setTimeout(autoRefine, 1);
         setTimeout(LabelMsg, 0);
+        if (document.hidden) {
+            tick_inactive += 1
+        }
 
-        if (gamePage.timer.ticksTotal % 3 === 0) {
+        if ((!document.hidden && gamePage.timer.ticksTotal % 3 === 0) || (document.hidden && tick_inactive % 2 === 0)) {
             setTimeout(autoObserve, 0);
             setTimeout(autoCraft2, 1);
             setTimeout(autoAssign, 0);
             gamePage.villageTab.updateTab();
         }
 
-        if (gamePage.timer.ticksTotal % 10 === 0) {
+        if ((!document.hidden && gamePage.timer.ticksTotal % 10 === 0) || (document.hidden && tick_inactive % 3 === 0)) {
             setTimeout(autoSpace, 1);
             setTimeout(energyControl, 0);
         }
 
-        if (gamePage.timer.ticksTotal % 25 === 0) {
+        if ((!document.hidden && gamePage.timer.ticksTotal % 25 === 0) || (document.hidden && tick_inactive % 5 === 0)) {
              setTimeout(autoParty, 0);
              setTimeout(autoTrade, 1);
              setTimeout(autoResearch, 2);
@@ -1535,23 +1538,26 @@ var runAllAutomation = setInterval(function() {
 
         }
 
-        if (gamePage.timer.ticksTotal % 30 === 0) {
+        if ((!document.hidden && gamePage.timer.ticksTotal % 30 === 0) || (document.hidden && tick_inactive % 6 === 0)) {
              setTimeout(Timepage, 0);
         }
 
 
-         if (gamePage.timer.ticksTotal % 50 === 0) {
+         if ((!document.hidden && gamePage.timer.ticksTotal % 50 === 0) || (document.hidden && tick_inactive % 10 === 0)) {
              setTimeout(ResearchSolarRevolution, 0);
              setTimeout(UpgradeBuildings, 1);
 
         }
 
-        if (gamePage.timer.ticksTotal % 151 === 0) {
+        if ((!document.hidden && gamePage.timer.ticksTotal % 151 === 0) || (document.hidden && tick_inactive % 20 === 0)) {
             setTimeout(RenderNewTabs, 1);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
                 setTimeout(Service, 2);
                 Iinc = 0;
+                if (document.hidden) {
+                    tick_inactive = 0;
+                }
             }
             Iinc++;
         }
