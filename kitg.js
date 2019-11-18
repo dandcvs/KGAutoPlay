@@ -376,7 +376,7 @@ function autoTrade() {
           GlobalMsg["ressourceRetrieval"] = gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.label + '(' + (gamePage.timeTab.cfPanel.children[0].children[5].model.metadata.val+1) + ') ' + Math.round((gamePage.resPool.get("timeCrystal").value / gamePage.timeTab.cfPanel.children[0].children[5].model.prices[0].val) * 100) + '%'
         }
 
-        if (gamePage.time.meta[0].meta[4].val >= 1 && gamePage.resPool.get("timeCrystal").value < 5){
+        if (gamePage.time.meta[0].meta[4].val >= 1 && gamePage.resPool.get("timeCrystal").value < 6){
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0 && gamePage.resPool.get('unobtainium').value > 5000) {
                     gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),1);
                 }
