@@ -547,7 +547,7 @@ function autoCraft2() {
                     "pasture" : gamePage.bld.getBuildingExt('pasture').meta.stage == 1 ? 0.01 : 1,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 : gamePage.resPool.get('parchment').value > 0 ? 1 : 0.00000001,
-                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 5 : gamePage.resPool.get("blueprint").value > 500 ? 1 : 0.00000001
+                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001)
                 };
                 var allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
@@ -1232,7 +1232,7 @@ function Timepage() {
             let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices[1].val,VoidBuild[5].model.prices[1].val)
             if (gamePage.workshop.get("turnSmoothly").researched && !gamePage.ironWill) {
                 if (VoidBuild[0].model.visible) {
-                    if ( 500 > cf * 0.1){
+                    if ( Math.max(500, VoidBuild[2].model.on * 20) > cf * 0.1){
                         {}
                     }else {
                         VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
