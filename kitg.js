@@ -411,11 +411,11 @@ function autoTrade() {
                     if (gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[6].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
                     }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1));
                     }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-50)*10000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*50 ))) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1));
                     }else if(unoRes.value > 5000 && ((LeviTradeCnt > 15 && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10)|| switches['CollectResBReset'] )) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 200000)),1));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1));
                         LeviTradeCnt = 0;
                     }
 
@@ -496,9 +496,6 @@ var cnt = 0
 
 function autoCraft2() {
 
-//        if (true) {
-//        if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
-            // [name,resurces,countlimit,paragonBool,craftableBool]
             var flag = true;
             GlobalMsg['tech'] = ''
             GlobalMsg['craft'] = ''
@@ -1356,7 +1353,7 @@ function Timepage() {
                         if (!switches['CollectResBReset'] ) {
                             if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[5].unlocked && (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? Math.min(chronoforge[i].model.prices[0].val,gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[6].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)  && (gamePage.time.meta[0].meta[5].val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
-                            else if (gamePage.time.meta[0].meta[5].unlocked && (i != 3 && i != 6) && (chronoforge[i].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01))
+                            else if (gamePage.time.meta[0].meta[5].unlocked && (i != 2 && i != 6) && (chronoforge[i].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01))
                             {}
                             else if (chronoforge[i].model.metadata.unlocked && chronoforge[i].model.enabled) {
                                 chronoforge[i].controller.buyItem(chronoforge[i].model, {}, function(result) {
