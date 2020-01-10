@@ -1349,7 +1349,7 @@ function Timepage() {
             }
             if ( (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value > 100 || (gamePage.religion.getZU("marker").val > 10 || (gamePage.religion.getZU("marker").val > 0 && gamePage.workshop.get("chronoforge").researched)) )) || gamePage.resPool.get("timeCrystal").value > 500 ) {
                 try {
-                    for (i = 1 ;i < chronoforge.length; i++) {
+                    for (var i = 1 ;i < chronoforge.length; i++) {
                         if (!switches['CollectResBReset'] ) {
                             if (chronoforge[i].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[5].unlocked && (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? Math.min(chronoforge[i].model.prices[0].val,gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[6].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)  && (gamePage.time.meta[0].meta[5].val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
@@ -1425,7 +1425,7 @@ function SellSpaceAndReset(){
                     for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
                             var spBuild = gamePage.tabs[6].planetPanels[z].children;
                             try {
-                                for (i = 0 ;i < spBuild.length; i++) {
+                                for (var i = 0 ;i < spBuild.length; i++) {
                                     if (spBuild[i].model.metadata.unlocked && spBuild[i].model.metadata.val > 1 && spBuild[i].model.metadata.name != "containmentChamber") {
                                             spBuild[i].controller.sellInternal(spBuild[i].model,1);
                                         }
