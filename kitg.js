@@ -933,8 +933,11 @@ function autozig() {
                         try {
                             btn[i].controller.buyItem(btn[i].model, {}, function(result) {
                                 if (result) {
-                                    btn[i].update();
-                                    gamePage.msg('Build in Ziggurats: ' + btn[i].model.name );
+                                        btn[i].update();
+                                        gamePage.msg('Build in Ziggurats: ' + btn[i].model.name );
+                                        if (i == btn.length - 1 && btn[btn.length - 1].model.enabled) {
+                                            i++
+                                        }
                                     }
                                 });
                         } catch(err) {
