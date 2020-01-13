@@ -1255,7 +1255,7 @@ function Timepage() {
 
 
 			try {
-				for (i = 3 ;i < VoidBuild.length; i++) {
+				for (var i = 3 ;i < VoidBuild.length; i++) {
 					if (VoidBuild[i].model.metadata.unlocked && VoidBuild[i].model.enabled) {
 
 					    if (!switches['CollectResBReset'] ) {
