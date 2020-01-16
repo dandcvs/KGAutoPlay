@@ -646,7 +646,7 @@ function autoCraft2() {
                 if (gamePage.resPool.get('ship').value > 0) {
                     for (var pru = 0; pru < upgrades_craft.length; pru++)  {
                         if (upgrades_craft[pru][0].researched ) {
-                            upgrades_craft.splice(i,1);
+                            upgrades_craft.splice(pru,1);
                             break;
                         }
                         if (upgrades_craft[pru][0].unlocked ){
