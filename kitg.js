@@ -1265,8 +1265,11 @@ function Timepage() {
                                 }
                             }
                             else{
-                                if ((((v != 3 && v != 5 ) || (v == 5 && gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched)) && ( (VoidBuild[3].model.metadata.unlocked && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1) || (VoidBuild[5].model.metadata.unlocked && gamePage.resPool.get("temporalFlux").value >= VoidBuild[5].model.prices[2].val && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 )) ) || (v == 6 && gamePage.time.meta[0].meta[5].val < 3)){
-                                    {}
+                                if (( v == 5 && (gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched && gamePage.resPool.get("temporalFlux").value - VoidBuild[5].model.prices[2].val < gamePage.workshop.get("turnSmoothly").prices[3].val)) || (v == 6 && gamePage.time.meta[0].meta[5].val < 3)){
+                                  {}
+                                }
+                                else if ((v != 3 && v != 5 ) && ((VoidBuild[3].model.metadata.unlocked && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1) || (VoidBuild[5].model.metadata.unlocked  && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ))){
+                                  {}
                                 }
                                 else if (gamePage.ironWill){
                                     if(!VoidBuild[v].model.metadata.effects.maxKittens ){
