@@ -102,21 +102,37 @@ function autoObserve() {
 }
 
 function getFaithProdCap(){
+
+    if (!gamePage.religion.getFaithBonus) {
+                        var apocryphaBonus = gamePage.religion.getApocryphaBonus();
+                    } else {
+                        var apocryphaBonus = gamePage.religion.getFaithBonus();
+                    }
+
     var rate = gamePage.religion.getRU("solarRevolution").on ? gamePage.getTriValue(gamePage.religion.faith*2, 1000) : 0;
     var atheismBonus = gamePage.challenges.getChallenge("atheism").researched ? gamePage.religion.getTranscendenceLevel() * 0.1 : 0;
     var blackObeliskBonus = gamePage.religion.getTranscendenceLevel() * gamePage.religion.getTU("blackObelisk").val * 0.005;
-    return gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * gamePage.religion.getFaithBonus()*10,950)) * (1 + atheismBonus + blackObeliskBonus + (gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * gamePage.religion.getFaithBonus()*10,950)) < 100 ? gamePage.religion.getTranscendenceLevel() : 0));
+    return gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * apocryphaBonus*10,950)) * (1 + atheismBonus + blackObeliskBonus + (gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * apocryphaBonus*10,950)) < 100 ? gamePage.religion.getTranscendenceLevel() : 0));
 }
 
 
 //Auto praise the sun
 function autoPraise(){
+
+
+
+    if (!gamePage.religion.getFaithBonus) {
+                        var apocryphaBonus = gamePage.religion.getApocryphaBonus();
+                    } else {
+                        var apocryphaBonus = gamePage.religion.getFaithBonus();
+                    }
+
 	if (gamePage.religionTab.visible) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
             //reset faith with voidResonance > 0
-            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / apocryphaBonus) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
             }
 
@@ -143,7 +159,7 @@ function autoPraise(){
                     gamePage.religion.praise();
                 }
             }
-            else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+            else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / apocryphaBonus) >  gamePage.resPool.get("faith").maxValue * 10){
                 gamePage.religionTab.resetFaithInternal(1.01);
             }
             else if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
