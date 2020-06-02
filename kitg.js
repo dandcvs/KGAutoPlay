@@ -225,8 +225,6 @@ function autoPraise(){
 }
 
 
-
-
 // Build buildings automatically
 function autoBuild() {
         var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && Object.keys(craftPriority[0]).length > 0 ? ((res.model.metadata.name == craftPriority[0]) || (NotPriority_blds.indexOf(res.model.metadata.name) > -1) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1 ).length == 0 ) ) : res.model.metadata );
@@ -1158,6 +1156,20 @@ function autoRefine() {
     }
 }
 
+function upgradeByModel(target){
+	var metadataRaw = target.controller.getMetadataRaw(target.model);
+    metadataRaw.stage = metadataRaw.stage || 0;
+    metadataRaw.stage++;
+
+    metadataRaw.val = 0;
+    metadataRaw.on = 0;
+    if (metadataRaw.calculateEffects){
+        metadataRaw.calculateEffects(metadataRaw, target.controller.game);
+    }
+    target.controller.game.upgrade(metadataRaw.upgrades);
+    target.controller.game.render();
+}
+
 function UpgradeBuildings() {
     if (gamePage.diplomacy.hasUnlockedRaces()){
         gamePage.diplomacy.unlockRandomRace();
@@ -1170,7 +1182,7 @@ function UpgradeBuildings() {
     var upgradeTarget;
     for (var up = 0; up < mblds.length; up++) {
         upgradeTarget = gamePage.tabs[0].buttons.find(res => res.model.metadata && res.model.metadata.name == mblds[up].name);
-        upgradeTarget.controller.upgradeCallback(upgradeTarget.model,{});
+        upgradeByModel(upgradeTarget);
     }
 
     if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
@@ -1444,33 +1456,30 @@ if (gamePage.ironWill){
 function SellSpaceAndReset(){
      if (!gamePage.challenges.currentChallenge) {
         msg = "Sell all space and Reset?";
-        gamePage.ui.confirm($I("reset.prompt.title"), msg, function(confirmed) {
-            if (confirmed) {
-                   let optsell = gamePage.opts.hideSell
-                    gamePage.opts.hideSell = false
-                    //sell all space
-                    gamePage.tabs[6].planetPanels[4].children[1].model.metadata.on = gamePage.tabs[6].planetPanels[4].children[1].model.metadata.val
-                    for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
-                            var spBuild = gamePage.tabs[6].planetPanels[z].children;
-                            try {
-                                for (var s = 0 ;s < spBuild.length; s++) {
-                                    if (spBuild[s].model.metadata.unlocked && spBuild[s].model.metadata.val > 1 && spBuild[s].model.metadata.name != "containmentChamber") {
-                                            spBuild[s].controller.sellInternal(spBuild[s].model,1);
-                                        }
+        gamePage.ui.confirm($I("reset.confirmation.title"), msg, function() {
+            let optsell = gamePage.opts.hideSell
+            gamePage.opts.hideSell = false
+            //sell all space
+            gamePage.tabs[6].planetPanels[4].children[1].model.metadata.on = gamePage.tabs[6].planetPanels[4].children[1].model.metadata.val
+            for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
+                    var spBuild = gamePage.tabs[6].planetPanels[z].children;
+                    try {
+                        for (var s = 0 ;s < spBuild.length; s++) {
+                            if (spBuild[s].model.metadata.unlocked && spBuild[s].model.metadata.val > 1 && spBuild[s].model.metadata.name != "containmentChamber") {
+                                    spBuild[s].controller.sellInternal(spBuild[s].model,1);
                                 }
+                        }
 
-                            } catch(err) {
-                            console.log(err);
-                            }
+                    } catch(err) {
+                    console.log(err);
                     }
-
-                    gamePage.opts.hideSell = optsell
-                    setTimeout(function() { gamePage.resetAutomatic(); }, 10000);
-                    console.log("reset will be in 10 sec")
-                    $("#PriorityLabel")[0].innerText = "reset will be in 10 sec"
-                    clearInterval(runAllAutomation);
-
             }
+            console.log("sdsdasdasdasdasdas0");
+            gamePage.opts.hideSell = optsell
+            setTimeout(function() { gamePage.resetAutomatic(); }, 10000);
+            console.log("reset will be in 10 sec")
+            $("#PriorityLabel")[0].innerText = "reset will be in 10 sec"
+            clearInterval(runAllAutomation);
         });
      }
      else {
