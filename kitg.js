@@ -101,42 +101,20 @@ function autoObserve() {
 		}
 }
 
-function getFaithProdCap(){
-
-    if (!gamePage.religion.getFaithBonus) {
-                        var apocryphaBonus = gamePage.religion.getApocryphaBonus();
-                    } else {
-                        var apocryphaBonus = gamePage.religion.getFaithBonus();
-                    }
-
-    var rate = gamePage.religion.getRU("solarRevolution").on ? gamePage.getTriValue(gamePage.religion.faith*2, 1000) : 0;
-    var atheismBonus = gamePage.challenges.getChallenge("atheism").researched ? gamePage.religion.getTranscendenceLevel() * 0.1 : 0;
-    var blackObeliskBonus = gamePage.religion.getTranscendenceLevel() * gamePage.religion.getTU("blackObelisk").val * 0.005;
-    return gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * apocryphaBonus*10,950)) * (1 + atheismBonus + blackObeliskBonus + (gamePage.getHyperbolicEffect(rate, Math.min(((gamePage.religion.getTranscendenceLevel()+1) / 100 ) * apocryphaBonus*10,950)) < 100 ? gamePage.religion.getTranscendenceLevel() : 0));
-}
-
 
 //Auto praise the sun
 function autoPraise(){
-
-
-
-    if (!gamePage.religion.getFaithBonus) {
-                        var apocryphaBonus = gamePage.religion.getApocryphaBonus();
-                    } else {
-                        var apocryphaBonus = gamePage.religion.getFaithBonus();
-                    }
 
 	if (gamePage.religionTab.visible) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
             //reset faith with voidResonance > 0
-            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / apocryphaBonus) >  gamePage.resPool.get("faith").maxValue * 10){
-                gamePage.religionTab.resetFaithInternal(1.01);
+            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+                gamePage.religion.resetFaith(1.01, false);
             }
 
-            if (gamePage.religion.getProductionBonus() <= getFaithProdCap()){
+            if (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") + 5){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -159,17 +137,15 @@ function autoPraise(){
                     gamePage.religion.praise();
                 }
             }
-            else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / apocryphaBonus) >  gamePage.resPool.get("faith").maxValue * 10){
-                gamePage.religionTab.resetFaithInternal(1.01);
+            else if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * 10){
+                gamePage.religion.resetFaith(1.01, false);
             }
             else if (gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99){
                     gamePage.religion.praise();
             }
 
             if (gamePage.religion.getRU("transcendence").on){
-                var tclevel = gamePage.religion.getTranscendenceLevel();
-                //Transcend one Level at a time
-                var needNextLevel = gamePage.religion.getTranscendenceRatio(tclevel+1) - gamePage.religion.getTranscendenceRatio(tclevel);
+                var needNextLevel =gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier + 1) - gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier);
                 if (gamePage.religion.faithRatio > needNextLevel) {
 
                     gamePage.religion.faithRatio -= needNextLevel;
@@ -990,7 +966,7 @@ function autoAssign() {
         	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 ,5],
-            ["faith", "priest", gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 , gamePage.resPool.get("gold").maxValue < 500 ? 15 : 2],
+            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (100 * gamePage.religion.getSolarRevolutionRatio() < 200 ? 0.5 : gamePage.religion.tclevel+1) : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 , gamePage.resPool.get("gold").maxValue < 500 ? 15 : 2],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 ];
 
@@ -1565,7 +1541,7 @@ var runAllAutomation = setInterval(function() {
              setTimeout(autoTrade, 1);
              setTimeout(autoResearch, 2);
              setTimeout(autoWorkshop, 2);
-//             setTimeout(autoPraise, 2);
+             setTimeout(autoPraise, 2);
              setTimeout(autoHunt, 3);
 
         }
