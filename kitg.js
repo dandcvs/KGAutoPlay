@@ -239,7 +239,7 @@ function autoBuild() {
                          }
                      }
                      else if (btn[bl].model.metadata.name == "chronosphere"){
-                        if ( ( (gamePage.religion.getZU("marker").val > 10 || gamePage.workshop.get("chronoforge").researched) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && ((gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value < gamePage.timeTab.cfPanel.children[0].children[6].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)) || (gamePage.religion.getZU("marker").val > 10  && !gamePage.science.get("paradoxalKnowledge").researched)) ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()[1].val > 100 && gamePage.time.meta[0].meta[5].val > 0) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()[0].val  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val )) ){
+                        if ( ( (gamePage.religion.getZU("marker").val > 10 || gamePage.workshop.get("chronoforge").researched) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && ((gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value < gamePage.timeTab.cfPanel.children[0].children[6].model.prices[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)) || (gamePage.religion.getZU("marker").val > 10  && !gamePage.science.get("paradoxalKnowledge").researched)) ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()["timeCrystal"] > 100 && gamePage.time.meta[0].meta[5].val > 0) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()["unobtainium"]  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()["timeCrystal"] )) ){
                             try {
                                     btn[bl].controller.buyItem(btn[bl].model, {}, function(result) {
                                     if (result) {
@@ -309,7 +309,7 @@ function autoSpace() {
                                 if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && spBuild[sp].model.prices.filter(res => res.name == 'antimatter').length > 0){
                                     {}
                                 }
-                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()[1].val && (gamePage.calendar.cycle == 5 && spBuild[sp].model.prices.filter(res => res.name == 'eludium' || res.name == 'unobtainium' ).length > 0) || (!gamePage.workshop.get("chronoforge").researched && spBuild[sp].model.prices.filter(res => res.name == 'relic').length > 0) ) ){
+                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()["timeCrystal"] && (gamePage.calendar.cycle == 5 && spBuild[sp].model.prices.filter(res => res.name == 'eludium' || res.name == 'unobtainium' ).length > 0) || (!gamePage.workshop.get("chronoforge").researched && spBuild[sp].model.prices.filter(res => res.name == 'relic').length > 0) ) ){
                                     {}
                                 }
                                 else if (gamePage.ironWill){
@@ -1455,7 +1455,6 @@ function SellSpaceAndReset(){
                     console.log(err);
                     }
             }
-            console.log("sdsdasdasdasdasdas0");
             gamePage.opts.hideSell = optsell
             setTimeout(function() { gamePage.resetAutomatic(); }, 10000);
             console.log("reset will be in 10 sec")
@@ -1471,7 +1470,7 @@ function SellSpaceAndReset(){
 function LabelMsg(){
     GlobalMsg['chronosphere'] = ''
     if (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.resPool.get("unobtainium").value > 0  && gamePage.resPool.get("timeCrystal").value > 0){
-        GlobalMsg['chronosphere'] = gamePage.bld.getBuildingExt('chronosphere').meta.label + '(1-10) ' +  Math.min(Math.round((gamePage.resPool.get("timeCrystal").value/Chronosphere10SummPrices()[1].val)*100),Math.round((gamePage.resPool.get("unobtainium").value/Chronosphere10SummPrices()[0].val)*100)) + '%';
+        GlobalMsg['chronosphere'] = gamePage.bld.getBuildingExt('chronosphere').meta.label + '(1-10) ' +  Math.min(Math.round((gamePage.resPool.get("timeCrystal").value/Chronosphere10SummPrices()["timeCrystal"])*100),Math.round((gamePage.resPool.get("unobtainium").value/Chronosphere10SummPrices()["unobtainium"])*100)) + '%';
     }
 
 
@@ -1488,7 +1487,7 @@ function Chronosphere10SummPrices() {
 	 	var bldPrices = gamePage.bld.getBuildingExt('chronosphere').get('prices');
 		var ratio = gamePage.bld.getPriceRatioWithAccessor(gamePage.bld.getBuildingExt('chronosphere'));
 
-		var prices = [];
+		var prices = {};
         var sumVal = 0;
 
 		for (var cr = 0; cr< bldPrices.length; cr++){
@@ -1497,10 +1496,7 @@ function Chronosphere10SummPrices() {
 		        sumVal+= bldPrices[cr].val * Math.pow(ratio, g)
 		    }
 
-			prices.push({
-				val: sumVal,
-				name: bldPrices[cr].name
-			});
+            prices[bldPrices[cr].name] = sumVal
 		}
 	    return prices;
 }
