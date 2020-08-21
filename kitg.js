@@ -397,7 +397,9 @@ function autoTrade() {
             let coalRes = gamePage.resPool.get('coal');
             let cultureRes = gamePage.resPool.get('culture');
             if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
-
+                if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
+                    gamePage.diplomacyTab.render();
+                }
                 if (cultureRes.value >= cultureRes.maxValue) {
                     embassy_buttons = gamePage.diplomacyTab.racePanels.filter( emb => emb.race.unlocked && emb.embassyButton != null && !emb.embassyButton.model.resourceIsLimited)
                     if (embassy_buttons.length > 0) {
