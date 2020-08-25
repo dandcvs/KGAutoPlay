@@ -434,10 +434,10 @@ function autoTrade() {
                     //blackcoin  speculation
                     if (gamePage.science.get("blackchain").researched || gamePage.resPool.get("blackcoin").value > 0) {
                         if (gamePage.resPool.get("blackcoin").value > 0 && gamePage.calendar.cryptoPrice > 1099 ) {
-                            gamePage.diplomacy.sellEcoin()
+                            gamePage.diplomacy.sellBcoin()
                         }
                         if (!switches['CollectResBReset'] && gamePage.resPool.get("relic").value > 1000 + gamePage.resPool.get("blackcoin").value*1000 && gamePage.calendar.cryptoPrice < 900 ) {
-                            gamePage.diplomacy.buyEcoin()
+                            gamePage.diplomacy.buyBcoin()
                         }
                     }
 
