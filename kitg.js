@@ -145,14 +145,14 @@ function autoPraise(){
             }
 
             if (gamePage.religion.getRU("transcendence").on){
-                var needNextLevel =gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier + 1) - gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier);
+                var needNextLevel = gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier + 1) - gamePage.religion._getTranscendTotalPrice(gamePage.religion.transcendenceTier);
                 if (gamePage.religion.faithRatio > needNextLevel) {
 
                     gamePage.religion.faithRatio -= needNextLevel;
                     gamePage.religion.tcratio += needNextLevel;
-                    gamePage.religion.tclevel += 1;
+                    gamePage.religion.transcendenceTier += 1;
 
-                    self.game.msg($I("religion.transcend.msg.success", [gamePage.religion.tclevel]));
+                    self.game.msg($I("religion.transcend.msg.success", [gamePage.religion.transcendenceTier]));
                 }
             }
 	    } else if ((gamePage.resPool.get("faith").value >= gamePage.resPool.get("faith").maxValue*0.99) && gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -854,7 +854,7 @@ function autoParty() {
 		var catpowerP = gamePage.resPool.get('manpower').value;
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
-		var tclvl = Math.max(gamePage.religion.tclevel,1);
+		var tclvl = Math.max(gamePage.religion.transcendenceTier,1);
 
 		if (catpowerP > 1500 && culture > 5000 && parchment > 2500) {
 		    if (gamePage.prestige.getPerk("carnivals").researched){
