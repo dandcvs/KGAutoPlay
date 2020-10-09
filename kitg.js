@@ -1128,7 +1128,7 @@ function autoRefine() {
                     if (gamePage.tabs[0].buttons[1].model.x100Link.visible && gamePage.tabs[0].buttons[2].model.resourceIsLimited ){
                         gamePage.tabs[0].buttons[1].model.x100Link.handler(gamePage.tabs[0].buttons[1].model);
                     }
-                    else if(gamePage.tabs[0].buttons[2].model.resourceIsLimited && gamePage.tabs[0].buttons[1].model.visible){
+                    else if(gamePage.tabs[0].buttons[2] && gamePage.tabs[0].buttons[2].model.resourceIsLimited && gamePage.tabs[0].buttons[1].model.visible){
                         gamePage.tabs[0].buttons[1].controller.buyItem(gamePage.tabs[0].buttons[1].model, {}, function(){})
                     }
                     else {
