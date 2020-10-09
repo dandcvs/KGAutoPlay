@@ -21,6 +21,7 @@ var IincKAssign = 0;
 var tick = 0;
 var tick_inactive = 0;
 var LeviTradeCnt = 0;
+var embRefreshCnt = 0;
 var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':'','chronosphere':''};
 
 var goldebBuildings = ["temple","tradepost"];
@@ -114,7 +115,7 @@ function autoPraise(){
                 gamePage.religion.resetFaith(1.01, false);
             }
 
-            if (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") + 5){
+            if (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") + 4){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -396,20 +397,26 @@ function autoTrade() {
             let scaffoldRes = gamePage.resPool.get('scaffold');
             let coalRes = gamePage.resPool.get('coal');
             let cultureRes = gamePage.resPool.get('culture');
-            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
-                if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
-                    gamePage.diplomacyTab.render();
-                }
-                if (cultureRes.value >= cultureRes.maxValue) {
+            if (cultureRes.value >= cultureRes.maxValue) {
+                    embRefreshCnt += 1;
+                    if (embRefreshCnt >= 20){
+                         gamePage.diplomacyTab.render();
+                         embRefreshCnt = 0;
+                    }
                     embassy_buttons = gamePage.diplomacyTab.racePanels.filter( emb => emb.race.unlocked && emb.embassyButton != null && !emb.embassyButton.model.resourceIsLimited)
                     if (embassy_buttons.length > 0) {
                         btn = embassy_buttons.sort(function(a, b) {return  a.race.embassyLevel - b.race.embassyLevel;})[0]
                         btn.embassyButton.controller.buyItem(btn.embassyButton.model, {}, function(result) {
                             if (result) {
+                                btn.embassyButton.update();
                                 return;
                             }
                         });
                     }
+                }
+            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 )) {
+                if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
+                    gamePage.diplomacyTab.render();
                 }
 
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
@@ -532,8 +539,8 @@ function autoCraft2() {
 
             if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : gamePage.science.get('agriculture').researched ? 3 : 1,
-                    "logHouse" : 5,
+                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 10 : 7) : 1,
+                    "logHouse" : 7,
                     "mansion" :  gamePage.resPool.get("titanium").value > 100 ? 1.5 : 0.00000001,
                     "steamworks" : gamePage.bld.getBuildingExt('magneto').meta.val > 0 ? 1 : 0.00000001,
                     "magneto" : gamePage.resPool.get("titanium").value > 50 ? 1 : 0.00000001,
@@ -981,8 +988,8 @@ function autoAssign() {
             ["wood", "woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
         	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
-        	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 ,5],
-            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (100 * gamePage.religion.getSolarRevolutionRatio() < 200 ? 0.5 : gamePage.religion.tclevel+1) : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 , gamePage.resPool.get("gold").maxValue < 500 ? 15 : 2],
+        	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 , 5],
+            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (100 * gamePage.religion.getSolarRevolutionRatio() < 200 ? 0.5 : 2) : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 , gamePage.resPool.get("gold").maxValue < 500 ? 15 : 5],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 ];
 
@@ -990,7 +997,7 @@ function autoAssign() {
             let hutBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "hut")[0];
             let logHtBtn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.name == "logHouse")[0];
 
-            if (logHtBtn && (logHtBtn.model.prices.filter(res => res.name == "wood")[0].val < gamePage.resPool.get('wood').maxValue * 0.3 || logHtBtn.model.prices.filter(res => res.name == "minerals")[0].val < gamePage.resPool.get('minerals').maxValue * 0.3)){
+            if  (craftPriority[0] == "logHouse" && logHtBtn && (logHtBtn.model.prices.filter(res => res.name == "wood")[0].val < gamePage.resPool.get('wood').maxValue * 0.3 || logHtBtn.model.prices.filter(res => res.name == "minerals")[0].val < gamePage.resPool.get('minerals').maxValue * 0.3)){
                 if (gamePage.resPool.get('wood').value < logHtBtn.model.prices.filter(res => res.name == "wood")[0].val){
                     resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
                 }
@@ -998,7 +1005,7 @@ function autoAssign() {
                     resourcesAssign[2] = ["minerals", "miner",0.1,0.1]
                 }
             }
-            else if (hutBtn && hutBtn.model.prices.filter(res => res.name == "wood")[0].val < gamePage.resPool.get('wood').maxValue * 0.3){
+            else if (craftPriority[0] == "hut" && hutBtn && hutBtn.model.prices.filter(res => res.name == "wood")[0].val < gamePage.resPool.get('wood').maxValue * 0.3){
                 resourcesAssign[1] = ["wood", "woodcutter",0.1,0.1]
             }
         }
