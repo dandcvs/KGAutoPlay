@@ -554,7 +554,6 @@ function autoCraft2() {
                     "lumberMill" : 0.005,
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? (gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("kerosene").value )) ?  1.1 :  0.00000001 : 0.00000001,
                     "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 :0.01,
-                    "pasture" : gamePage.bld.getBuildingExt('pasture').meta.stage == 1 ? 0.01 : 1,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 : gamePage.resPool.get('parchment').value > 0 ? 1 : 0.00000001,
                     "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
