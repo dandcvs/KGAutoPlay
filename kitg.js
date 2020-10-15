@@ -115,7 +115,7 @@ function autoPraise(){
                 gamePage.religion.resetFaith(1.01, false);
             }
 
-            if (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") + 4){
+            if (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") ){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
@@ -557,7 +557,11 @@ function autoCraft2() {
                     "pasture" : gamePage.bld.getBuildingExt('pasture').meta.stage == 1 ? 0.01 : 1,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 : gamePage.resPool.get('parchment').value > 0 ? 1 : 0.00000001,
-                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001)
+                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
+                    "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 : 10,
+                    "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
+                    "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
+                    "pasture": 0.0001,
                 };
                 var allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
@@ -989,7 +993,7 @@ function autoAssign() {
         	["minerals", "miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
         	["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 , 5],
-            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (100 * gamePage.religion.getSolarRevolutionRatio() < 200 ? 0.5 : 2) : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 , gamePage.resPool.get("gold").maxValue < 500 ? 15 : 5],
+            ["faith", "priest",gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") ? 0.1 : 2) :  (gamePage.religion.getSolarRevolutionRatio() <= gamePage.getEffect("solarRevolutionLimit") ? 0.1 : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ) , gamePage.resPool.get("faith").value < 750 ? 0.1 : 5],
             (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 ];
 
