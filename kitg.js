@@ -106,7 +106,7 @@ function autoObserve() {
 //Auto praise the sun
 function autoPraise(){
 
-	if (gamePage.religionTab.visible) {
+	if (gamePage.religionTab.visible && gamePage.challenges.currentChallenge != 'atheism') {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
@@ -373,7 +373,7 @@ function autoTrade() {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
 
-        if((gamePage.religion.getRU('solarRevolution').val == 1 || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
+        if(((gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
             let titRes = gamePage.resPool.get('titanium');
             let ironRes = gamePage.resPool.get('iron');
             let unoRes = gamePage.resPool.get('unobtainium');
@@ -403,7 +403,7 @@ function autoTrade() {
                         });
                     }
                 }
-            if ((goldResource.value > goldResource.maxValue * 0.95) || (gamePage.ironWill && goldResource.value > 600 ) || gamePage.resPool.get('blueprint').value < 100) {
+            if ((goldResource.value > goldResource.maxValue * 0.95 || goldResource.value > 8000) || (gamePage.ironWill && goldResource.value > 600 ) || gamePage.resPool.get('blueprint').value < 100) {
                 if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
                     gamePage.diplomacyTab.render();
                 }
@@ -441,7 +441,7 @@ function autoTrade() {
 
                 let tradersAll = [
                 ['zebras',titRes,slabRes,0.9,50,1],
-                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500,1] : ['zebras',ironRes,slabRes,0.9,50,1],
+                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500,1] : (gamePage.diplomacy.get('zebras').unlocked ? ['zebras',ironRes,slabRes,0.9,50,1] : ['griffins',ironRes,woodRes,0.9,500,1]),
                 gamePage.ironWill ? ['nagas',mineralsRes,ivoryRes,0.9,500,0.1] : ['nagas',mineralsRes,ivoryRes,0.9,500,1],
                 ['spiders',coalRes,scaffoldRes,0.9,50,1],
                 ['dragons',uranRes,titRes,0.9,250,1]
@@ -519,7 +519,7 @@ function autoCraft2() {
                 ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
                 ["parchment", [["furs",175]],0,true, true],
                 ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 110,true, true],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,1500): 0) : 110,true, true],
+                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
@@ -545,7 +545,7 @@ function autoCraft2() {
                     "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 :0.01,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 :  (gamePage.bld.getBuildingExt('amphitheatre').meta.val == 0 && gamePage.resPool.get('parchment').value > 0) ? 7 :  gamePage.resPool.get('parchment').value > 0 ? 3 : 0.00000001,
-                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
+                    "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value && gamePage.science.get('theology').researched && gamePage.resPool.get("blueprint").value > 100 ) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
                     "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 : 10,
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
