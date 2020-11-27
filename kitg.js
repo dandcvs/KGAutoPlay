@@ -37,7 +37,13 @@ var upgrades_craft = [
 [gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
 
-
+var policy_lst = [
+"liberty", "authocracy", "communism",
+"socialism", "diplomacy", "zebraRelationsAppeasement",
+"knowledgeSharing", "stoicism", "mysticism",
+"clearCutting", "fullIndustrialization", "militarizeSpace",
+"necrocracy", "expansionism"
+];
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
@@ -809,6 +815,29 @@ function autoResearch() {
                 console.log(err);
                 }
             }
+        }
+        //policy
+        if (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get("culture").value >= gamePage.resPool.get("culture").maxValue){
+            var policy_btns = gamePage.tabs[2].policyPanel.children.filter(res => res.model.metadata.unlocked && res.model.enabled && !res.model.metadata.researched)
+            for (var rsc = 0; rsc < policy_btns.length; rsc++) {
+                if (policy_lst.includes(policy_btns[rsc].id)){
+                    try {
+                        pr_no_confirm = gamePage.opts.noConfirm;
+                        gamePage.opts.noConfirm = true;
+                        policy_btns[rsc].controller.buyItem(policy_btns[rsc].model, {}, function(result) {
+                            if (result) {
+                                policy_btns[rsc].update();
+                                gamePage.msg('Policy researched: ' + policy_btns[rsc].model.name );
+                                return;
+                            }
+                        });
+                        gamePage.opts.noConfirm = pr_no_confirm;
+                    } catch(err) {
+                    console.log(err);
+                    }
+                }
+            }
+
         }
     }
 }
