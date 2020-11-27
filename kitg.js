@@ -818,7 +818,7 @@ function autoResearch() {
         }
         //policy
         if (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get("culture").value >= gamePage.resPool.get("culture").maxValue){
-            var policy_btns = gamePage.tabs[2].policyPanel.children.filter(res => res.model.metadata.unlocked && res.model.enabled && !res.model.metadata.researched)
+            var policy_btns = gamePage.tabs[2].policyPanel.children.filter(res => res.model.metadata.unlocked && res.model.enabled && !res.model.metadata.researched && !res.model.resourceIsLimited)
             for (var rsc = 0; rsc < policy_btns.length; rsc++) {
                 if (policy_lst.includes(policy_btns[rsc].id)){
                     try {
