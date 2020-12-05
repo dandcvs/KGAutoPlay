@@ -524,7 +524,7 @@ function autoCraft2() {
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
                 ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
                 ["parchment", [["furs",175]],0,true, true],
-                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 110,true, true],
+                ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 200,true, true],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
@@ -534,8 +534,8 @@ function autoCraft2() {
 
             if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 10 : 5) : 1,
-                    "logHouse" :6,
+                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 5) : 1,
+                    "logHouse" : 6 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "mansion" :  gamePage.resPool.get("titanium").value > 100 ? 1.5 : 0.00000001,
                     "steamworks" : gamePage.bld.getBuildingExt('magneto').meta.val > 0 ? 1 : 0.00000001,
                     "magneto" : gamePage.resPool.get("titanium").value > 50 ? 1 : 0.00000001,
@@ -546,13 +546,13 @@ function autoCraft2() {
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? 5 : 0.001,
                     "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1) ? 100 :  (gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01,
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
-                    "lumberMill" : 0.005,
+                    "lumberMill" : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? (gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("kerosene").value )) ?  1.1 :  0.00000001 : 0.00000001,
                     "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 :0.01,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 :  (gamePage.bld.getBuildingExt('amphitheatre').meta.val == 0 && gamePage.resPool.get('parchment').value > 0) ? 7 :  gamePage.resPool.get('parchment').value > 0 ? 3 : 0.00000001,
                     "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value && gamePage.science.get('theology').researched && gamePage.resPool.get("blueprint").value > 100 ) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
-                    "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 : 10,
+                    "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 10,
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
                 };
@@ -574,10 +574,11 @@ function autoCraft2() {
                     if (a[2][d].val >  gamePage.resPool.get(a[2][d].name).value) {
                         s = a[2][d].val
                         for (var g = 0; g < resourcesAll.length; g++)  {
-                             if (a[2][d].name == "alloy" && a[2][d].name == resourcesAll[g][0] ) {
+                             if (["alloy", "steel", "plate"].includes(a[2][d].name) && a[2][d].name == resourcesAll[g][0] ) {
+                                differ =  gamePage.resPool.get(a[2][d].name).value - a[2][d].val
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
-                                    if ( s < (resourcesAll[g][1][h][1] * a[2][d].val)/(gamePage.getCraftRatio()+1)) {
-                                        s = (resourcesAll[g][1][h][1] * a[2][d].val)/(gamePage.getCraftRatio()+1)
+                                    if ( s < (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)) {
+                                        s = (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)
                                     }
                                 }
                              }
@@ -589,10 +590,11 @@ function autoCraft2() {
                     if (b[2][d].val >  gamePage.resPool.get(b[2][d].name).value) {
                         s = b[2][d].val
                         for (var g = 0; g < resourcesAll.length; g++)  {
-                             if (b[2][d].name == "alloy" &&  b[2][d].name == resourcesAll[g][0]) {
+                             if (["alloy", "steel", "plate"].includes(b[2][d].name) &&  b[2][d].name == resourcesAll[g][0]) {
+                                differ =  gamePage.resPool.get(b[2][d].name).value - b[2][d].val
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
-                                    if (s < (resourcesAll[g][1][h][1] * b[2][d].val)/(gamePage.getCraftRatio()+1)) {
-                                        s = (resourcesAll[g][1][h][1] * b[2][d].val)/(gamePage.getCraftRatio()+1)
+                                    if (s < (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)) {
+                                        s = (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)
                                     }
                                 }
                              }
@@ -1005,7 +1007,7 @@ function autozig() {
 function autoAssign() {
         var resourcesAssign = {
        		"catnip": ["catnip", "farmer",gamePage.resPool.get("beam").value > gamePage.resPool.get("catnip").maxValue ? (gamePage.resPool.get("beam").value / gamePage.resPool.get("catnip").maxValue + 9) :9, (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt('temple').meta.val < 1) ? 0.1 : 1],
-            "wood, beam": ["wood","woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
+        	"wood, beam": ["wood","woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
         	"minerals, slab": ["minerals","miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             "science": ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
         	"manpower, parchment": ["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 , (gamePage.workshopTab.visible && gamePage.resPool.get("parchment").value == 0) ? 0.1 : 1],
