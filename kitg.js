@@ -652,7 +652,7 @@ function autoCraft2() {
                         resourcesAll[g][4] =  true
                     }else{
                         for (var z = 0; z < resourcesAll[g][1].length; z++) {
-                            if (resourcesAll[g][1][z][0] in reslist && resourcesAll[g][1][z][0] != 'plate' ) {
+                            if (resourcesAll[g][1][z][0] in reslist && resourcesAll[g][1][z][0] != 'plate' &&  resourcesAll[g][0] != 'ship') {
                                 resourcesAll[g][3] =  false
                                 resourcesAll[g][4] =  false
                             }
