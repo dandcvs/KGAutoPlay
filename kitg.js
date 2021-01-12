@@ -544,7 +544,7 @@ function autoCraft2() {
                     "warehouse" : 0.01,
                     "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? 5 : 0.001,
-                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1) ? 100 :  (gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01,
+                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 :  (gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01,
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
                     "lumberMill" : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? (gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("kerosene").value )) ?  1.1 :  0.00000001 : 0.00000001,
@@ -618,11 +618,11 @@ function autoCraft2() {
 
                                     if (isNaN(reslist[resourcesAll[g][1][h][0]])) {
                                        let tmpval = (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,gamePage.resPool.get(resourcesAll[g][1][h][0]).value +1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval * 1.1 ,gamePage.resPool.get(resourcesAll[g][1][h][0]).value +1)
                                     }
                                     else {
                                        let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval,gamePage.resPool.get(resourcesAll[g][1][h][0]).value + 1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval  * 1.1 ,gamePage.resPool.get(resourcesAll[g][1][h][0]).value + 1)
                                     }
                                     reslist2[reslist2.length] = resourcesAll[g][1][h][0]
                                 }
@@ -650,6 +650,13 @@ function autoCraft2() {
                         resourcesAll[g][2] = reslist[resourcesAll[g][0]]
                         resourcesAll[g][3] =  false
                         resourcesAll[g][4] =  true
+                    }else{
+                        for (var z = 0; z < resourcesAll[g][1].length; z++) {
+                            if (resourcesAll[g][1][z][0] in reslist && resourcesAll[g][1][z][0] != 'plate' ) {
+                                resourcesAll[g][3] =  false
+                                resourcesAll[g][4] =  false
+                            }
+                        }
                     }
                 }
 
