@@ -418,12 +418,12 @@ function autoTrade() {
                     LeviTradeCnt += 1;
                     if (gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                    }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio() ) {
+                    }else if(unoRes.value > unoRes.maxValue * 0.95 && gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1) ) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1)));
                     }else if(unoRes.value > 5000 &&(unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-50)*10000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*50 ))) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1)));
                     }else if(unoRes.value > 5000 && ((LeviTradeCnt > 15 && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10)|| switches['CollectResBReset'] )) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(unoRes.value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1)));
+                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(gamePage.resPool.get('unobtainium').value/(gamePage.resPool.get("timeCrystal").value < 45 ? 20000 : 100000)),1)));
                         LeviTradeCnt = 0;
                     }
 
@@ -509,25 +509,25 @@ function autoCraft2() {
             GlobalMsg['craft'] = ''
             //finding priority bld for now
             var  resourcesAll = [
-                ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*gamePage.getCraftRatio()+1,50000),true, true],
-                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*gamePage.getCraftRatio()+1,50000), gamePage.ironWill ? false : true, true],
-                ["steel", [["iron",100],["coal",100]],Math.min(Math.max(Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*gamePage.getCraftRatio()+1),75),50000),true, true],
+                ["beam", [["wood",175]],Math.min(gamePage.resPool.get("wood").value/175*(gamePage.getCraftRatio()+1),50000),true, true],
+                ["slab", [["minerals",250]], Math.min(gamePage.resPool.get("minerals").value/250*(gamePage.getCraftRatio()+1),50000), gamePage.ironWill ? false : true, true],
+                ["steel", [["iron",100],["coal",100]],Math.min(Math.max(Math.min(gamePage.resPool.get("iron").value/100*gamePage.getCraftRatio()+1,gamePage.resPool.get("coal").value/100*(gamePage.getCraftRatio()+1)),75),50000),true, true],
                 (gamePage.bld.getBuildingExt('reactor').meta.unlocked && !gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('reactor'))) ?
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 : gamePage.bld.getPrices('reactor')[1].val, false, true] :
-                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*gamePage.getCraftRatio()+1,50000),true, true],
+                ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*(gamePage.getCraftRatio()+1),50000),true, true],
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
-                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*gamePage.getCraftRatio()+1,gamePage.resPool.get("titanium").value/10*gamePage.getCraftRatio()+1), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),true, true],
-                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*gamePage.getCraftRatio()+1,50000),false, true],
+                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*(gamePage.getCraftRatio()+1),gamePage.resPool.get("titanium").value/10*(gamePage.getCraftRatio()+1)), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),true, true],
+                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*(gamePage.getCraftRatio()+1),50000),false, true],
                 ["scaffold", [["beam",50]],0,true, true],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],gamePage.workshop.get("geodesy").researched ? 100 : (gamePage.resPool.get("starchart").value > 500 || gamePage.resPool.get("ship").value > 500) ? 100 + (gamePage.resPool.get("starchart").value - 500)/25 :100 ,true, true],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
-                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*gamePage.getCraftRatio()+1,50000),true, true],
-                ["parchment", [["furs",175]],0,true, true],
+                ["kerosene", [["oil",7500]],Math.min(gamePage.resPool.get("oil").value/7500*(gamePage.getCraftRatio()+1),50000),true, true],
+                ["parchment", [["furs",175]],gamePage.resPool.get("starchart").value > 1 ? 100 : 0,true, true],
                 ["manuscript", [["parchment",25],["culture",400]],gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 ? 50 : 0) : 200,true, true],
-                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*gamePage.getCraftRatio()+1,1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
+                ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*(gamePage.getCraftRatio()+1),1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
-                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*gamePage.getCraftRatio()+1,50000),true, true],
+                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, true],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, true]
             ]
 
@@ -544,7 +544,7 @@ function autoCraft2() {
                     "warehouse" : 0.01,
                     "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? 5 : 0.001,
-                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 :  (gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01,
+                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01),
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
                     "lumberMill" : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? (gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("kerosene").value )) ?  1.1 :  0.00000001 : 0.00000001,
@@ -575,7 +575,7 @@ function autoCraft2() {
                         s = a[2][d].val
                         for (var g = 0; g < resourcesAll.length; g++)  {
                              if (["alloy", "steel", "plate"].includes(a[2][d].name) && a[2][d].name == resourcesAll[g][0] ) {
-                                differ =  gamePage.resPool.get(a[2][d].name).value - a[2][d].val
+                                differ =  a[2][d].val - gamePage.resPool.get(a[2][d].name).value
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
                                     if ( s < (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)) {
                                         s = (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)
@@ -591,7 +591,7 @@ function autoCraft2() {
                         s = b[2][d].val
                         for (var g = 0; g < resourcesAll.length; g++)  {
                              if (["alloy", "steel", "plate"].includes(b[2][d].name) &&  b[2][d].name == resourcesAll[g][0]) {
-                                differ =  gamePage.resPool.get(b[2][d].name).value - b[2][d].val
+                                differ =  b[2][d].val - gamePage.resPool.get(b[2][d].name).value
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
                                     if (s < (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)) {
                                         s = (resourcesAll[g][1][h][1] * differ)/(gamePage.getCraftRatio()+1)
@@ -618,11 +618,11 @@ function autoCraft2() {
 
                                     if (isNaN(reslist[resourcesAll[g][1][h][0]])) {
                                        let tmpval = (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval * 1.1 ,gamePage.resPool.get(resourcesAll[g][1][h][0]).value +1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 1 : Math.max(tmpval, gamePage.resPool.get(resourcesAll[g][1][h][0]).value)
                                     }
                                     else {
                                        let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
-                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 0 : Math.max(tmpval  * 1.1 ,gamePage.resPool.get(resourcesAll[g][1][h][0]).value + 1)
+                                       reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 1 : Math.max(tmpval, gamePage.resPool.get(resourcesAll[g][1][h][0]).value)
                                     }
                                     reslist2[reslist2.length] = resourcesAll[g][1][h][0]
                                 }
@@ -647,12 +647,14 @@ function autoCraft2() {
             if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
                 for (var g = 0; g < resourcesAll.length; g++) {
                     if (resourcesAll[g][0] in reslist) {
-                        resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                        if (resourcesAll[g][2] < reslist[resourcesAll[g][0]]){
+                            resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                        }
                         resourcesAll[g][3] =  false
                         resourcesAll[g][4] =  true
                     }else{
                         for (var z = 0; z < resourcesAll[g][1].length; z++) {
-                            if (resourcesAll[g][1][z][0] in reslist && resourcesAll[g][1][z][0] != 'plate' &&  resourcesAll[g][0] != 'ship') {
+                            if (resourcesAll[g][1][z][0] in reslist && (gamePage.resPool.get(resourcesAll[g][1][z][0]).value != gamePage.resPool.get(resourcesAll[g][1][z][0]).maxValue || gamePage.resPool.get(resourcesAll[g][1][z][0]).value < reslist[resourcesAll[g][1][z][0]] * 2)  && resourcesAll[g][0] != 'plate' && resourcesAll[g][0] != 'ship') {
                                 resourcesAll[g][3] =  false
                                 resourcesAll[g][4] =  false
                             }
@@ -676,7 +678,9 @@ function autoCraft2() {
 
                                 for (var g = 0; g < resourcesAll.length; g++) {
                                     if (resourcesAll[g][0] == upgrades_craft[pru][1][j][0]) {
-                                        resourcesAll[g][2] =  upgrades_craft[pru][1][j][1]
+                                        if (resourcesAll[g][2] < upgrades_craft[pru][1][j][1]){
+                                            resourcesAll[g][2] =  upgrades_craft[pru][1][j][1]
+                                        }
                                         resourcesAll[g][3] =  false
                                         resourcesAll[g][4] =  true
                                     }
@@ -756,7 +760,7 @@ function autoCraft2() {
                                                 cnt = cnt == 0 ? 1 : cnt
                                                 if (resourcesAllF[crf][0] == "eludium") {
                                                    if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
-                                                        if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/gamePage.getCraftRatio()) {
+                                                        if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1)) {
                                                              cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
                                                         }
                                                    }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
@@ -1017,8 +1021,8 @@ function autoAssign() {
         	"wood, beam": ["wood","woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
         	"minerals, slab": ["minerals","miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             "science": ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
-        	"manpower, parchment": ["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 110) ? 0.1 : 1 , (gamePage.workshopTab.visible && gamePage.resPool.get("parchment").value == 0) ? 0.1 : 1],
-            "faith": ["faith", "priest", gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 0.1 : 2) :  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 0.1 : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ) , (gamePage.resPool.get("faith").value < 750 && gamePage.resPool.get("gold").maxValue >= 500 ) ? 0.1 : 5],
+        	"manpower, parchment": ["manpower", "hunter",(gamePage.science.get('theology').researched && gamePage.resPool.get("compedium").value < 110 && gamePage.resPool.get("manuscript").value < 200) ? 0.1 : 1 , (gamePage.workshopTab.visible && gamePage.resPool.get("parchment").value == 0) ? 0.1 : 1],
+            "faith": ["faith", "priest", gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 0.1 : 2) :  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 1 : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ) , (gamePage.resPool.get("faith").value < 750 && gamePage.resPool.get("gold").maxValue >= 500 ) ? 0.1 : 5],
             "coal, gold": (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 };
 
@@ -1379,32 +1383,32 @@ function Timepage() {
 
 
             if (!switches['CollectResBReset'] || gamePage.time.meta[0].meta[5].val >= 1) {
-                if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.calendar.year == 0 || gamePage.religion.getZU("blackPyramid").val > 0) && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || (gamePage.calendar.cycle != 5 || (gamePage.time.meta[0].meta[5].val >= 1 && tc_val >= 1 ))) && ((gamePage.calendar.cycle != 5 || (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && (tc_val > (fast_combust ? 5 : 45) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) && gamePage.space.getBuilding('sunlifter').val > 0 ))  || ( gamePage.time.meta[0].meta[5].val >= 1 && ((gamePage.time.heat == 0 && (gamePage.calendar.cycle != 5 || (gamePage.calendar.season > 0 && gamePage.time.meta[0].meta[5].val >= 3) ))  || ( (fast_combust ? true : gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax")) && tc_val > (gamePage.time.meta[0].meta[5].val >= 3 ? 5 : 100) && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || (fast_combust ? true : gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5 && gamePage.calendar.day < 10))))))) {
-                    if (tc_val > 500 && factor * (not_dark ? 5 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5)) <= gamePage.getEffect("heatMax")  &&  [4, 5].indexOf(gamePage.calendar.cycle) == -1 && gamePage.time.meta[0].meta[5].val >= 1) {
-                        if ((not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5) == 5 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5) * factor)){
+                if ( gamePage.resPool.energyProd - gamePage.resPool.energyCons >= 0 && gamePage.calendar.day > 0 && (gamePage.calendar.year == 0 || gamePage.religion.getZU("blackPyramid").val > 0) && (gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue || (gamePage.calendar.cycle != 5 || (gamePage.time.meta[0].meta[5].val >= 1 && tc_val >= 1 ))) && ((gamePage.calendar.cycle != 5 || (gamePage.time.meta[0].meta[5].val >= 3 && gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && (tc_val > (fast_combust ? 5 : 45) && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) && gamePage.space.getBuilding('sunlifter').val > 0 ))  || ( gamePage.time.meta[0].meta[5].val >= 1 && ((gamePage.time.heat == 0 && (gamePage.calendar.cycle != 5 || (gamePage.calendar.season > 0 && gamePage.time.meta[0].meta[5].val >= 3) ))  || ( (fast_combust ? true : gamePage.time.heat + 50 * factor < gamePage.getEffect("heatMax")) && tc_val > (gamePage.time.meta[0].meta[5].val >= 3 ? 5 : 5000) && gamePage.calendar.cycle == 5 &&  (gamePage.calendar.season > 0 || (fast_combust ? true : gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5 && gamePage.calendar.day < 10))))))) {
+                    if (tc_val > 500 && factor * (not_dark ? 5 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal) <= gamePage.getEffect("heatMax")  &&  [4, 5].indexOf(gamePage.calendar.cycle) == -1 && gamePage.time.meta[0].meta[5].val >= 1) {
+                        if ((not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal <= 5 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal * factor)){
                             chronoforge[0].controller.doShatterAmt(chronoforge[0].model, gamePage.calendar.yearsPerCycle)
                             chronoforge[0].update();
                         }
                     }
-                    else if (factor * (not_dark ? 500 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500)) <= gamePage.getEffect("heatMax") && tc_val >= 500 && gamePage.calendar.cycle != 4 &&  gamePage.time.meta[0].meta[5].val >= 3) {
-                        if (gamePage.calendar.cycle != 4 && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500) == 500 : gamePage.getEffect("heatMax")  - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500) * factor) &&  (gamePage.time.meta[0].meta[5].val >= 3 || (!gamePage.ironWill && gamePage.time.meta[0].meta[5].val >= 1))) {
+                    else if (factor * (not_dark ? 500 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal) <= gamePage.getEffect("heatMax") && tc_val >= 500 && gamePage.calendar.cycle != 4 &&  gamePage.time.meta[0].meta[5].val >= 3) {
+                        if (gamePage.calendar.cycle != 4 && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal <= 500 : gamePage.getEffect("heatMax")  - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal * factor) &&  (gamePage.time.meta[0].meta[5].val >= 3 || (!gamePage.ironWill && gamePage.time.meta[0].meta[5].val >= 1))) {
                             chronoforge[0].controller.doShatterAmt(chronoforge[0].model, 5 * gamePage.calendar.yearsPerCycle * gamePage.calendar.cyclesPerEra * 2)
                             chronoforge[0].update();
                         }
                     }
-                    else if (factor * (not_dark ? 45 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45)) <= gamePage.getEffect("heatMax") && tc_val >= 45 && gamePage.calendar.cycle != 4 && gamePage.time.meta[0].meta[5].val >= 3) {
-                        if (gamePage.calendar.cycle != 4  && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45) == 45 : gamePage.getEffect("heatMax")  - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45) * factor) &&  (gamePage.time.meta[0].meta[5].val >= 3 || (!gamePage.ironWill && gamePage.time.meta[0].meta[5].val >= 1))) {
+                    else if (factor * (not_dark ? 45 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45).timeCrystal) <= gamePage.getEffect("heatMax") && tc_val >= 45 && gamePage.calendar.cycle != 4 && gamePage.time.meta[0].meta[5].val >= 3) {
+                        if (gamePage.calendar.cycle != 4  && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45).timeCrystal <= 45 : gamePage.getEffect("heatMax")  - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 45).timeCrystal * factor) &&  (gamePage.time.meta[0].meta[5].val >= 3 || (!gamePage.ironWill && gamePage.time.meta[0].meta[5].val >= 1))) {
                             chronoforge[0].controller.doShatterAmt(chronoforge[0].model, gamePage.calendar.yearsPerCycle * (gamePage.calendar.cyclesPerEra - 1))
                             chronoforge[0].update();
                         }
                     }
-                    else if (factor * (not_dark ? 5 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5)) <= gamePage.getEffect("heatMax") && tc_val >= 5 && gamePage.calendar.cycle != 4 && gamePage.time.meta[0].meta[5].val >= 1) {
-                        if ((not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5) == 5 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5) * factor)){
+                    else if (factor * (not_dark ? 5 : chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal) <= gamePage.getEffect("heatMax") && tc_val >= 5 && gamePage.calendar.cycle != 4 && gamePage.time.meta[0].meta[5].val >= 1) {
+                        if ((not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal <= 5 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 5).timeCrystal * factor)){
                             chronoforge[0].controller.doShatterAmt(chronoforge[0].model, gamePage.calendar.yearsPerCycle)
                             chronoforge[0].update();
                         }
                     }
-                    else if (tc_val >= 1 && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 1) == 1 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 1) * factor)) {
+                    else if (tc_val >= 1 && (not_dark ? chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 1).timeCrystal <= 1 : gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 1).timeCrystal * factor)) {
                             try {
                                    chronoforge[0].controller.buyItem(chronoforge[0].model, {}, function(result) {
                                     if (result) {

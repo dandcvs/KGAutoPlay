@@ -1,5 +1,5 @@
 # KGAutoPlay
-A script to automate playing the addicting <a href="http://bloodrizer.ru/games/kittens/#">Kittens Game</a>
+A script to automate playing the addicting <a href="http://kittensgame.com/web/#">Kittens Game</a>
 
 Based on script <a href="https://github.com/MaPaul1977/KittensGame">MaPaul1977</a>
 
