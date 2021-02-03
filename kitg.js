@@ -112,7 +112,7 @@ function autoObserve() {
 //Auto praise the sun
 function autoPraise(){
 
-	if (gamePage.religionTab.visible && gamePage.challenges.currentChallenge != 'atheism') {
+	if (gamePage.religionTab.visible && !gamePage.challenges.isActive("atheism")) {
 	    gamePage.tabs[5].update();
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
@@ -379,7 +379,7 @@ function autoTrade() {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
 
-        if(((gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
+        if(((gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
             let titRes = gamePage.resPool.get('titanium');
             let ironRes = gamePage.resPool.get('iron');
             let unoRes = gamePage.resPool.get('unobtainium');
@@ -544,7 +544,7 @@ function autoCraft2() {
                     "warehouse" : 0.01,
                     "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? 5 : 0.001,
-                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? 1 : 0.01),
+                    "observatory" : (gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.isActive("atheism")) ? 1 : 0.01),
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
                     "lumberMill" : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "calciner" : gamePage.resPool.get("titanium").value > 0 ? (gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner')[3].val < gamePage.resPool.get("kerosene").value )) ?  1.1 :  0.00000001 : 0.00000001,
@@ -1027,7 +1027,7 @@ function autoAssign() {
                 };
 
         if(Object.keys(craftPriority[0]).length > 0){
-            let tstres = ["wood", "minerals", "science", "faith", "gold"].filter(x => gamePage.bld.getPrices(craftPriority[0]).map(elem => elem.name).includes(x))
+            let tstres = ["wood", "minerals", "beam", "slab", "science", "faith", "gold", "coal", "manpower", "parchment"].filter(x => gamePage.bld.getPrices(craftPriority[0]).map(elem => elem.name).includes(x))
             if (tstres.length > 0) {
                 tstres.forEach(function(entry) {
                     if (gamePage.resPool.get(entry).value < gamePage.bld.getPrices(craftPriority[0]).filter(el => el.name == entry)[0].val) {
@@ -1040,11 +1040,11 @@ function autoAssign() {
         }
 
         resourcesAssign = Object.entries(resourcesAssign).map(([k,v]) => v);
-	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked && ( gamePage.challenges.currentChallenge != 'atheism' || res[0] != 'faith'));
+	    let restmp = resourcesAssign.filter(res => res[0] in gamePage.village.getJob(res[1]).modifiers &&  gamePage.village.getJob(res[1]).unlocked && ( !gamePage.challenges.isActive("atheism") || res[0] != 'faith'));
 	    restmpq = restmp.sort(function(a, b) {
 	            if (gamePage.resPool.get(a[0]).value >= gamePage.resPool.get(a[0]).maxValue){
 	                atick = gamePage.resPool.get(a[0]).maxValue * 10;
-	                ajobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? a[2] : a[3];
+	                ajobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? a[2] : a[3];
 	            }
 	            else{
 	                atick = gamePage.calcResourcePerTick(a[0]);
@@ -1052,14 +1052,14 @@ function autoAssign() {
 	            }
 	            if (gamePage.resPool.get(b[0]).value >= gamePage.resPool.get(b[0]).maxValue){
 	                btick = gamePage.resPool.get(b[0]).maxValue * 10;
-	                bjobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? b[2] : b[3];
+	                bjobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? b[2] : b[3];
 	            }
 	            else{
 	                btick = gamePage.calcResourcePerTick(b[0]);
 	                bjobs = gamePage.village.getJob(b[1]).value;
 	            }
-	            kfa = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? a[2] : a[3];
-	            kfb = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.currentChallenge == 'atheism') ? b[2] : b[3];
+	            kfa = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? a[2] : a[3];
+	            kfb = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? b[2] : b[3];
 	            return (((atick / gamePage.resPool.get(a[0]).maxValue) * (gamePage.resPool.get(a[0]).value / gamePage.resPool.get(a[0]).maxValue) * (kfa * ajobs) ) * kfa - ((btick / gamePage.resPool.get(b[0]).maxValue) * (gamePage.resPool.get(b[0]).value / gamePage.resPool.get(b[0]).maxValue) * (kfb * bjobs)) * kfb);
 
         });
@@ -1212,7 +1212,7 @@ function UpgradeBuildings() {
         gamePage.bld.getBuildingExt('reactor').meta.isAutomationEnabled = true
     }
 
-    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || gamePage.space.getProgram("orbitalLaunch").val == 1 ));
+    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || (gamePage.space.getProgram("orbitalLaunch").val == 1 && !gamePage.challenges.isActive("energy") ) ));
     var upgradeTarget;
     for (var up = 0; up < mblds.length; up++) {
         upgradeTarget = gamePage.tabs[0].buttons.find(res => res.model.metadata && res.model.metadata.name == mblds[up].name);
@@ -1259,7 +1259,7 @@ function UpgradeBuildings() {
 
 function ResearchSolarRevolution() {
         GlobalMsg['solarRevolution'] = ''
-        if (gamePage.religion.getRU('solarRevolution').val == 0 && gamePage.challenges.currentChallenge != 'atheism'){
+        if (gamePage.religion.getRU('solarRevolution').val == 0 && !gamePage.challenges.isActive("atheism")){
             if (gamePage.science.get('theology').researched){
                 GlobalMsg['solarRevolution'] =  gamePage.religion.getRU("solarRevolution").label
             }
@@ -1488,7 +1488,7 @@ if (gamePage.ironWill){
 
 
 function SellSpaceAndReset(){
-     if (!gamePage.challenges.currentChallenge) {
+     if (!gamePage.challenges.anyChallengeActive()) {
         msg = "Sell all space and Reset?";
         gamePage.ui.confirm($I("reset.confirmation.title"), msg, function() {
             let optsell = gamePage.opts.hideSell
