@@ -117,11 +117,11 @@ function autoPraise(){
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
             //reset faith with voidResonance > 0
-            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * Math.min(gamePage.religion.transcendenceTier, 10, Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")))){
+            if (gamePage.getEffect("voidResonance") > 0 && gamePage.religion.getRU("apocripha").on  && gamePage.religion.getRU("transcendence").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * Math.min(gamePage.religion.transcendenceTier, 10, Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")))){
                 gamePage.religion.resetFaith(1.01, false);
             }
 
-            if ( gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * Math.min(gamePage.religion.transcendenceTier, 10, Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")))){
+            if ( gamePage.religion.getRU("apocripha").on && gamePage.religion.getRU("transcendence").on && (gamePage.religion.faith / gamePage.religion.getApocryphaBonus()) >  gamePage.resPool.get("faith").maxValue * Math.min(gamePage.religion.transcendenceTier, 10, Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")))){
                 gamePage.religion.resetFaith(1.01, false);
             }
             else if (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit"))){
@@ -409,7 +409,7 @@ function autoTrade() {
                         });
                     }
                 }
-            if ((goldResource.value > goldResource.maxValue * 0.95 || goldResource.value > 8000) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || gamePage.resPool.get('blueprint').value < 100) {
+            if ((goldResource.value > goldResource.maxValue * 0.95 || (goldResource.value > 8000 ||  gamePage.religion.getRU("transcendence").on) ) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || gamePage.resPool.get('blueprint').value < 100) {
                 if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
                     gamePage.diplomacyTab.render();
                 }
