@@ -1433,7 +1433,6 @@ function Timepage() {
                                 chronoforge[t].controller.buyItem(chronoforge[t].model, {}, function(result) {
                                     if (result) {
                                         chronoforge[t].update();
-                                        console.log(t);
                                         gamePage.msg('Build in Time: ' + chronoforge[t].model.name );
                                     }
                                     });
