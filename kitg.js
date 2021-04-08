@@ -207,7 +207,7 @@ function autoPraise(){
 
 // Build buildings automatically
 function autoBuild() {
-        var btn = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && Object.keys(craftPriority[0]).length > 0 ? ((res.model.metadata.name == craftPriority[0]) || (NotPriority_blds.indexOf(res.model.metadata.name) > -1) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1 ).length == 0 ) ) : res.model.metadata );
+        var btn = gamePage.tabs[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited && Object.keys(craftPriority[0]).length > 0 ? ((res.model.metadata.name == craftPriority[0]) || (NotPriority_blds.indexOf(res.model.metadata.name) > -1) || (res.model.prices.filter(ff2 => craftPriority[3].indexOf(ff2.name) != -1 ).length == 0 ) ) : res.model.metadata );
         for (var bl = 0 ;bl < btn.length; bl++) {
              btn[bl].controller.updateEnabled(btn[bl].model);
              if  (btn[bl].model.enabled){
@@ -556,7 +556,7 @@ function autoCraft2() {
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
                 };
-                var allblds = gamePage.tabs[0].buttons.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
+                var allblds = gamePage.tabs[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
                 for (var prc = 0; prc < allblds.length; prc++)  {
                     if (!gamePage.ironWill || (!allblds[prc].model.metadata.effects.maxKittens)) {
@@ -923,7 +923,7 @@ function autozig() {
 
 
         if (gamePage.religionTab.sacrificeBtn && gamePage.resPool.get('unicorns').value > gamePage.resPool.get('tears').value ){
-            var btn = gamePage.tabs[0].buttons.filter(res =>  res.model.metadata && res.model.metadata.unlocked && res.model.metadata.name == 'unicornPasture');
+            var btn = gamePage.tabs[0].children.filter(res =>  res.model.metadata && res.model.metadata.unlocked && res.model.metadata.name == 'unicornPasture');
 
             if (btn.length > 0 &&  ((btn[0].model.prices.filter(res => res.name == "unicorns")[0].val - gamePage.resPool.get('unicorns').value) / (gamePage.getResourcePerTick('unicorns', true) * gamePage.getTicksPerSecondUI()))/60 > 2){
                 if(gamePage.religionTab.sacrificeBtn.model.allLink.visible){
@@ -1105,12 +1105,12 @@ function energyControl() {
             }
 
             var EnergyPriority = [
-                [bldSmelter,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
-                [bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1) ,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
-                [bldBioLab,(gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.2) ? 0.2 : Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1),gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "biolab")],
-                [bldFactory,0.01,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "factory")],
-                (gamePage.ironWill && Math.min(Math.floor(gamePage.resPool.get('coal').value /(gamePage.resPool.get('coal').maxValue / gamePage.bld.getBuildingExt('calciner').meta.val)), Math.floor(gamePage.resPool.get('minerals').value / 1000)) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [bldCalciner,0.101,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
-                [bldAccelerator,0.09,gamePage.tabs[0].buttons.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
+                [bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
+                [bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1) ,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
+                [bldBioLab,(gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.2) ? 0.2 : Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1),gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "biolab")],
+                [bldFactory,0.01,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory")],
+                (gamePage.ironWill && Math.min(Math.floor(gamePage.resPool.get('coal').value /(gamePage.resPool.get('coal').maxValue / gamePage.bld.getBuildingExt('calciner').meta.val)), Math.floor(gamePage.resPool.get('minerals').value / 1000)) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [bldCalciner,0.101,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
+                [bldAccelerator,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
                 [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null,gamePage.science.get('antimatter').researched ? gamePage.resPool.get("antimatter").maxValue/gamePage.resPool.get("antimatter").value * 0.1 : 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
                 [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null,0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null]
                  ];
@@ -1137,7 +1137,7 @@ function energyControl() {
 
 function autoNip() {
 		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 && (gamePage.gatherClicks  < 2500 || gamePage.ironWill )) {
-		    btn = gamePage.tabs[0].buttons[0];
+		    btn = gamePage.tabs[0].children[0];
 			try {
 				btn.controller.buyItem(btn.model, {}, function(result) {
 					if (result) {
@@ -1152,18 +1152,18 @@ function autoNip() {
 		}
 }
 function autoRefine() {
-    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].buttons[2].model.prices.filter(res => res.name == "catnip")[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 ))) {
+    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( gamePage.village.getKittens() == 0 || (gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val > (gamePage.calcResourcePerTick('catnip') * 500 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 ))) {
         if (!gamePage.workshopTab.visible ){
 
-                    if (gamePage.tabs[0].buttons[1].model.x100Link.visible && gamePage.tabs[0].buttons[2].model.resourceIsLimited ){
-                        gamePage.tabs[0].buttons[1].model.x100Link.handler(gamePage.tabs[0].buttons[1].model);
+                    if (gamePage.tabs[0].children[1].model.x100Link.visible && gamePage.tabs[0].children[2].model.resourceIsLimited ){
+                        gamePage.tabs[0].children[1].model.x100Link.handler(gamePage.tabs[0].children[1].model);
                     }
-                    else if(gamePage.tabs[0].buttons[2] && gamePage.tabs[0].buttons[2].model.resourceIsLimited && gamePage.tabs[0].buttons[1].model.visible){
-                        gamePage.tabs[0].buttons[1].controller.buyItem(gamePage.tabs[0].buttons[1].model, {}, function(){})
+                    else if(gamePage.tabs[0].children[2] && gamePage.tabs[0].children[2].model.resourceIsLimited && gamePage.tabs[0].children[1].model.visible){
+                        gamePage.tabs[0].children[1].controller.buyItem(gamePage.tabs[0].children[1].model, {}, function(){})
                     }
                     else {
-                        btn = gamePage.tabs[0].buttons[1];
-                        price = gamePage.tabs[0].buttons[1].model.prices.filter(res => res.name == "catnip")[0].val;
+                        btn = gamePage.tabs[0].children[1];
+                        price = gamePage.tabs[0].children[1].model.prices.filter(res => res.name == "catnip")[0].val;
                         limit = Math.ceil(Math.min(gamePage.resPool.get('wood').maxValue * 0.1 - gamePage.resPool.get('wood').value, Math.trunc(gamePage.resPool.get('catnip').value/price)-1));
 
 
@@ -1182,9 +1182,9 @@ function autoRefine() {
                     }
 
         }
-        else if(gamePage.tabs[0].buttons[1].model.x100Link && gamePage.ironWill && gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) {
-            if (gamePage.tabs[0].buttons[1].model.x100Link.visible){
-                gamePage.tabs[0].buttons[1].model.x100Link.handler(gamePage.tabs[0].buttons[1].model);
+        else if(gamePage.tabs[0].children[1].model.x100Link && gamePage.ironWill && gamePage.resPool.get('wood').value < gamePage.resPool.get('wood').maxValue * 0.1) {
+            if (gamePage.tabs[0].children[1].model.x100Link.visible){
+                gamePage.tabs[0].children[1].model.x100Link.handler(gamePage.tabs[0].children[1].model);
             }
         }
     }
@@ -1215,7 +1215,7 @@ function UpgradeBuildings() {
     var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || (gamePage.space.getProgram("orbitalLaunch").val == 1 && !gamePage.challenges.isActive("energy") ) ));
     var upgradeTarget;
     for (var up = 0; up < mblds.length; up++) {
-        upgradeTarget = gamePage.tabs[0].buttons.find(res => res.model.metadata && res.model.metadata.name == mblds[up].name);
+        upgradeTarget = gamePage.tabs[0].children.find(res => res.model.metadata && res.model.metadata.name == mblds[up].name);
         upgradeByModel(upgradeTarget);
     }
 
