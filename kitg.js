@@ -476,7 +476,7 @@ function autoTrade() {
 function autoHunt() {
     var tmpvalue =  gamePage.resPool.get('furs').value
 	var catpower = gamePage.resPool.get('manpower');
-		if (catpower.value > (catpower.maxValue * 0.9) || (tmpvalue/catpower.maxValue < 0.02)) {
+		if (!gamePage.challenges.isActive("pacifism") && (catpower.value > (catpower.maxValue * 0.9) || (tmpvalue/catpower.maxValue < 0.02))) {
 			gamePage.village.huntAll();
 		}
 }
