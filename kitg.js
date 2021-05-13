@@ -1126,11 +1126,11 @@ function energyControl() {
 
             }
             else if (proVar<conVar) {
-                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 0 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
+                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 1 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
                     return b[1] - a[1];
                 });
                 if (EnergyDec.length > 0){
-                    EnergyDec[0][2].controller.off(EnergyDec[0][2].model,Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption),EnergyDec[0][0].on));
+                    EnergyDec[0][2].controller.off(EnergyDec[0][2].model, Math.min(EnergyDec[0][0].on - 1, Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption), EnergyDec[0][0].on)));
                 }
             }
         }
