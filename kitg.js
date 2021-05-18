@@ -379,7 +379,7 @@ function autoTrade() {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
         }
 
-        if(((gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
+        if(((gamePage.religion.getRU('solarRevolution').val == 1 || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism") ) && (gamePage.resPool.get('gold').value > 550 || gamePage.bld.getBuildingExt('mint').meta.val > 0 )  )) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
             let titRes = gamePage.resPool.get('titanium');
             let ironRes = gamePage.resPool.get('iron');
             let unoRes = gamePage.resPool.get('unobtainium');
