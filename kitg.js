@@ -762,6 +762,8 @@ function autoCraft2() {
                                                    if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
                                                         if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1)) {
                                                              cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
+                                                        }else if (gamePage.resPool.get("unobtainium").value == gamePage.resPool.get("unobtainium").maxValue) {
+                                                             cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
                                                         }
                                                    }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
                                                        cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
@@ -1428,7 +1430,7 @@ function Timepage() {
                         if (!switches['CollectResBReset'] ) {
                             if (chronoforge[t].model.metadata.name != "ressourceRetrieval" && gamePage.time.meta[0].meta[5].unlocked && (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? Math.min(chronoforge[t].model.prices.filter(res => res.name == "timeCrystal")[0].val, gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.1 : 0.05)  && (gamePage.time.meta[0].meta[5].val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
-                            else if ( (t != 2 && t != 6) && (chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01 || gamePage.time.meta[0].meta[5].val <= 3) )
+                            else if ( (t != 2 && t != 3 && t != 6) && (chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01 || gamePage.time.meta[0].meta[5].val <= 3) )
                             {}
                             else if (chronoforge[t].model.metadata.unlocked && chronoforge[t].model.enabled) {
                                 chronoforge[t].controller.buyItem(chronoforge[t].model, {}, function(result) {
