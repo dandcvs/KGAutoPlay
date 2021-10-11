@@ -28,6 +28,16 @@ var goldebBuildings = ["temple","tradepost"];
 var switches = {"Energy Control":true, "Iron Will":false, "CollectResBReset":false}
 var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats"));
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
+function calc_sell_rate(res) {
+                      let obj = {"name": res.name}
+                      if ( gamePage.resPool.get(res.name).maxValue != 0) {
+                          obj.ratio = gamePage.resPool.get(res.name).value / gamePage.resPool.get(res.name).maxValue * gamePage.resPool.get(res.name).value
+                      }
+                      else {
+                        obj.ratio =  0.1 * gamePage.resPool.get(res.name).value
+                      }
+                     return obj;
+                }
 
 var upgrades_craft = [
 [gamePage.workshop.get("miningDrill"),[["steel",750*1.2]]],
@@ -392,7 +402,7 @@ function autoTrade() {
             let scaffoldRes = gamePage.resPool.get('scaffold');
             let coalRes = gamePage.resPool.get('coal');
             let cultureRes = gamePage.resPool.get('culture');
-            if (cultureRes.value >= cultureRes.maxValue) {
+            if (cultureRes.value >= cultureRes.maxValue || gamePage.challenges.isActive("pacifism")) {
                     embRefreshCnt += 1;
                     if (embRefreshCnt >= 20){
                          gamePage.diplomacyTab.render();
@@ -445,26 +455,49 @@ function autoTrade() {
 
                 }
 
+                // name, buys, sells
                 let tradersAll = [
-                ['zebras',titRes,slabRes,0.9,50,1],
-                gamePage.ironWill ? ['griffins',ironRes,woodRes,0.5,500,1] : (gamePage.diplomacy.get('zebras').unlocked ? ['zebras',ironRes,slabRes,0.9,50,1] : ['griffins',ironRes,woodRes,0.9,500,1]),
-                gamePage.ironWill ? ['nagas',mineralsRes,ivoryRes,0.9,500,0.1] : ['nagas',mineralsRes,ivoryRes,0.9,500,1],
-                ['spiders',coalRes,scaffoldRes,0.9,50,1],
-                ['dragons',uranRes,titRes,0.9,250,1]
+                 ['zebras',
+                 gamePage.diplomacy.get('zebras').buys,
+                 [...gamePage.diplomacy.get('zebras').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('zebras'))), {"name": "titanium"}].map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
+                 ['griffins',
+                 gamePage.diplomacy.get('griffins').buys,
+                 gamePage.diplomacy.get('griffins').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('griffins'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
+                 ['lizards',
+                 gamePage.diplomacy.get('lizards').buys,
+                 gamePage.diplomacy.get('lizards').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('lizards'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
+                 ['sharks',
+                 gamePage.diplomacy.get('sharks').buys,
+                 gamePage.diplomacy.get('sharks').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('sharks'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
+                 ['nagas',
+                 gamePage.diplomacy.get('nagas').buys,
+                 gamePage.diplomacy.get('nagas').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('nagas'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
+                 ['spiders',
+                 gamePage.diplomacy.get('spiders').buys,
+                 gamePage.diplomacy.get('spiders').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('spiders'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
                 ]
 
-                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1].value < tr[1].maxValue * tr[3] && tr[2].value > tr[1].value * tr[5] && tr[2].value > tr[4]).sort(function(a, b) {return  a[1].value / a[1].maxValue - b[1].value / b[1].maxValue;})[0]
+                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1][0].val <= gamePage.resPool.get(tr[1][0].name).value).sort(function(a, b) {return  a[2][0].ratio - b[2][0].ratio;})[0]
+
                 if (trade) {
                     if (gamePage.ironWill) {
-                        if (trade[0] == 'griffins' && trade[2].value > trade[2].maxValue * 0.8 ) {
-                            gamePage.diplomacy.tradeMultiple(game.diplomacy.get(trade[0]),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get(trade[0])) / 10));
-                        }
-                        else {
-                            gamePage.diplomacy.tradeAll(game.diplomacy.get(trade[0]));
+                        if (gamePage.resPool.get('zebras').value >= gamePage.karmaZebras || gamePage.resPool.get('manpower').value < 300) {
+                            if (trade[0] == 'griffins' &&  gamePage.resPool.get(trade[1][0].name).value > gamePage.resPool.get(trade[1][0].name).maxValue * 0.8 ) {
+                                gamePage.diplomacy.tradeMultiple(gamePage.diplomacy.get(trade[0]),Math.ceil(gamePage.diplomacy.getMaxTradeAmt(gamePage.diplomacy.get(trade[0])) / 10));
+                            }
+                            else {
+                                gamePage.diplomacy.tradeAll(gamePage.diplomacy.get(trade[0]));
+                            }
                         }
                     }
                     else {
-                        gamePage.diplomacy.tradeAll(game.diplomacy.get(trade[0]));
+                        gamePage.diplomacy.tradeAll(gamePage.diplomacy.get(trade[0]));
                     }
                 }
             }
