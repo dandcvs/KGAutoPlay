@@ -54,7 +54,7 @@ var policy_lst = [
 "socialism", "diplomacy", "zebraRelationsAppeasement",
 "knowledgeSharing", "stoicism", "mysticism",
 "clearCutting", "fullIndustrialization", "militarizeSpace",
-"necrocracy", "expansionism"
+"necrocracy", "expansionism", "frugality"
 ];
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
@@ -533,7 +533,7 @@ var resources = [
 
 
 
-var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","mint","chapel","zebraOutpost","zebraWorkshop","zebraForge"];
+var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","mint","chapel","zebraOutpost","zebraWorkshop","zebraForge", "brewery"];
 
 
 var craftPriority = [[],[],0,[]]
