@@ -490,6 +490,10 @@ function autoTrade() {
                  gamePage.diplomacy.get('spiders').buys,
                  gamePage.diplomacy.get('spiders').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('spiders'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
                  ],
+                 ['dragons',
+                 gamePage.diplomacy.get('dragons').buys,
+                 gamePage.diplomacy.get('dragons').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('dragons'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
+                 ],
                 ]
 
                 let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1][0].val <= gamePage.resPool.get(tr[1][0].name).value).sort(function(a, b) {return  a[2][0].ratio - b[2][0].ratio;})[0]
