@@ -537,7 +537,7 @@ var resources = [
 
 
 
-var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","mint","chapel","zebraOutpost","zebraWorkshop","zebraForge", "brewery"];
+var NotPriority_blds = ["temple","tradepost","aiCore","unicornPasture","chronosphere","mint","chapel","zebraOutpost","zebraWorkshop","zebraForge", "brewery", "accelerator"];
 
 
 var craftPriority = [[],[],0,[]]
