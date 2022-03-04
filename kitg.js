@@ -1352,10 +1352,10 @@ function Timepage() {
         }
         if (gamePage.science.get('voidSpace').researched){
             var VoidBuild = gamePage.timeTab.vsPanel.children[0].children;
-            let cf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices.filter(res => res.name == "void")[0].val,VoidBuild[5].model.prices.filter(res => res.name == "void")[0].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices.filter(res => res.name == "void")[0].val,VoidBuild[5].model.prices.filter(res => res.name == "void")[0].val)
+            var voidcf = gamePage.religion.getZU("marker").val > 1 ? Math.max(Math.min(VoidBuild[3].model.prices.filter(res => res.name == "void")[0].val,VoidBuild[5].model.prices.filter(res => res.name == "void")[0].val),gamePage.resPool.get("void").value) : Math.min(VoidBuild[3].model.prices.filter(res => res.name == "void")[0].val,VoidBuild[5].model.prices.filter(res => res.name == "void")[0].val)
             if (gamePage.workshop.get("turnSmoothly").researched && !gamePage.ironWill) {
                 if (VoidBuild[0].model.visible) {
-                    if ( Math.max(500, VoidBuild[2].model.on * 20) > cf * 0.1){
+                    if ( Math.max(500, VoidBuild[2].model.on * 20) > voidcf * 0.1){
                         {}
                     }else {
                         VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
@@ -1367,7 +1367,7 @@ function Timepage() {
                 }
 
                 if (VoidBuild[1].model.visible) {
-                    if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.max(Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1), 5) ){
+                    if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.max(Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1), 5) ){
                         {}
                     }else {
                         VoidBuild[1].controller.buyItem(VoidBuild[1].model, {}, function(result) {
@@ -1395,7 +1395,7 @@ function Timepage() {
                                 if (( v == 5 && (gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched && gamePage.resPool.get("temporalFlux").value - VoidBuild[5].model.prices.filter(res => res.name == "temporalFlux")[0].val < gamePage.workshop.get("turnSmoothly").prices.filter(res => res.name == "temporalFlux")[0].val)) || (v == 6 && gamePage.time.meta[0].meta[5].val < 3)){
                                   {}
                                 }
-                                else if ((v != 3 && v != 5 ) && ((VoidBuild[3].model.metadata.unlocked && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1) || (VoidBuild[5].model.metadata.unlocked  && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > cf * 0.1 ))){
+                                else if ((v != 3 && v != 5 ) && ((VoidBuild[3].model.metadata.unlocked && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1) || (VoidBuild[5].model.metadata.unlocked  && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1 ))){
                                   {}
                                 }
                                 else if (gamePage.ironWill){
@@ -1493,6 +1493,8 @@ function Timepage() {
                             if (chronoforge[t].model.metadata.name != "ressourceRetrieval" && gamePage.time.getCFU("ressourceRetrieval").unlocked && (gamePage.time.getCFU("ressourceRetrieval").val > 2 ? Math.min(chronoforge[t].model.prices.filter(res => res.name == "timeCrystal")[0].val, gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.time.getCFU("ressourceRetrieval").val > 2 ? 0.1 : 0.05)  && (gamePage.time.getCFU("ressourceRetrieval").val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
                             else if ( (t != 2 && t != 6) && (chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01 || gamePage.time.getCFU("ressourceRetrieval").val <= 3) )
+                            {}
+                            else if ( (t == 7) && (typeof voidcf !== 'undefined') && (chronoforge[t].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1) )
                             {}
                             else if (chronoforge[t].model.metadata.unlocked && chronoforge[t].model.enabled) {
                                 chronoforge[t].controller.buyItem(chronoforge[t].model, {}, function(result) {
