@@ -1494,7 +1494,7 @@ function Timepage() {
                             {}
                             else if ( (t != 2 && t != 6) && (chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.01 || gamePage.time.getCFU("ressourceRetrieval").val <= 3) )
                             {}
-                            else if ( (t == 7) && ((!gamePage.workshop.get("voidAspiration").researched) || ((typeof voidcf !== 'undefined') && (chronoforge[t].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1))) )
+                            else if ( t == 7)
                             {}
                             else if (chronoforge[t].model.metadata.unlocked && chronoforge[t].model.enabled) {
                                 chronoforge[t].controller.buyItem(chronoforge[t].model, {}, function(result) {
