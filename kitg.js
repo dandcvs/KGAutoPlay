@@ -1457,7 +1457,7 @@ function Timepage() {
                             chronoforge[0].update();
                         }
                     }
-                    else if (document.hidden && factor * chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal <= gamePage.getEffect("heatMax") && tc_val >= 500 && gamePage.calendar.cycle != 4 &&  gamePage.time.meta[0].meta[5].val >= 3) {
+                    else if (gamePage.time.heat < gamePage.getEffect("heatMax") * 0.5 && factor * chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal <= gamePage.getEffect("heatMax") && tc_val >= 500 && gamePage.calendar.cycle != 4 &&  gamePage.time.meta[0].meta[5].val >= 3) {
                         if (gamePage.calendar.cycle != 4 && gamePage.getEffect("heatMax")  - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 500).timeCrystal * factor &&  (gamePage.time.meta[0].meta[5].val >= 3 || (!gamePage.ironWill && gamePage.time.meta[0].meta[5].val >= 1))) {
                             chronoforge[0].controller.doShatterAmt(chronoforge[0].model, 5 * gamePage.calendar.yearsPerCycle * gamePage.calendar.cyclesPerEra * 2)
                             chronoforge[0].update();
@@ -1638,22 +1638,19 @@ var runAllAutomation = setInterval(function() {
         setTimeout(autoNip, 0);
         setTimeout(autoRefine, 1);
         setTimeout(LabelMsg, 0);
-        if (document.hidden) {
-            tick_inactive += 1
-        }
 
-        if ((!document.hidden && gamePage.timer.ticksTotal % 3 === 0) || (document.hidden && tick_inactive % 2 === 0)) {
+        if (gamePage.timer.ticksTotal % 3 === 0) {
             setTimeout(autoObserve, 0);
             setTimeout(autoCraft2, 1);
             setTimeout(autoAssign, 0);
             gamePage.villageTab.updateTab();
         }
 
-        if ((!document.hidden && gamePage.timer.ticksTotal % 10 === 0) || (document.hidden && tick_inactive % 3 === 0)) {
+        if (gamePage.timer.ticksTotal % 10 === 0) {
             setTimeout(autoSpace, 1);
         }
 
-        if ((!document.hidden && gamePage.timer.ticksTotal % 25 === 0) || (document.hidden && tick_inactive % 5 === 0)) {
+        if (gamePage.timer.ticksTotal % 25 === 0) {
              setTimeout(energyControl, 0);
              setTimeout(autoParty, 0);
              setTimeout(autoTrade, 1);
@@ -1664,26 +1661,22 @@ var runAllAutomation = setInterval(function() {
 
         }
 
-        if ((!document.hidden && gamePage.timer.ticksTotal % 30 === 0) || (document.hidden && tick_inactive % 6 === 0)) {
+        if (gamePage.timer.ticksTotal % 30 === 0) {
              setTimeout(Timepage, 0);
         }
 
-
-         if ((!document.hidden && gamePage.timer.ticksTotal % 50 === 0) || (document.hidden && tick_inactive % 10 === 0)) {
+         if (gamePage.timer.ticksTotal % 50 === 0) {
              setTimeout(ResearchSolarRevolution, 0);
              setTimeout(UpgradeBuildings, 1);
 
         }
 
-        if ((!document.hidden && gamePage.timer.ticksTotal % 151 === 0) || (document.hidden && tick_inactive % 20 === 0)) {
+        if (gamePage.timer.ticksTotal % 151 === 0) {
             setTimeout(RenderNewTabs, 1);
             if (Iinc == 5) {
                 setTimeout(autozig, 0);
                 setTimeout(Service, 2);
                 Iinc = 0;
-                if (document.hidden) {
-                    tick_inactive = 0;
-                }
             }
             Iinc++;
         }
