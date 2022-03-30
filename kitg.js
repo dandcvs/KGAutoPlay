@@ -1494,7 +1494,7 @@ function Timepage() {
                         if (!switches['CollectResBReset'] ) {
                             if (chronoforge[t].model.metadata.name != "ressourceRetrieval" && gamePage.time.getCFU("ressourceRetrieval").unlocked && (gamePage.time.getCFU("ressourceRetrieval").val > 2 ? Math.min(chronoforge[t].model.prices.filter(res => res.name == "timeCrystal")[0].val, gamePage.resPool.get("timeCrystal").value) : gamePage.resPool.get("timeCrystal").value)  > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.time.getCFU("ressourceRetrieval").val > 2 ? 0.7 : 0.05)  && (gamePage.time.getCFU("ressourceRetrieval").val <= 3 || gamePage.religion.getZU("marker").val > 1) )
                             {}
-                            else if ( (t != 2 && t != 6) && (chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.1 || gamePage.time.getCFU("ressourceRetrieval").val <= 3) )
+                            else if ( (t != 2 && t != 6) && (( gamePage.calendar.year < 40000 || chronoforge[t].model.prices.filter(res => res.name == 'timeCrystal')[0].val > chronoforge[6].model.prices.filter(res => res.name == 'timeCrystal')[0].val * 0.1) || gamePage.time.getCFU("ressourceRetrieval").val <= 3) )
                             {}
                             else if ( t == 7)
                             {}
