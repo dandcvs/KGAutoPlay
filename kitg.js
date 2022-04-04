@@ -1431,7 +1431,7 @@ function Timepage() {
             var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
             var tc_val = gamePage.resPool.get("timeCrystal").value
             var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10
-            var fast_combust = Math.max(tc_val, 600) < gamePage.resPool.get("void").value  && gamePage.time.meta[0].meta[5].val >= 1
+            var fast_combust = (Math.max(tc_val, 600) < gamePage.resPool.get("void").value || (tc_val > 45 && gamePage.calendar.day < 10 && gamePage.time.heat < gamePage.getEffect("heatMax") * 0.9)) && gamePage.time.meta[0].meta[5].val >= 1
             var not_dark = gamePage.calendar.darkFutureYears(true) < 0
 
             if (gamePage.time.getCFU("blastFurnace").unlocked) {
