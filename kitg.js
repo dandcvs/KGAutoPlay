@@ -806,7 +806,7 @@ function autoCraft2() {
                                                 cnt = cnt == 0 ? 1 : cnt
                                                 if (resourcesAllF[crf][0] == "eludium") {
                                                    if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
-                                                        if ( gamePage.resPool.get("timeCrystal").value*5000 >= gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1)) {
+                                                        if ( gamePage.resPool.get("timeCrystal").value*5000/(gamePage.getCraftRatio()+1) >= gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1)) {
                                                              cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
                                                         }else if (gamePage.resPool.get("unobtainium").value == gamePage.resPool.get("unobtainium").maxValue) {
                                                              cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
