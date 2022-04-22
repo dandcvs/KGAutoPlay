@@ -386,7 +386,7 @@ function autoTrade() {
           GlobalMsg["ressourceRetrieval"] = gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.label + '(' + (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val+1) + ') ' + Math.round((gamePage.resPool.get("timeCrystal").value / gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val) * 100) + '%'
         }
 
-        if (gamePage.time.meta[0].meta[5].val >= 1 && gamePage.resPool.get("timeCrystal").value < 6){
+        if (gamePage.time.meta[0].meta[5].val == 0 && gamePage.resPool.get("timeCrystal").value < (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? Chronosphere10SummPrices()["timeCrystal"] : 6)){
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0 && gamePage.resPool.get('unobtainium').value > 5000) {
                     gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),1);
                 }
@@ -434,25 +434,16 @@ function autoTrade() {
                 }
 
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
-                    if (gamePage.resPool.get("timeCrystal").value < unoRes.value && gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2){
-                        LeviTradeCnt += 1;
-                    }
                     if (gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.7 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                    }else if(gamePage.resPool.get("timeCrystal").value*5000 < gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1) ) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(unoRes.value/5000),1)));
-                    }else if(unoRes.value > 5000 && (unoRes.value > Math.min((gamePage.resPool.get("timeCrystal").value-50)*5000, (gamePage.resPool.get("relic").value-(!gamePage.workshop.get("chronoforge").researched ? 5 : 0))*10000*50 ))) {
-                        gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(unoRes.value/5000),1)));
-                    }else if(unoRes.value > 5000 && ((LeviTradeCnt > 3 && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10)|| switches['CollectResBReset'] )) {
+                    }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && gamePage.resPool.get("timeCrystal").value < unoRes.value  && gamePage.resPool.get("timeCrystal").value*5000/(gamePage.getCraftRatio()+1) < gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1) )  || switches['CollectResBReset'] )) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(gamePage.resPool.get('unobtainium').value/5000),1)));
-                        LeviTradeCnt = 0;
                     }
 
                     //Feed elders
                     if (gamePage.resPool.get("necrocorn").value >= 1 &&  gamePage.diplomacy.get("leviathans").energy < (gamePage.religion.getZU("marker").val * 5 + 5) && gamePage.diplomacy.get("leviathans").energy < gamePage.religion.getZU("marker").val + gamePage.resPool.get("necrocorn").value){
                         gamePage.diplomacy.feedElders();
                     }
-
 
                     //blackcoin  speculation
                     if (gamePage.science.get("blackchain").researched || gamePage.resPool.get("blackcoin").value > 0) {
@@ -564,7 +555,7 @@ function autoCraft2() {
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
                 ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*(gamePage.getCraftRatio()+1),gamePage.resPool.get("titanium").value/10*(gamePage.getCraftRatio()+1)), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),true, true],
-                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : Math.min(gamePage.resPool.get("unobtainium").value/1000*(gamePage.getCraftRatio()+1),50000),false, true],
+                ["eludium", [["unobtainium",1000],["alloy",2500]],gamePage.resPool.get("eludium").value < 125 ? 125 : (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? 125 : (gamePage.resPool.get("unobtainium").value/1000*(gamePage.getCraftRatio()+1))), false, true],
                 ["scaffold", [["beam",50]],0,true, true],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],gamePage.workshop.get("geodesy").researched ? 100 : (gamePage.resPool.get("starchart").value > 500 || gamePage.resPool.get("ship").value > 500) ? 100 + (gamePage.resPool.get("starchart").value - 500)/25 :100 ,true, true],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
@@ -773,12 +764,7 @@ function autoCraft2() {
                                         cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10),Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10), Math.ceil(Math.min(resourcesAllF[crf][2] , !resourcesAllF[crf][3] ? resourcesAllF[crf][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
                                     }
                                 }
-                                else if (resourcesAllF[crf][0] == "eludium")
-                                {
-                                    for (var x = 0; x < resourcesAllF[crf][1].length; x++) {
-                                        cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/3),Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/3), Math.ceil(Math.min(resourcesAllF[crf][2] , !resourcesAllF[crf][3] ? resourcesAllF[crf][2] : gamePage.resPool.get('paragon').value) - curResTarget.value) + 1 );
-                                    }
-                                } else {
+                                else {
                                      for (var x = 0; x < resourcesAllF[crf][1].length; x++) {
                                         if (cnt == 0){
                                            cnt = Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])-1)
@@ -792,27 +778,22 @@ function autoCraft2() {
                          }
                          else{
                                  for (var x = 0; x < resourcesAllF[crf][1].length; x++) {
-                                            tmpvalue =  gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value
-                                            tmpvalueMax =  gamePage.resPool.get(resourcesAllF[crf][1][x][0]).maxValue
+                                        tmpvalue =  gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value
+                                        tmpvalueMax =  gamePage.resPool.get(resourcesAllF[crf][1][x][0]).maxValue
 
-                                            if ((tmpvalue < resourcesAllF[crf][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value*2 > tmpvalue)) {
-                                                flag = false;
-                                            }
-                                            else if (tmpvalueMax != 0 && (((gamePage.resPool.get('paragon').value < 100 && !(gamePage.religion.getRU('solarRevolution').val == 1) ) &&  Object.keys(craftPriority[0]).length > 0 && resourcesAllF[crf][1].filter(ff2 => craftPriority[3].indexOf(ff2[0]) != -1 ).length != 0 ) || (curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax <= 1))) {
-                                                flag = false;
-                                            }
+                                        if ((tmpvalue < resourcesAllF[crf][1][x][1]) || (tmpvalueMax == 0 && curResTarget.value*2 > tmpvalue)) {
+                                            flag = false;
+                                        }
+                                        else if (tmpvalueMax != 0 && (((gamePage.resPool.get('paragon').value < 100 && !(gamePage.religion.getRU('solarRevolution').val == 1) ) &&  Object.keys(craftPriority[0]).length > 0 && resourcesAllF[crf][1].filter(ff2 => craftPriority[3].indexOf(ff2[0]) != -1 ).length != 0 ) || (curResTarget.value < tmpvalue && tmpvalue/tmpvalueMax < 0.3) || (curResTarget.value >= tmpvalue && tmpvalue/tmpvalueMax <= 1))) {
+                                            flag = false;
+                                        }
 
-                                            if (flag && ((cnt > (tmpvalue / resourcesAllF[crf][1][x][1])) || (cnt == 0))) {
-                                                cnt = cnt == 0 ? 1 : cnt
-                                                if (resourcesAllF[crf][0] == "eludium") {
-                                                   if (gamePage.resPool.get("unobtainium").value/gamePage.resPool.get("unobtainium").maxValue > 0.99){
-                                                        if ( gamePage.resPool.get("timeCrystal").value*5000/(gamePage.getCraftRatio()+1) >= gamePage.resPool.get("eludium").value*1000/(gamePage.getCraftRatio()+1)) {
-                                                             cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
-                                                        }else if (gamePage.resPool.get("unobtainium").value == gamePage.resPool.get("unobtainium").maxValue) {
-                                                             cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
-                                                        }
-                                                   }else if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
-                                                       cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/3);
+                                        if (flag && ((cnt > (tmpvalue / resourcesAllF[crf][1][x][1])) || (cnt == 0))) {
+                                            cnt = cnt == 0 ? 1 : cnt
+                                            if (resourcesAllF[crf][0] == "eludium") {
+                                                if (gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.9){
+                                                   if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
+                                                       cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/2);
                                                    }else {
                                                        cnt = 0;
                                                    }
@@ -821,6 +802,7 @@ function autoCraft2() {
                                                     cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/2);
                                                 }
                                             }
+                                        }
                                  }
                          }
 
