@@ -791,7 +791,7 @@ function autoCraft2() {
                                         if (flag && ((cnt > (tmpvalue / resourcesAllF[crf][1][x][1])) || (cnt == 0))) {
                                             cnt = cnt == 0 ? 1 : cnt
                                             if (resourcesAllF[crf][0] == "eludium") {
-                                                if (gamePage.resPool.get("unobtainium").value < gamePage.resPool.get("unobtainium").maxValue * 0.9){
+                                                if (gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.9){
                                                    if (gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10) {
                                                        cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/2);
                                                    }else {
@@ -799,7 +799,7 @@ function autoCraft2() {
                                                    }
                                                 }
                                                 else{
-                                                    cnt = Math.ceil(tmpvalue / resourcesAllF[crf][1][x][1]/2);
+                                                    cnt = 0;
                                                 }
                                             }
                                         }
