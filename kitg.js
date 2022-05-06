@@ -911,7 +911,7 @@ function autoWorkshop() {
          for (var wrs = 0; wrs < btn.length; wrs++) {
             if (gamePage.ironWill && ((!gamePage.science.get('astronomy').researched && gamePage.science.get('astronomy').unlocked) || (!gamePage.science.get('theology').researched && gamePage.science.get('theology').unlocked  && gamePage.workshop.get("goldOre").researched && gamePage.workshop.get("goldOre").unlocked)))
             {}
-            else if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && btn[wrs].model.metadata.name != "relicStation" && btn[wrs].model.prices.filter(res => res.name == 'antimatter').length > 0)
+            else if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched && !['relicStation','voidAspiration'].includes(btn[wrs].model.metadata.name) && btn[wrs].model.prices.filter(res => res.name == 'antimatter').length > 0)
             {}
             else{
                 try {
