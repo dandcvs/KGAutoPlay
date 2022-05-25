@@ -329,7 +329,7 @@ function autoSpace() {
                                 if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched  && spBuild[sp].model.prices.filter(res => res.name == 'antimatter').length > 0 && (!gamePage.challenges.isActive("energy") || (!["tectonic", "hrHarvester"].includes(spBuild[sp].model.metadata.name) || spBuild[sp].model.metadata.val > 0  ))){
                                     {}
                                 }
-                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && ( ["hydroponics", "moonBase", "sunlifter", "cryostation", "heatsink"].includes(spBuild[sp].model.metadata.name) &&  gamePage.resPool.get("unobtainium").value < gamePage.resPool.get("unobtainium").maxValue * 0.5 ) ){
+                                else if (gamePage.bld.getBuildingExt('chronosphere').meta.unlocked && gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && ( (["hydroponics", "moonBase", "sunlifter", "cryostation", "heatsink"].includes(spBuild[sp].model.metadata.name) || (gamePage.resPool.get("unobtainium").value > 10000 && gamePage.calendar.cycle == 5 ) ) &&  gamePage.resPool.get("unobtainium").value < gamePage.resPool.get("unobtainium").maxValue * 0.5 ) ){
                                     {}
                                 }
                                 else if (gamePage.ironWill){
