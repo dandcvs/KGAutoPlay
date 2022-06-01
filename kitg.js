@@ -564,7 +564,7 @@ function autoCraft2() {
                 ["manuscript", [["parchment",25],["culture",400]], gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 || gamePage.diplomacy.get('nagas').unlocked ? 50 : 0) : 200, true, gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 || gamePage.diplomacy.get('nagas').unlocked ? true : false) : true],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*(gamePage.getCraftRatio()+1),1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
-                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, true],
+                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, (gamePage.resPool.get("ship").value > 100 && gamePage.resPool.get("uranium").value > Math.min(gamePage.resPool.get("uranium").maxValue * 0.5, 50000))  ? true : false],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, gamePage.resPool.get("manuscript").value > 200 ? true : false]
             ]
 
