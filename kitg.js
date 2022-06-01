@@ -488,8 +488,7 @@ function autoTrade() {
                  gamePage.diplomacy.get('dragons').sells.filter(sl => gamePage.diplomacy.isValidTrade(sl, gamePage.diplomacy.get('dragons'))).map(calc_sell_rate).sort(function(a, b) {return  a.ratio - b.ratio;})
                  ],
                 ]
-
-                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1][0].val <= gamePage.resPool.get(tr[1][0].name).value).sort(function(a, b) {return  a[2][0].ratio - b[2][0].ratio;})[0]
+                let trade = tradersAll.filter(tr => gamePage.diplomacy.get(tr[0]).unlocked && tr[1][0].val <= gamePage.resPool.get(tr[1][0].name).value && gamePage.resPool.get(tr[1][0].name).value >= (gamePage.resPool.get(tr[1][0].name).maxValue != 0 ? gamePage.resPool.get(tr[1][0].name).maxValue * 0.01 : 0)).sort(function(a, b) {return  a[2][0].ratio - b[2][0].ratio;})[0]
 
                 if (trade) {
                     if (gamePage.ironWill) {
@@ -564,7 +563,7 @@ function autoCraft2() {
                 ["manuscript", [["parchment",25],["culture",400]], gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 || gamePage.diplomacy.get('nagas').unlocked ? 50 : 0) : 200, true, gamePage.ironWill ? (gamePage.resPool.get('culture').value > 1600 || gamePage.diplomacy.get('nagas').unlocked ? true : false) : true],
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*(gamePage.getCraftRatio()+1),1500): 0) : 110, true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, true],
-                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, (gamePage.resPool.get("ship").value > 100 && gamePage.resPool.get("uranium").value > Math.min(gamePage.resPool.get("uranium").maxValue * 0.5, 50000))  ? true : false],
+                ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, true],
                 ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, gamePage.resPool.get("manuscript").value > 200 ? true : false]
             ]
 
