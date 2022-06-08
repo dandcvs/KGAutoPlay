@@ -25,6 +25,7 @@ var tick = 0;
 var tick_inactive = 0;
 var LeviTradeCnt = 0;
 var embRefreshCnt = 0;
+var postApocalypse_is_competed = true;
 var GlobalMsg = {'craft':'','tech':'','relicStation':'','solarRevolution':'','ressourceRetrieval':'','chronosphere':'', 'science':''};
 var science_labels = ['astronomy', 'theology', 'voidSpace', 'paradoxalKnowledge'];
 
@@ -51,13 +52,21 @@ var upgrades_craft = [
 [gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
 
-var policy_lst = [
+var policy_lst_all = [
 "liberty", "authocracy", "communism",
 "socialism", "diplomacy", "zebraRelationsAppeasement",
 "knowledgeSharing", "stoicism", "mysticism",
 "clearCutting", "fullIndustrialization", "militarizeSpace",
 "necrocracy", "expansionism", "frugality"
 ];
+var policy_lst_post_apocalypse = [
+"liberty", "authocracy", "communism",
+"socialism", "diplomacy", "zebraRelationsAppeasement",
+"knowledgeSharing", "stoicism", "mysticism",
+"environmentalism", "militarizeSpace",
+"necrocracy", "expansionism", "frugality", "conservation"
+];
+
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
@@ -871,6 +880,7 @@ function autoResearch() {
         }
         //policy
         if (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get("culture").value >= 1000){
+            var policy_lst = !gamePage.challenges.isActive("postApocalypse") ? policy_lst_all : policy_lst_post_apocalypse
             var policy_btns = gamePage.tabs[2].policyPanel.children.filter(res => res.model.metadata.unlocked && res.model.enabled && !res.model.metadata.researched)
             for (var rsc = 0; rsc < policy_btns.length; rsc++) {
                 if (policy_lst.includes(policy_btns[rsc].id)){
@@ -1143,10 +1153,10 @@ function energyControl() {
 
 
             var EnergyPriority = [
-                [bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
-                [bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  0.3 ,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
+                [gamePage.challenges.isActive("postApocalypse") ? null : bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')],
+                [gamePage.challenges.isActive("postApocalypse") ? null : bldOilWell, (gamePage.bld.getBuildingExt('library').meta.stage == 1 && gamePage.bld.getBuildingExt('biolab').meta.on != gamePage.bld.getBuildingExt('biolab').meta.val) ? 9999 :  0.3 ,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "oilWell")],
                 [bldBioLab,(gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.2) ? 0.3 : Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1),gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "biolab")],
-                (gamePage.ironWill && Math.min(Math.floor(gamePage.resPool.get('coal').value /(gamePage.resPool.get('coal').maxValue / gamePage.bld.getBuildingExt('calciner').meta.val)), Math.floor(gamePage.resPool.get('minerals').value / 1000)) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [bldCalciner,0.101,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
+                (gamePage.ironWill && Math.min(Math.floor(gamePage.resPool.get('coal').value /(gamePage.resPool.get('coal').maxValue / gamePage.bld.getBuildingExt('calciner').meta.val)), Math.floor(gamePage.resPool.get('minerals').value / 1000)) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [gamePage.challenges.isActive("postApocalypse") ? null : bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [gamePage.challenges.isActive("postApocalypse") ? null : bldCalciner,0.101,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
                 [bldAccelerator,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
                 [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null, (gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue*0.9 && gamePage.space.meta[5].meta[1].val > 1) ? (1 - gamePage.resPool.get("antimatter").value/gamePage.resPool.get("antimatter").maxValue )/10: 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
                 [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null, 0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null],
@@ -1267,16 +1277,16 @@ function UpgradeBuildings() {
         upgradeByModel(upgradeTarget);
     }
 
-    if (gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
+    if (!gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getBuildingExt('steamworks').meta.on < gamePage.bld.getBuildingExt('steamworks').meta.val && gamePage.resPool.get('coal').value > 0 && gamePage.bld.getBuildingExt('steamworks').meta.unlocked) {
         gamePage.bld.getBuildingExt('steamworks').meta.on = gamePage.bld.getBuildingExt('steamworks').meta.val;
     }
     if (gamePage.bld.getBuildingExt('reactor').meta.on < gamePage.bld.getBuildingExt('reactor').meta.val && gamePage.resPool.get('uranium').value > 0 && gamePage.bld.getBuildingExt('reactor').meta.unlocked) {
         gamePage.bld.getBuildingExt('reactor').meta.on = gamePage.bld.getBuildingExt('reactor').meta.val;
     }
-    if (gamePage.bld.getBuildingExt('magneto').meta.on < gamePage.bld.getBuildingExt('magneto').meta.val && gamePage.resPool.get('oil').value > 0 && gamePage.bld.getBuildingExt('magneto').meta.unlocked) {
+    if (!gamePage.challenges.isActive("postApocalypse")  && gamePage.bld.getBuildingExt('magneto').meta.on < gamePage.bld.getBuildingExt('magneto').meta.val && gamePage.resPool.get('oil').value > 0 && gamePage.bld.getBuildingExt('magneto').meta.unlocked) {
         gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val;
     }
-    if (gamePage.bld.getBuildingExt('smelter').meta.unlocked){
+    if (!gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getBuildingExt('smelter').meta.unlocked){
         if (((gamePage.ironWill && gamePage.diplomacy.get('nagas').unlocked && gamePage.resPool.get('gold').unlocked &&  gamePage.resPool.get('minerals').value / 100 > gamePage.bld.getBuildingExt('smelter').meta.on ) || (gamePage.ironWill && ((gamePage.workshop.get("goldOre").researched && gamePage.bld.getBuildingExt('amphitheatre').meta.val > 3) || gamePage.resPool.get('iron').value < 100 ))) || ((gamePage.calcResourcePerTick('wood') + gamePage.getResourcePerTickConvertion('wood') + gamePage.bld.getBuildingExt('smelter').meta.effects.woodPerTickCon +  gamePage.calcResourcePerTick('wood') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on  && ( gamePage.calcResourcePerTick('minerals') + gamePage.getResourcePerTickConvertion('minerals')  + gamePage.bld.getBuildingExt('smelter').meta.effects.mineralsPerTickCon + gamePage.calcResourcePerTick('minerals') * gamePage.prestige.getParagonProductionRatio()) * 5 > gamePage.bld.getBuildingExt('smelter').meta.on)) {
                 if (gamePage.ironWill) {
                     if (gamePage.bld.getBuildingExt('smelter').meta.val >= gamePage.bld.getBuildingExt('smelter').meta.on){
@@ -1303,6 +1313,29 @@ function UpgradeBuildings() {
             }
         }
     }
+    if (gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getBuildingExt('factory').meta.val > 0 && gamePage.bld.getBuildingExt('factory').meta.isAutomationEnabled){
+        gamePage.bld.getBuildingExt('mine').meta.on = 0;
+        gamePage.bld.getBuildingExt('quarry').meta.on = 0;
+        gamePage.bld.getBuildingExt('calciner').meta.on = 0;
+        gamePage.bld.getBuildingExt('steamworks').meta.on = 0;
+        gamePage.bld.getBuildingExt('magneto').meta.on = 0;
+        gamePage.bld.getBuildingExt('oilWell').meta.isAutomationEnabled = false;
+        if (gamePage.workshop.get("geodesy").researched){
+            gamePage.bld.getBuildingExt('smelter').meta.on = 0;
+        }
+        postApocalypse_is_competed = false;
+    }
+    if (!postApocalypse_is_competed  && !gamePage.challenges.isActive("postApocalypse")){
+        gamePage.bld.getBuildingExt('mine').meta.on = gamePage.bld.getBuildingExt('mine').meta.val;
+        gamePage.bld.getBuildingExt('quarry').meta.on =  gamePage.bld.getBuildingExt('quarry').meta.val;
+        gamePage.bld.getBuildingExt('calciner').meta.on =  gamePage.bld.getBuildingExt('calciner').meta.val;
+        gamePage.bld.getBuildingExt('smelter').meta.on =  gamePage.bld.getBuildingExt('smelter').meta.val;
+        gamePage.bld.getBuildingExt('steamworks').meta.on =  gamePage.bld.getBuildingExt('steamworks').meta.val;
+        gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val
+        gamePage.bld.getBuildingExt('oilWell').meta.meta.isAutomationEnabled = true;
+    }
+
+
 }
 
 function ResearchSolarRevolution() {
