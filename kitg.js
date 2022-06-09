@@ -265,6 +265,9 @@ function autoBuild() {
                              }
                          }
                      }
+                     else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5){
+                               {}
+                           }
                      else if (btn[bl].model.metadata.name == "chronosphere"){
                         if ( ( gamePage.workshop.get("chronoforge").researched && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && ((gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value < gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.7 : 0.05)) || !gamePage.science.get("paradoxalKnowledge").researched) ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()["timeCrystal"] > 100 && gamePage.time.meta[0].meta[5].val > 0) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()["unobtainium"]  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()["timeCrystal"] )) ){
                             try {
@@ -600,6 +603,7 @@ function autoCraft2() {
                     "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 10,
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
+                    "field" : gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 ? 0 : 1
                 };
                 var allblds = gamePage.tabs[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
