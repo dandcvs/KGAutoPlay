@@ -1313,7 +1313,7 @@ function UpgradeBuildings() {
             }
         }
     }
-    if (gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getBuildingExt('factory').meta.val > 0 && gamePage.bld.getBuildingExt('factory').meta.isAutomationEnabled){
+    if (gamePage.challenges.isActive("postApocalypse") && gamePage.time.getCFU("ressourceRetrieval").val > 0 && (gamePage.calendar.cycle != 5 || (gamePage.calendar.day <= 10 || gamePage.calendar.day >= 90))){
         gamePage.bld.getBuildingExt('mine').meta.on = 0;
         gamePage.bld.getBuildingExt('quarry').meta.on = 0;
         gamePage.bld.getBuildingExt('calciner').meta.on = 0;
@@ -1325,17 +1325,20 @@ function UpgradeBuildings() {
         }
         postApocalypse_is_competed = false;
     }
-    if (!postApocalypse_is_competed  && !gamePage.challenges.isActive("postApocalypse")){
+    if ((!postApocalypse_is_competed  && !gamePage.challenges.isActive("postApocalypse")) || (gamePage.challenges.isActive("postApocalypse")  && gamePage.time.getCFU("ressourceRetrieval").val > 0 && gamePage.calendar.cycle == 5 && gamePage.calendar.day > 10 && gamePage.calendar.day < 90)){
         gamePage.bld.getBuildingExt('mine').meta.on = gamePage.bld.getBuildingExt('mine').meta.val;
         gamePage.bld.getBuildingExt('quarry').meta.on =  gamePage.bld.getBuildingExt('quarry').meta.val;
         gamePage.bld.getBuildingExt('calciner').meta.on =  gamePage.bld.getBuildingExt('calciner').meta.val;
         gamePage.bld.getBuildingExt('smelter').meta.on =  gamePage.bld.getBuildingExt('smelter').meta.val;
         gamePage.bld.getBuildingExt('steamworks').meta.on =  gamePage.bld.getBuildingExt('steamworks').meta.val;
         gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val
-        gamePage.bld.getBuildingExt('oilWell').meta.meta.isAutomationEnabled = true;
+        gamePage.bld.getBuildingExt('oilWell').meta.isAutomationEnabled = true;
+        if (!postApocalypse_is_competed  && !gamePage.challenges.isActive("postApocalypse")){
+            postApocalypse_is_competed = true;
+        }
     }
 
-
+gamePage.calendar.day > 0
 }
 
 function ResearchSolarRevolution() {
