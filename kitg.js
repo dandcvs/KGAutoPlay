@@ -448,7 +448,7 @@ function autoTrade() {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value > 5000 && gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.9 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                    }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value < unoRes.value || unoRes.value > unoRes.maxValue * 0.9)  && gamePage.resPool.get("timeCrystal").value*5000/(gamePage.getCraftRatio()+1) < gamePage.resPool.get("eludium").value*5000/(gamePage.getCraftRatio()+1) )  || switches['CollectResBReset'] )) {
+                    }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && (gamePage.resPool.get("timeCrystal").value < unoRes.value || unoRes.value > unoRes.maxValue * 0.9)  && gamePage.resPool.get("timeCrystal").value < gamePage.resPool.get("eludium").value )  || switches['CollectResBReset'] )) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(gamePage.resPool.get('unobtainium').value/5000),1)));
                     }
 
