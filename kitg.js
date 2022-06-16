@@ -268,7 +268,7 @@ function autoBuild() {
                      else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5){
                                {}
                            }
-                     else if (btn[bl].model.metadata.name == "field" && gamePage.science.get('engineering').researched && gamePage.calendar.season >= 2 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 2 > gamePage.resPool.get('catnip').value){
+                     else if (btn[bl].model.metadata.name == "field" && !gamePage.science.get('engineering').researched && gamePage.calendar.season >= 1 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 3 > gamePage.resPool.get('catnip').value){
                                {}
                            }
                      else if (btn[bl].model.metadata.name == "chronosphere"){
@@ -606,7 +606,7 @@ function autoCraft2() {
                     "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 10,
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
-                    "field" : gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 ? 0 : 1
+                    "field" : (gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 || !gamePage.science.get('engineering').researched) ? 0 : 1
                 };
                 var allblds = gamePage.tabs[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
                 var prior = [];
@@ -1217,7 +1217,7 @@ function autoNip() {
 		}
 }
 function autoRefine() {
-    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( (!gamePage.ironWill && gamePage.village.getKittens() == 0) || (gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val > (gamePage.calcResourcePerTick('catnip') * 100 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > gamePage.calendar.season >= 2 ? gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val * 2 : 100 ))) {
+    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( (!gamePage.ironWill && gamePage.village.getKittens() == 0) || (gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.resPool.get('catnip').value > (gamePage.calendar.season >= 1 ? Math.max(gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val * 2, 100) : 100)))) {
         if (!gamePage.workshopTab.visible ){
 
                     if (gamePage.tabs[0].children[1].model.x100Link.visible && gamePage.tabs[0].children[2].model.resourceIsLimited ){
