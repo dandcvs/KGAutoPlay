@@ -268,6 +268,9 @@ function autoBuild() {
                      else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5){
                                {}
                            }
+                     else if (btn[bl].model.metadata.name == "field" && gamePage.science.get('engineering').researched && gamePage.calendar.season >= 2 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 2 > gamePage.resPool.get('catnip').value){
+                               {}
+                           }
                      else if (btn[bl].model.metadata.name == "chronosphere"){
                         if ( ( gamePage.workshop.get("chronoforge").researched && gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && ((gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value < gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.9 : 0.05)) || !gamePage.science.get("paradoxalKnowledge").researched) ) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible  &&  gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()["timeCrystal"] > 100 && gamePage.time.meta[0].meta[5].val > 0) || (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && (gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()["unobtainium"]  && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()["timeCrystal"] )) ){
                             try {
