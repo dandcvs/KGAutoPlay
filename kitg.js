@@ -448,7 +448,7 @@ function autoTrade() {
                 if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
                     if (unoRes.value > 5000 && gamePage.time.meta[0].meta[5].unlocked && gamePage.resPool.get("timeCrystal").value > gamePage.timeTab.cfPanel.children[0].children[6].model.prices.filter(res => res.name == "timeCrystal")[0].val * (gamePage.timeTab.cfPanel.children[0].children[6].model.metadata.val > 2 ? 0.9 : 0.05)){
                         gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-                    }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 &&  gamePage.resPool.get("timeCrystal").value <= gamePage.resPool.get("eludium").value/5 )  || switches['CollectResBReset'] )) {
+                    }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && gamePage.resPool.get("timeCrystal").value <= gamePage.resPool.get("eludium").value / 5 )  || switches['CollectResBReset'] )) {
                         gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),Math.min( gamePage.diplomacy.getMaxTradeAmt(game.diplomacy.get("leviathans")), Math.max(Math.floor(gamePage.resPool.get('unobtainium').value/5000),1)));
                     }
 
@@ -565,7 +565,7 @@ function autoCraft2() {
                 ["plate", [["iron",125]],gamePage.ironWill ? 15 : gamePage.resPool.get("plate").value < 150 ? 150 :  Math.min(gamePage.resPool.get("iron").value/125*(gamePage.getCraftRatio()+1),50000),true, true],
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
-                ["alloy", [["steel",75],["titanium",10]],Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*(gamePage.getCraftRatio()+1),gamePage.resPool.get("titanium").value/10*(gamePage.getCraftRatio()+1)), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),true, true],
+                ["alloy", [["steel",75],["titanium",10]], gamePage.resPool.get("eludium").value > 125 ? gamePage.resPool.get("steel").value : Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*(gamePage.getCraftRatio()+1),gamePage.resPool.get("titanium").value/10*(gamePage.getCraftRatio()+1)), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),false, true],
                 ["eludium", [["unobtainium",1000],["alloy",2500]], gamePage.resPool.get("eludium").value < 125 ? 125 : (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? 125 : (gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.9 || gamePage.resPool.get("unobtainium").value >= gamePage.resPool.get("timeCrystal").value) ? gamePage.resPool.get("timeCrystal").value * 5 + 1 : 0), false, true],
                 ["scaffold", [["beam",50]],0,true, true],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],gamePage.workshop.get("geodesy").researched ? 100 : (gamePage.resPool.get("starchart").value > 500 || gamePage.resPool.get("ship").value > 500) ? 100 + (gamePage.resPool.get("starchart").value - 500)/25 :100 ,true, true],
@@ -703,7 +703,7 @@ function autoCraft2() {
                         resourcesAll[g][4] =  true
                     }else{
                         for (var z = 0; z < resourcesAll[g][1].length; z++) {
-                            if (resourcesAll[g][1][z][0] in reslist && (gamePage.resPool.get(resourcesAll[g][1][z][0]).value != gamePage.resPool.get(resourcesAll[g][1][z][0]).maxValue || gamePage.resPool.get(resourcesAll[g][1][z][0]).value < reslist[resourcesAll[g][1][z][0]] * 2)  && !["plate", "ship", "eludium"].includes(resourcesAll[g][0])) {
+                            if (resourcesAll[g][1][z][0] in reslist && (gamePage.resPool.get((resourcesAll[g][1][z][0]).maxValue > 0 && gamePage.resPool.get(resourcesAll[g][1][z][0]).value < gamePage.resPool.get(resourcesAll[g][1][z][0]).maxValue) || gamePage.resPool.get(resourcesAll[g][1][z][0]).value < reslist[resourcesAll[g][1][z][0]] * 2)  && !["plate", "ship", "eludium", "alloy"].includes(resourcesAll[g][0])) {
                                 resourcesAll[g][3] =  false
                                 resourcesAll[g][4] =  false
                             }
@@ -759,7 +759,7 @@ function autoCraft2() {
                 }
 
 
-                var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked && (resourcesAll.filter(res2 => res2[0] == res[1][0][0]).length == 0 ||  gamePage.resPool.get(res[1][0][0]).value > Math.max(res[1][0][1], resourcesAll.filter(res2 => res2[0] == res[1][0][0])[0][2]) )).sort(function(a, b) {
+                var resourcesAllF = resourcesAll.filter(res => res[4] && gamePage.workshop.getCraft(res[0]).unlocked ).sort(function(a, b) {
                     return (gamePage.resPool.get(a[0]).value - gamePage.resPool.get(b[0]).value);
                 });
 
@@ -773,7 +773,7 @@ function autoCraft2() {
                             if (gamePage.resPool.get(resourcesAllF[crf][1][0][0]).value >= resourcesAllF[crf][1][0][1]) {
                                 if (gamePage.ironWill && resourcesAllF[crf][0] == "slab" && gamePage.bld.getBuildingExt("mint").meta.val == 0 ) {
                                      for (var x = 0; x < resourcesAllF[crf][1].length; x++) {
-                                        cnt = Math.min(cnt != 0 ? cnt : Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10),Math.ceil((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10), Math.ceil(resourcesAllF[crf][2]) - curResTarget.value) + 1;
+                                        cnt = Math.min(cnt != 0 ? cnt : Math.floor((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10),Math.floor((gamePage.resPool.get(resourcesAllF[crf][1][x][0]).value / resourcesAllF[crf][1][x][1])/10), Math.floor(resourcesAllF[crf][2]) - curResTarget.value) + 1;
                                     }
                                 }
                                 else {
