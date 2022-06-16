@@ -1217,7 +1217,7 @@ function autoNip() {
 		}
 }
 function autoRefine() {
-    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( (!gamePage.ironWill && gamePage.village.getKittens() == 0) || (gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val > (gamePage.calcResourcePerTick('catnip') * 100 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > 100 ))) {
+    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( (!gamePage.ironWill && gamePage.village.getKittens() == 0) || (gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val > (gamePage.calcResourcePerTick('catnip') * 100 + gamePage.resPool.get('catnip').value)/2 && gamePage.resPool.get('catnip').value > gamePage.calendar.season >= 2 ? gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val * 2 : 100 ))) {
         if (!gamePage.workshopTab.visible ){
 
                     if (gamePage.tabs[0].children[1].model.x100Link.visible && gamePage.tabs[0].children[2].model.resourceIsLimited ){
