@@ -35,7 +35,7 @@ var ActualTabs = Object.values(gamePage.tabs.filter(tab => tab.tabName != "Stats
 var f = (a = 1, {x: c} ={ x: a / 10000}) => c;
 function calc_sell_rate(res) {
                       let obj = {"name": res.name}
-                      if (gamePage.bld.getPrices(craftPriority[0]).filter(rest => rest.name == res.name).length > 0 && gamePage.bld.getPrices(craftPriority[0]).filter(rest => rest.name == res.name)[0].val > gamePage.resPool.get(res.name).value){
+                      if (craftPriority[0].length > 0 && gamePage.bld.getPrices(craftPriority[0]).filter(rest => rest.name == res.name).length > 0 && gamePage.bld.getPrices(craftPriority[0]).filter(rest => rest.name == res.name)[0].val > gamePage.resPool.get(res.name).value){
                         obj.ratio = 0
                       }
                       else if ( gamePage.resPool.get(res.name).maxValue != 0) {
@@ -889,7 +889,7 @@ function autoResearch() {
             }
         }
         //policy
-        if (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get("culture").value >= 1000){
+        if (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.resPool.get("culture").value >= 2000){
             var policy_lst = !gamePage.challenges.isActive("postApocalypse") ? policy_lst_all : policy_lst_post_apocalypse
             var policy_btns = gamePage.tabs[2].policyPanel.children.filter(res => res.model.metadata.unlocked && res.model.enabled && !res.model.metadata.researched)
             for (var rsc = 0; rsc < policy_btns.length; rsc++) {
