@@ -271,7 +271,7 @@ function autoBuild() {
                      else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 && btn[bl].model.metadata.val >= 95 - gamePage.time.getVSU("usedCryochambers").val - gamePage.bld.getPollutionLevel()){
                                {}
                            }
-                     else if (btn[bl].model.metadata.name == "field" && !gamePage.science.get('engineering').researched && gamePage.calendar.season >= 1 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 3 > gamePage.resPool.get('catnip').value){
+                     else if (btn[bl].model.metadata.name == "field" && !gamePage.science.get('engineering').researched && gamePage.calendar.season >= 1 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 3 > gamePage.resPool.get('catnip').value && gamePage.resPool.get('catnip').value < gamePage.resPool.get('catnip').maxValue * 0.9){
                                {}
                            }
                      else if (btn[bl].model.metadata.name == "chronosphere"){
@@ -1115,16 +1115,16 @@ function autoAssign() {
 	                ajobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? a[2] : a[3];
 	            }
 	            else{
-	                atick = gamePage.calcResourcePerTick(a[0]);
-	                ajobs = gamePage.village.getJob(a[1]).value;
+	                atick = gamePage.calcResourcePerTick(a[0]) + 1;
+	                ajobs = gamePage.village.getJob(a[1]).value + 1;
 	            }
 	            if (gamePage.resPool.get(b[0]).value >= gamePage.resPool.get(b[0]).maxValue){
 	                btick = gamePage.resPool.get(b[0]).maxValue * 10;
 	                bjobs = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? b[2] : b[3];
 	            }
 	            else{
-	                btick = gamePage.calcResourcePerTick(b[0]);
-	                bjobs = gamePage.village.getJob(b[1]).value;
+	                btick = gamePage.calcResourcePerTick(b[0]) + 1;
+	                bjobs = gamePage.village.getJob(b[1]).value + 1;
 	            }
 	            kfa = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? a[2] : a[3];
 	            kfb = (gamePage.religion.getRU('solarRevolution').val == 1 || gamePage.challenges.isActive("atheism")) ? b[2] : b[3];
@@ -1227,7 +1227,7 @@ function autoNip() {
 		}
 }
 function autoRefine() {
-    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.resPool.get('catnip').value > gamePage.resPool.get('wood').value * 5  && gamePage.resPool.get('catnip').value > (gamePage.calendar.season >= 1 ? Math.max(gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val * 2, 100) : 100))) {
+    if ((gamePage.village.getKittens() < 14 || !gamePage.workshopTab.visible) && ( gamePage.bld.getBuildingExt('field').meta.unlocked && gamePage.resPool.get('catnip').value > gamePage.resPool.get('wood').value * 5  && gamePage.resPool.get('catnip').value > Math.min(gamePage.resPool.get('catnip').maxValue * 0.9, (gamePage.calendar.season >= 1 ? Math.max(gamePage.tabs[0].children[2].model.prices.filter(res => res.name == "catnip")[0].val * 2, 100) : 100)))) {
         if (!gamePage.workshopTab.visible ){
 
                     if (gamePage.tabs[0].children[1].model.x100Link.visible && gamePage.tabs[0].children[2].model.resourceIsLimited ){
