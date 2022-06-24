@@ -268,7 +268,7 @@ function autoBuild() {
                              }
                          }
                      }
-                     else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5){
+                     else if (btn[bl].model.metadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 && btn[bl].model.metadata.val >= 95 - gamePage.time.getVSU("usedCryochambers").val - gamePage.bld.getPollutionLevel()){
                                {}
                            }
                      else if (btn[bl].model.metadata.name == "field" && !gamePage.science.get('engineering').researched && gamePage.calendar.season >= 1 && btn[bl].model.prices.filter(res => res.name == "catnip")[0].val * 3 > gamePage.resPool.get('catnip').value){
