@@ -588,8 +588,8 @@ function autoCraft2() {
 
             if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 5) : 1,
-                    "logHouse" : 6 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
+                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2) : 5) : 1,
+                    "logHouse" : 6 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2),
                     "mansion" :  (gamePage.resPool.get("titanium").value > 100 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('mansion').meta.val > 10)) ? 1.5 : 0.00000001,
                     "steamworks" : (gamePage.bld.getBuildingExt('magneto').meta.val > 0 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('steamworks').meta.val > 10)) ? 1 : 0.00000001,
                     "magneto" : (gamePage.resPool.get("titanium").value > 50 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('magneto').meta.val > 10)) ? 1 : 0.00000001,
@@ -1078,7 +1078,7 @@ function autozig() {
 // Auto assign new kittens to selected job
 function autoAssign() {
         var resourcesAssign = {
-       		"catnip": ["catnip", "farmer", gamePage.resPool.get("catnip").value < gamePage.resPool.get("catnip").maxValue * 0.1 ? 9 : 999, (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt('temple').meta.val < 1) ? 0.1 : 1],
+       		"catnip": gamePage.village.getKittens() > 2 ? ["catnip", "farmer", gamePage.resPool.get("catnip").value < gamePage.resPool.get("catnip").maxValue * 0.1 ? 9 : 999, (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt('temple').meta.val < 1 && gamePage.village.getKittens() > 2) ? 0.1 : 1] : ["wood","woodcutter", 1, 1],
         	"wood, beam": ["wood","woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ? gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ? gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value)  : 1 , 2],
         	"minerals, slab": ["minerals","miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ? gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ? gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value) : 1 ,2],
             "science": ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, gamePage.science.get('agriculture').researched  ? 1 : 0.1],
@@ -1086,6 +1086,13 @@ function autoAssign() {
             "faith": ["faith", "priest", gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 0.1 : 2) :  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 1 : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ) , (gamePage.resPool.get("faith").value < 750 && gamePage.resPool.get("gold").maxValue >= 500 ) ? 0.01 : 5],
             "coal, gold": (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 };
+
+        if (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200 && (!gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('hut')) || gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('logHouse')) ) ){
+            resourcesAssign["science"] = ["science", "scholar", 9999, 9999];
+            resourcesAssign["manpower, parchment"] = ["manpower", "hunter", 9999, 9999];
+            resourcesAssign["faith"] = ["faith", "priest", 9999, 9999];
+            resourcesAssign[ "coal, gold"] = ["coal", "geologist",9999, 9999];
+        }
 
         if(Object.keys(craftPriority[0]).length > 0){
             let tstres = ["wood", "minerals", "beam", "slab", "science", "faith", "gold", "coal", "manpower", "parchment"].filter(x => gamePage.bld.getPrices(craftPriority[0]).map(elem => elem.name).includes(x))
