@@ -542,7 +542,8 @@ var resources = [
         	["iron", "plate", 125],
             ["oil", "kerosene", 7500],
             ["uranium", "thorium", 250],
-			["unobtainium", "eludium", 1000]
+			["unobtainium", "eludium", 1000],
+			["furs", "parchment", 175]
                 ];
 
 
@@ -840,13 +841,19 @@ function autoCraft2() {
                         var curRes = gamePage.resPool.get(resources[crft][0]);
                         var resourcePerTick = gamePage.getResourcePerTick(resources[crft][0], 0);
                         var resourcePerCraft = Math.min((resourcePerTick * 5),curRes.value);
-                        var resourcePerCraftTrade = Math.min((resourcePerTick * 100),curRes.value);
+                        var resourcePerCraftTrade = Math.min((resourcePerTick * 1000),curRes.value);
                         if (Object.keys(craftPriority[0]).length > 0  && craftPriority[3].indexOf(resources[crft][0]) != -1 ) {
-                            if (curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
+                            if (curRes.maxValue > 0 && curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
+                                gamePage.craft(resources[crft][1], Math.floor((resourcePerCraftTrade / resources[crft][2])));
+                            }
+                            else if (curRes.maxValue == 0 && curRes.value > gamePage.resPool.get(resources[crft][1]).value && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
                                 gamePage.craft(resources[crft][1], Math.floor((resourcePerCraftTrade / resources[crft][2])));
                             }
                         }
-                        else if (curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
+                        else if (curRes.maxValue > 0 && curRes.value > (curRes.maxValue - resourcePerCraft) && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
+                            gamePage.craft(resources[crft][1], Math.floor((resourcePerCraftTrade / resources[crft][2])));
+                        }
+                        else if (curRes.maxValue == 0 && curRes.value > gamePage.resPool.get(resources[crft][1]).value && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
                             gamePage.craft(resources[crft][1], Math.floor((resourcePerCraftTrade / resources[crft][2])));
                         }
                 }
