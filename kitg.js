@@ -840,8 +840,8 @@ function autoCraft2() {
 
                         var curRes = gamePage.resPool.get(resources[crft][0]);
                         var resourcePerTick = gamePage.getResourcePerTick(resources[crft][0], 0);
-                        var resourcePerCraft = Math.min((resourcePerTick * 5),curRes.value);
-                        var resourcePerCraftTrade = Math.min((resourcePerTick * 1000),curRes.value);
+                        var resourcePerCraft = Math.max(Math.min((resourcePerTick * 5),curRes.value), 1);
+                        var resourcePerCraftTrade = Math.max(Math.min((resourcePerTick * 100),curRes.value), 1);
                         if (Object.keys(craftPriority[0]).length > 0  && craftPriority[3].indexOf(resources[crft][0]) != -1 ) {
                             if (curRes.maxValue > 0 && curRes.value >= curRes.maxValue && gamePage.workshop.getCraft(resources[crft][1]).unlocked) {
                                 gamePage.craft(resources[crft][1], Math.floor((resourcePerCraftTrade / resources[crft][2])));
