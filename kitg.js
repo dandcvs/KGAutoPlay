@@ -1120,7 +1120,7 @@ function autoAssign() {
             "coal, gold": (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 };
 
-        if (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200 && (!gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('hut')) || gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('logHouse')) ) ){
+        if (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200 && (!gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('hut')) || !gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('logHouse')) ) ){
             resourcesAssign["science"] = ["science", "scholar", 9999, 9999];
             resourcesAssign["manpower, parchment"] = ["manpower", "hunter", 9999, 9999];
             resourcesAssign["faith"] = ["faith", "priest", 9999, 9999];
