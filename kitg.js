@@ -895,6 +895,7 @@ function autoResearch() {
                 if (gamePage.science.get(science_labels[sc]).unlocked && !gamePage.science.get(science_labels[sc]).researched){
                     GlobalMsg['science'] = gamePage.science.get(science_labels[sc]).label
                     sciencePriority = [gamePage.science.get(science_labels[sc]).label, gamePage.science.get(science_labels[sc]).prices]
+                    break;
                 } else if (gamePage.science.get(science_labels[sc]).researched){
                     science_labels.splice(sc, 1);
                     sciencePriority = [null,[]];
