@@ -600,6 +600,7 @@ function autoCraft2() {
                     "factory"  : gamePage.resPool.get("titanium").value > 100 ? 3 : 0.00000001,
                     "reactor" : gamePage.resPool.get("titanium").value > 100 ? 10 : 0.00000001,
                     "warehouse" : 0.01,
+                    "quarry" : gamePage.bld.getBuildingExt('quarry').meta.val < 10 ? 10 : 2,
                     "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? (gamePage.religion.getRU("solarRevolution").val == 0 ? 100 : 5) : gamePage.challenges.isActive("pacifism") ? 100: 0.001,
                     "observatory" : (!gamePage.challenges.isActive("blackSky") & gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.isActive("atheism")) ? 1 : 0.01),
@@ -1120,12 +1121,6 @@ function autoAssign() {
             "coal, gold": (gamePage.resPool.get("coal").value / gamePage.resPool.get("coal").maxValue  || 100) < (gamePage.workshop.get("geodesy").researched ? gamePage.resPool.get("gold").value / gamePage.resPool.get("gold").maxValue : 100) ? ["coal", "geologist",gamePage.resPool.get("coal").value < gamePage.resPool.get("coal").maxValue * 0.99 ? 1 : 15,15] : ["gold", "geologist",gamePage.resPool.get("gold").value < gamePage.resPool.get("gold").maxValue * 0.99 ? 1 : 15,15]
                 };
 
-        if (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200 && (!gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('hut')) || !gamePage.resPool.isStorageLimited(gamePage.bld.getPrices('logHouse')) ) ){
-            resourcesAssign["science"] = ["science", "scholar", 9999, 9999];
-            resourcesAssign["manpower, parchment"] = ["manpower", "hunter", 9999, 9999];
-            resourcesAssign["faith"] = ["faith", "priest", 9999, 9999];
-            resourcesAssign[ "coal, gold"] = ["coal", "geologist",9999, 9999];
-        }
 
         if(Object.keys(craftPriority[0]).length > 0){
             let tstres = ["wood", "minerals", "beam", "slab", "science", "faith", "gold", "coal", "manpower", "parchment"].filter(x => gamePage.bld.getPrices(craftPriority[0]).map(elem => elem.name).includes(x))
