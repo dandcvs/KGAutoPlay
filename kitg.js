@@ -590,30 +590,31 @@ function autoCraft2() {
             ]
 
 
-            if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts >= 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
+            if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts > 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 6 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2) : 5) : 1,
+                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2) : 5) : 1,
                     "logHouse" : 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2),
                     "mansion" :  (gamePage.resPool.get("titanium").value > 100 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('mansion').meta.val > 10)) ? 1.5 : 0.00000001,
                     "steamworks" : (gamePage.bld.getBuildingExt('magneto').meta.val > 0 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('steamworks').meta.val > 10)) ? 1 : 0.00000001,
                     "magneto" : (gamePage.resPool.get("titanium").value > 50 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('magneto').meta.val > 10)) ? 1 : 0.00000001,
                     "factory"  : gamePage.resPool.get("titanium").value > 100 ? 3 : 0.00000001,
                     "reactor" : gamePage.resPool.get("titanium").value > 100 ? 10 : 0.00000001,
-                    "warehouse" : 0.01,
+                    "warehouse" : 0.0001,
                     "quarry" : gamePage.bld.getBuildingExt('quarry').meta.val < 10 ? 10 : 2,
-                    "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.001,
-                    "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? (gamePage.religion.getRU("solarRevolution").val == 0 ? 100 : 5) : gamePage.challenges.isActive("pacifism") ? 100: 0.001,
-                    "observatory" : (!gamePage.challenges.isActive("blackSky") & gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.isActive("atheism")) ? 1 : 0.01),
+                    "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.0001,
+                    "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? (gamePage.religion.getRU("solarRevolution").val == 0 ? 100 : 5) : gamePage.challenges.isActive("pacifism") ? 100: 0.0001,
+                    "observatory" : (!gamePage.challenges.isActive("blackSky") & gamePage.resPool.get("ship").value == 0 && gamePage.religion.getRU("solarRevolution").val == 1 && (gamePage.resPool.get("plate").value >= 150 && gamePage.resPool.get("starchart").value < 25) ) ? 100 : (gamePage.resPool.get("ship").value == 0 && gamePage.bld.getBuildingExt('observatory').meta.val > 10  && gamePage.resPool.get("starchart").value >= 25) ? 0.00000001 : ((gamePage.religion.getRU("solarRevolution").val == 1 || gamePage.challenges.isActive("atheism")) ? 1 : 0.0001),
                     "oilWell" : (gamePage.bld.getBuildingExt('oilWell').meta.val == 0 && gamePage.resPool.get("coal").value > 0 ) ? 10 : 1,
-                    "lumberMill" : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
+                    "lumberMill" :gamePage.bld.getPrices("lumberMill").filter(res => res.name == "iron")[0].val <= gamePage.resPool.get("iron").value ? 1 : 0.005 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2),
                     "calciner" : ((gamePage.resPool.get("titanium").value > 0 && (gamePage.bld.getBuildingExt('calciner').meta.val > 10 || gamePage.resPool.get("oil").value > gamePage.bld.getPrices('calciner').filter(res => res.name == "oil")[0].val)) || gamePage.challenges.isActive("blackSky")) ? (gamePage.bld.getPrices('calciner').filter(res => res.name == "oil")[0].val < gamePage.resPool.get("oil").maxValue * 0.3 || (gamePage.resPool.get("kerosene").value > gamePage.resPool.get("oil").maxValue * 0.4 && gamePage.bld.getPrices('calciner').filter(res => res.name == "oil")[0].val < gamePage.resPool.get("kerosene").value )) ? (gamePage.bld.getBuildingExt('calciner').meta.val == 0 ? 10 : 1.1) :  0.00000001 : 0.00000001,
-                    "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 :0.01,
+                    "biolab" : gamePage.bld.getBuildingExt('biolab').meta.val > 500 ? 1 : 0.0001,
                     "aqueduct" : gamePage.bld.getBuildingExt('aqueduct').meta.stage == 1 ? 0.01 : 1,
                     "amphitheatre" : gamePage.bld.getBuildingExt("amphitheatre").meta.stage == 1 ? 0.01 :  (gamePage.bld.getBuildingExt('amphitheatre').meta.val == 0 && gamePage.resPool.get('parchment').value > 0) ? 7 :  gamePage.resPool.get('parchment').value > 0 ? 3 : 0.00000001,
                     "ziggurat" : gamePage.bld.getBuildingExt('ziggurat').meta.val > 100 ? 1 :  (gamePage.bld.getBuildingExt('ziggurat').meta.val < 20 && gamePage.bld.getPrices("ziggurat").filter(res => res.name == "blueprint")[0].val <= gamePage.resPool.get("blueprint").value && gamePage.science.get('theology').researched && gamePage.resPool.get("blueprint").value > 100 ) ? 1 : (gamePage.resPool.get("blueprint").value > 500 ? 0.01 : 0.00000001),
                     "mine":  gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 1 * (gamePage.resPool.get("paragon").value > 200 ? 1 : 2) : 10,
                     "workshop":  gamePage.bld.getBuildingExt('workshop').meta.val > 0 ? 1 : 10,
                     "pasture": 0.0001,
+                    "library": 1,
                     "field" : (gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 || !gamePage.science.get('engineering').researched) ? 0 : 1
                 };
                 var allblds = gamePage.tabs[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && !res.model.resourceIsLimited)
@@ -626,7 +627,7 @@ function autoCraft2() {
                             }
                         }
                         else if ((allblds[prc].model.prices.filter(res => res.name == "blueprint").length > 0 ? (allblds[prc].model.metadata.val > 0 || gamePage.resPool.get("blueprint").value > allblds[prc].model.prices.filter(res => res.name == "blueprint")[0].val) : true) && NotPriority_blds.indexOf(allblds[prc].model.metadata.name) === -1)  {
-                            prior[prior.length] = [1, allblds[prc].model.metadata.name, allblds[prc].model.prices]
+                            prior[prior.length] = [0.1, allblds[prc].model.metadata.name, allblds[prc].model.prices]
                         }
                     }
                 }
@@ -711,17 +712,16 @@ function autoCraft2() {
                     }
                     craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
                 }
-                cntcrafts = 1
             }
 
-            cntcrafts+=1
             if (Object.keys(craftPriority[0]).length > 0) {
+                cntcrafts+=1
                 GlobalMsg['craft']  = gamePage.bld.getBuildingExt(craftPriority[0])._metaCache.label + ' (' + (gamePage.bld.getBuildingExt(craftPriority[0]).meta.val+1) + ')' + ': ' + (201 - cntcrafts)
             }
 
 
             if (cntcrafts > 200) {
-                cntcrafts = 1
+                cntcrafts = 0
             }
 
             if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
@@ -1114,7 +1114,7 @@ function autoAssign() {
         var resourcesAssign = {
        		"catnip": (gamePage.village.getKittens() > 2  ||  gamePage.workshop.get("mineralHoes").researched ) ? ["catnip", "farmer", gamePage.resPool.get("catnip").value < gamePage.resPool.get("catnip").maxValue * 0.1 ? 9 : 999, (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt('temple').meta.val < 1 && gamePage.village.getKittens() > 2) ? 0.1 : 1] : ["wood","woodcutter", 1, 1],
         	"wood, beam": ["wood","woodcutter",(gamePage.resPool.get("beam").value < gamePage.resPool.get("slab").value && gamePage.resPool.get("beam").value < gamePage.resPool.get("wood").value) ?  Math.max(0.1, gamePage.resPool.get("wood").value/gamePage.resPool.get("wood").maxValue) : gamePage.resPool.get("beam").value > gamePage.resPool.get("wood").maxValue ?  Math.max(0.1, gamePage.resPool.get("beam").value/gamePage.resPool.get("wood").maxValue / ((gamePage.resPool.get("wood").maxValue / ((gamePage.getResourcePerTick("wood", 0) * 5) / gamePage.village.getJob('woodcutter').value)) / gamePage.village.getJob('woodcutter').value / gamePage.village.getJob('woodcutter').value))  : 1 , 2],
-        	"minerals, slab": ["minerals","miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ?  Math.max(0.1, gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue) :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ?  Math.max(0.1, gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value)) : 1 , gamePage.resPool.get("minerals").value < 275 ? 0.01 : 2],
+        	"minerals, slab": ["minerals","miner",(gamePage.resPool.get("slab").value < gamePage.resPool.get("beam").value && gamePage.resPool.get("slab").value < gamePage.resPool.get("minerals").value) ?  Math.max(0.1, gamePage.resPool.get("minerals").value/gamePage.resPool.get("minerals").maxValue) :  gamePage.resPool.get("slab").value > gamePage.resPool.get("minerals").maxValue ?  Math.max(0.1, gamePage.resPool.get("slab").value/gamePage.resPool.get("minerals").maxValue / ((gamePage.resPool.get("minerals").maxValue / ((gamePage.getResourcePerTick("minerals", 0) * 5) / gamePage.village.getJob('miner').value)) / gamePage.village.getJob('miner').value / gamePage.village.getJob('miner').value)) : 1 , (gamePage.resPool.get("minerals").value < 275 && gamePage.challenges.isActive("winterIsComing")) ? 0.01 : 2],
             "science": ["science", "scholar",(gamePage.resPool.get("science").value < gamePage.resPool.get("science").maxValue * 0.5) ? 0.5 : 1, (gamePage.science.get('engineering').researched  && gamePage.resPool.get("science").value > 100) ? 1 : (gamePage.village.getKittens() > 1 ? 0.1 : 0.001)],
         	"manpower, parchment": ["manpower", "hunter", 0.1 , (gamePage.workshopTab.visible && gamePage.resPool.get("parchment").value < 200) ? 0.1 : 1],
             "faith": ["faith", "priest", gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)'))) && (!(res.model.name.includes('(Transcend)')))).length  == 0 ?  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 0.1 : 2) :  (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit")) ? 1 : gamePage.resPool.get("faith").value/gamePage.resPool.get("faith").maxValue * 10 + 1 ) , (gamePage.resPool.get("faith").value < 750 && gamePage.resPool.get("gold").maxValue >= 500 ) ? 0.01 : 5],
