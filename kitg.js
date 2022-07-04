@@ -712,6 +712,7 @@ function autoCraft2() {
                     }
                     craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
                 }
+                cntcrafts = 0
             }
 
             if (Object.keys(craftPriority[0]).length > 0) {
