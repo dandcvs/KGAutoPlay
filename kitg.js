@@ -689,20 +689,28 @@ function autoCraft2() {
                 if (prior.length > 0) {
                     reslist = {}
                     reslist2 = []
-                    for (var prc = 0; prc < prior[0][2].length; prc++)  {
-                         reslist[prior[0][2][prc].name] = prior[0][2][prc].val
-                         reslist2[reslist2.length] = prior[0][2][prc].name
+                    bld_prior = prior[0]
+                    if (prior.length > 4 && cntcrafts == 0 && ["logHouse", "hut"].includes(craftPriority[0])){
+                        idxlastbld = prior.slice(0, 5).map(item => item[1]).indexOf(craftPriority[0])
+                        if (idxlastbld != -1){
+                            bld_prior = prior[idxlastbld]
+                        }
+                    }
+
+                    for (var prc = 0; prc < bld_prior[2].length; prc++)  {
+                         reslist[bld_prior[2][prc].name] = bld_prior[2][prc].val
+                         reslist2[reslist2.length] = bld_prior[2][prc].name
 
                          for (var g = 0; g < resourcesAll.length; g++)  {
-                            if (prior[0][2][prc].name == resourcesAll[g][0]) {
+                            if (bld_prior[2][prc].name == resourcesAll[g][0]) {
                                 for (var h = 0; h < resourcesAll[g][1].length;h++) {
 
                                     if (isNaN(reslist[resourcesAll[g][1][h][0]])) {
-                                       let tmpval = (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
+                                       let tmpval = (resourcesAll[g][1][h][1] * (bld_prior[2][prc].val - gamePage.resPool.get(bld_prior[2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1)
                                        reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 1 : Math.max(tmpval, gamePage.resPool.get(resourcesAll[g][1][h][0]).value)
                                     }
                                     else {
-                                       let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (prior[0][2][prc].val - gamePage.resPool.get(prior[0][2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
+                                       let tmpval =  Math.max(reslist[resourcesAll[g][1][h][0]], (resourcesAll[g][1][h][1] * (bld_prior[2][prc].val - gamePage.resPool.get(bld_prior[2][prc].name).value ) - gamePage.resPool.get(resourcesAll[g][1][h][0]).value)/(gamePage.getCraftRatio()+1))
                                        reslist[resourcesAll[g][1][h][0]] = tmpval < 0 ? 1 : Math.max(tmpval, gamePage.resPool.get(resourcesAll[g][1][h][0]).value)
                                     }
                                     reslist2[reslist2.length] = resourcesAll[g][1][h][0]
@@ -710,7 +718,7 @@ function autoCraft2() {
                             }
                          }
                     }
-                    craftPriority = [prior[0][1], prior[0][2], gamePage.bld.getBuildingExt(prior[0][1]).meta.val, reslist2]
+                    craftPriority = [bld_prior[1], bld_prior[2], gamePage.bld.getBuildingExt(bld_prior[1]).meta.val, reslist2]
                 }
                 cntcrafts = 0
             }
