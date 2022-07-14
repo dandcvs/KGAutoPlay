@@ -1055,6 +1055,13 @@ function autozig() {
             }
 
         }
+        else if (gamePage.workshop.get("relicStation").researched && gamePage.time.getCFU("ressourceRetrieval").val > 1 && gamePage.calendar.year > 1000 && gamePage.resPool.get('relic').value < gamePage.resPool.get('timeCrystal').value){
+             if (gamePage.religionTab.refineTCBtn.model.allLink.visible){
+                    gamePage.religionTab.refineTCBtn.controller.transform(gamePage.religionTab.refineTCBtn.model, 1, {}, function(result) {
+                                                    if (result) {
+                                                    }})
+             }
+        }
 
 
         if(gamePage.religionTab.zgUpgradeButtons.filter(res => res.model.metadata.unlocked).length > 0){
