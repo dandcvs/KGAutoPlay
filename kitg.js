@@ -591,8 +591,8 @@ function autoCraft2() {
 
             if (!gamePage.ironWill && (cntcrafts == 0 || cntcrafts > 200 || (Object.keys(craftPriority[0]).length > 0 && craftPriority[2] != gamePage.bld.getBuildingExt(craftPriority[0]).meta.val))) {
                 var Priority_blds = {
-                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2) : 5) : 1,
-                    "logHouse" : 7 * (gamePage.resPool.get("paragon").value > 200 ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2),
+                    "hut" : gamePage.science.get('agriculture').researched ? (gamePage.bld.getBuildingExt('mine').meta.val > 0 ? 7 * ((gamePage.resPool.get("paragon").value > 200 || gamePage.village.getKittens() > 70) ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2) : 5) : 1,
+                    "logHouse" : 7 * ((gamePage.resPool.get("paragon").value > 200 || gamePage.village.getKittens() > 70) ? 1 : (!gamePage.challenges.anyChallengeActive() && gamePage.religion.getRU('solarRevolution').val == 1 && gamePage.resPool.get('paragon').value < 200) ? 10 : 2),
                     "mansion" :  (gamePage.resPool.get("titanium").value > 100 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('mansion').meta.val > 10)) ? 1.5 : 0.00000001,
                     "steamworks" : (gamePage.bld.getBuildingExt('magneto').meta.val > 0 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('steamworks').meta.val > 10)) ? 1 : 0.00000001,
                     "magneto" : (gamePage.resPool.get("titanium").value > 50 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('magneto').meta.val > 10)) ? 1 : 0.00000001,
