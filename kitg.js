@@ -542,7 +542,7 @@ var resources = [
             ["wood", "beam", 175],
         	["minerals", "slab", 250],
         	["iron", "plate", 125],
-            ["oil", "kerosene", 7500],
+        	["oil", "kerosene", 7500],
             ["uranium", "thorium", 250],
 			["unobtainium", "eludium", 1000],
 			["furs", "parchment", 175]
@@ -859,6 +859,11 @@ function autoCraft2() {
                          if (flag == true && cnt > 0) {
                             if (resourcesAllF[crf][0] == "ship") {
                                 if (gamePage.resPool.get("ship").value < 5000 || gamePage.resPool.get("starchart").value > 1500){
+                                    gamePage.craft(resourcesAllF[crf][0], cnt);
+                                }
+                            }
+                            else if (resourcesAllF[crf][0] == "kerosene") {
+                                if (gamePage.resPool.get("oil").value >= gamePage.resPool.get("oil").maxValue * 0.9){
                                     gamePage.craft(resourcesAllF[crf][0], cnt);
                                 }
                             }
@@ -1410,8 +1415,6 @@ function UpgradeBuildings() {
             postApocalypse_is_competed = true;
         }
     }
-
-gamePage.calendar.day > 0
 }
 
 function ResearchSolarRevolution() {
