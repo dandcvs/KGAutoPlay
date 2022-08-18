@@ -448,7 +448,7 @@ function autoTrade() {
 
         if(((gamePage.religion.getRU('solarRevolution').val == 1 || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism") ) && (gamePage.resPool.get('gold').value > 550 || gamePage.bld.getBuildingExt('mint').meta.val > 0 )  )) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
 
-            if ((goldResource.value > goldResource.maxValue * 0.95 || ((gamePage.bld.getBuildingExt('mint').meta.val > 0  && goldResource.value > (gamePage.bld.getBuildingExt('accelerator').meta.val < 1 ? 90 : Math.min(gamePage.bld.getBuildingExt('accelerator').meta.val * 90, 10000))) ||  gamePage.religion.getRU("transcendence").on) || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism")) && goldResource.value > 500)   ) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || (gamePage.resPool.get('blueprint').value < 100 && gamePage.religion.getRU('solarRevolution').val == 1 && goldResource.value > 90)) {
+            if ((goldResource.value > goldResource.maxValue * 0.95 || ((gamePage.bld.getBuildingExt('mint').meta.val > 0  && goldResource.value > (gamePage.bld.getBuildingExt('accelerator').meta.val < 1 ? 90 : Math.min(gamePage.bld.getBuildingExt('accelerator').meta.val * 1000, 10000))) ||  gamePage.religion.getRU("transcendence").on) || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism")) && goldResource.value > 500)   ) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || (gamePage.resPool.get('blueprint').value < 100 && gamePage.religion.getRU('solarRevolution').val == 1 && goldResource.value > 90)) {
                 if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
                     gamePage.diplomacyTab.render();
                 }
@@ -1373,6 +1373,19 @@ function UpgradeBuildings() {
             }
         }
     }
+    if (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt("mint").meta.val > 1){
+        if (gamePage.resPool.get('manpower').value > gamePage.bld.getBuildingExt("mint").meta.on * (gamePage.resPool.get('manpower').maxValue / gamePage.bld.getBuildingExt("mint").meta.val) ){
+            if (gamePage.bld.getBuildingExt("mint").meta.on < gamePage.bld.getBuildingExt("mint").meta.val){
+                gamePage.bld.getBuildingExt('mint').meta.on++;
+            }
+        }
+        else {
+            if (gamePage.bld.getBuildingExt("mint").meta.on > 1){
+                gamePage.bld.getBuildingExt('mint').meta.on--;
+            }
+        }
+    }
+
     if (gamePage.challenges.isActive("postApocalypse") && gamePage.time.getCFU("ressourceRetrieval").val > 0 && (gamePage.calendar.cycle != 5 || (gamePage.calendar.day <= 10 || gamePage.calendar.day >= 90))){
         gamePage.bld.getBuildingExt('mine').meta.on = 0;
         gamePage.bld.getBuildingExt('quarry').meta.on = 0;
