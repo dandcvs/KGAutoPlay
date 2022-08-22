@@ -863,7 +863,7 @@ function autoCraft2() {
                                 }
                             }
                             else if (resourcesAllF[crf][0] == "kerosene") {
-                                if (gamePage.resPool.get("oil").value >= gamePage.resPool.get("oil").maxValue * 0.9){
+                                if (gamePage.resPool.get("oil").value >= gamePage.resPool.get("oil").maxValue * 0.9 || (gamePage.resPool.get("kerosene").value < 50000  && gamePage.resPool.get("oil").value > 1000000)){
                                     gamePage.craft(resourcesAllF[crf][0], cnt);
                                 }
                             }
