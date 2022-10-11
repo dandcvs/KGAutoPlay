@@ -1013,7 +1013,7 @@ function autoParty() {
                     }
                 }
 			}
-			else if (gamePage.calendar.festivalDays == 0) {
+			else if (gamePage.calendar.festivalDays == 0 && catpowerP > gamePage.resPool.get('manpower').maxValue * 0.5) {
 			    gamePage.village.holdFestival(1);
 			}
 		}
