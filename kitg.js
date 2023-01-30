@@ -472,7 +472,7 @@ function autoTrade() {
                         if (gamePage.resPool.get("blackcoin").value > 0 && gamePage.calendar.cryptoPrice > 1090 ) {
                             gamePage.diplomacy.sellBcoin()
                         }
-                        if (!switches['CollectResBReset'] && gamePage.resPool.get("relic").value > 10000 && gamePage.calendar.cryptoPrice < 1000 ) {
+                        if (!switches['CollectResBReset'] && gamePage.resPool.get("relic").value > (1000 + gamePage.resPool.get("blackcoin").value * 100) && gamePage.calendar.cryptoPrice < 1000 ) {
                             gamePage.diplomacy.buyBcoin()
                         }
                     }
