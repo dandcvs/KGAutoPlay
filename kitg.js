@@ -463,7 +463,7 @@ function autoTrade() {
         let scaffoldRes = gamePage.resPool.get('scaffold');
         let coalRes = gamePage.resPool.get('coal');
         let cultureRes = gamePage.resPool.get('culture');
-        if (cultureRes.value >= 10000 || gamePage.challenges.isActive("pacifism")) {
+        if ((cultureRes.value >= 10000 || cultureRes.value >= cultureRes.maxValue) || gamePage.challenges.isActive("pacifism")) {
                 embRefreshCnt += 1;
                 if (embRefreshCnt >= 100){
                      gamePage.diplomacyTab.render();
