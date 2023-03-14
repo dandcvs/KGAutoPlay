@@ -379,7 +379,7 @@ function autoSpace() {
                     for (var sp = 0 ;sp < spBuild.length; sp++) {
                         if (spBuild[sp].model.metadata.unlocked) {
                             if (!switches['CollectResBReset'] || spBuild[sp].model.prices.filter(res => res.name == 'relic' || res.name == 'timeCrystal' || res.name == 'void').length == 0) {
-                                if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched  && spBuild[sp].model.prices.filter(res => res.name == 'antimatter').length > 0 && (!gamePage.challenges.isActive("energy") || (!["tectonic", "hrHarvester"].includes(spBuild[sp].model.metadata.name) || spBuild[sp].model.metadata.val > 0  ))){
+                                if (gamePage.workshop.get("relicStation").unlocked && !gamePage.workshop.get("relicStation").researched  && spBuild[sp].model.prices.filter(res => res.name == 'antimatter').length > 0 && (!gamePage.challenges.isActive("energy")  && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue )){
                                     {}
                                 }
                                 else if (!gamePage.science.get('voidSpace').researched &&  ["hydroponics", "moonBase", "sunlifter", "cryostation", "heatsink"].includes(spBuild[sp].model.metadata.name) && (spBuild[sp].model.prices.filter(res => res.name == "eludium").length == 0 ||  spBuild[sp].model.prices.filter(res => res.name == "eludium")[0].val > 500) &&  gamePage.resPool.get("unobtainium").value < gamePage.resPool.get("unobtainium").maxValue * 0.5 ){
@@ -1081,7 +1081,7 @@ function autozig() {
                                                 }})
             }
         }
-        if ((!gamePage.workshop.get("relicStation").researched && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) || ((gamePage.resPool.get('relic').value + (gamePage.resPool.get("blackcoin").value * 1000)) < gamePage.resPool.get('timeCrystal').value && gamePage.resPool.get('timeCrystal').value > 3000) ) {
+        if ((!gamePage.workshop.get("relicStation").researched && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) || ((gamePage.resPool.get('relic').value + (gamePage.resPool.get("blackcoin").value * 1000)) < gamePage.resPool.get('timeCrystal').value && (gamePage.resPool.get('timeCrystal').value > 3000 && GlobalMsg["ressourceRetrieval"] == '')) ) {
             if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.visible){
                 gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {}, function(result) {
                     if (result) {
