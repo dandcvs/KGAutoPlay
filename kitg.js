@@ -1081,7 +1081,7 @@ function autozig() {
                                                 }})
             }
         }
-        if ((!gamePage.workshop.get("relicStation").researched && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) || ((gamePage.resPool.get('relic').value + (gamePage.resPool.get("blackcoin").value * 1000)) < gamePage.resPool.get('timeCrystal').value && (gamePage.resPool.get('timeCrystal').value > 3000 && GlobalMsg["ressourceRetrieval"] == '')) ) {
+        if ((!gamePage.workshop.get("relicStation").researched && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) || (((gamePage.resPool.get('relic').value * 25) + (gamePage.resPool.get("blackcoin").value * 1000)) < gamePage.resPool.get('timeCrystal').value && (gamePage.resPool.get('timeCrystal').value > 3000 && GlobalMsg["ressourceRetrieval"] == '')) ) {
             if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.visible){
                 gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {}, function(result) {
                     if (result) {
