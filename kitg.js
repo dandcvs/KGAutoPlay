@@ -13,6 +13,8 @@ var spcContChamber = gamePage.space.meta[5].meta[1];
 var spcMoonBase = gamePage.space.meta[2].meta[1];
 var spcEntangler = gamePage.space.meta[10].meta[0];
 var spcSpaceStation = gamePage.space.meta[1].meta[2];
+var spcLunarOutpost = gamePage.space.meta[2].meta[0];
+var spcOrbitalArray = gamePage.space.meta[4].meta[1];
 
  // These are the assorted variables
 var proVar = gamePage.resPool.energyProd;
@@ -1254,34 +1256,32 @@ function energyControl() {
                 [bldAccelerator,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
                 [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null, (gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue*0.9 && gamePage.space.meta[5].meta[1].val > 1) ? (1 - gamePage.resPool.get("antimatter").value/gamePage.resPool.get("antimatter").maxValue )/10: 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
                 [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null, 0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null],
-                [gamePage.tabs[6].planetPanels[0] ? spcSpaceStation: null, 0.09, gamePage.tabs[6].planetPanels[0]  ? gamePage.tabs[6].planetPanels[0].children[2]: null]
+                [gamePage.tabs[6].planetPanels[0] ? spcSpaceStation: null, 0.09, gamePage.tabs[6].planetPanels[0]  ? gamePage.tabs[6].planetPanels[0].children[2]: null],
+                [bldFactory, 0.01, gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory")],
+                [gamePage.tabs[6].planetPanels[1] ? spcLunarOutpost : null, 0.01, gamePage.tabs[6].planetPanels[1]  ? gamePage.tabs[6].planetPanels[1].children[0]: null],
+                [gamePage.tabs[6].planetPanels[3] ? spcOrbitalArray : null, 0.01, gamePage.tabs[6].planetPanels[3]  ? gamePage.tabs[6].planetPanels[3].children[1]: null]
                  ];
 
-            if (gamePage.challenges.isActive("energy") && gamePage.science.get("paradoxalKnowledge").researched){
-                EnergyPriority.push([bldFactory,0.01,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory")]);
-            }  else if (!gamePage.challenges.isActive("energy") &&  gamePage.bld.getBuildingExt('factory').meta.on < gamePage.bld.getBuildingExt('factory').meta.val) {
-                gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory").controller.on(gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory").model, gamePage.bld.getBuildingExt('factory').meta.val)
-            }
 
             if (gamePage.science.get('antimatter') && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.9 && gamePage.space.meta[5].meta[1].on > 1){
                 gamePage.space.meta[5].meta[1].on = gamePage.space.meta[5].meta[1].on-1;
             }
 
             if (proVar>conVar) {
-                EnergyInc = EnergyPriority.filter(res => res[0] && res[0].val > res[0].on && (proVar > (conVar + res[0].effects.energyConsumption) || (res[2].model.metadata.name == "containmentChamber" && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue * 0.9 )  ) ).sort(function(a, b) {
+                EnergyInc = EnergyPriority.filter(res => res[0] && res[0].val > res[0].on && (proVar > (conVar + res[0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio() ) || (res[2].model.metadata.name == "containmentChamber" && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue * 0.9 )  ) ).sort(function(a, b) {
                     return a[1] - b[1];
                 });
                 if (EnergyInc.length > 0){
-                      EnergyInc[0][2].controller.on(EnergyInc[0][2].model,Math.min(Math.floor(FreeEnergy / EnergyInc[0][0].effects.energyConsumption), EnergyInc[0][0].val -  EnergyInc[0][0].on));
+                      EnergyInc[0][2].controller.on(EnergyInc[0][2].model,Math.min(Math.floor(FreeEnergy / (EnergyInc[0][0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio()) ), EnergyInc[0][0].val -  EnergyInc[0][0].on));
                 }
 
             }
             else if (proVar<conVar) {
-                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 1 && res[0].effects.energyConsumption > 0 && proVar < conVar).sort(function(a, b) {
+                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 1 && res[0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio()  > 0 && proVar < conVar).sort(function(a, b) {
                     return b[1] - a[1];
                 });
                 if (EnergyDec.length > 0){
-                    EnergyDec[0][2].controller.off(EnergyDec[0][2].model, Math.min(EnergyDec[0][0].on - 1, Math.min(Math.ceil(FreeEnergy / EnergyDec[0][0].effects.energyConsumption), EnergyDec[0][0].on)));
+                    EnergyDec[0][2].controller.off(EnergyDec[0][2].model, Math.min(EnergyDec[0][0].on - 1, Math.min(Math.ceil(FreeEnergy / (EnergyDec[0][0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio()) ), EnergyDec[0][0].on)));
                 }
             }
         }
@@ -1380,7 +1380,7 @@ function UpgradeBuildings() {
     if (!gamePage.challenges.isActive("postApocalypse")  && gamePage.bld.getBuildingExt('magneto').meta.on < gamePage.bld.getBuildingExt('magneto').meta.val && gamePage.resPool.get('oil').value > 0 && gamePage.bld.getBuildingExt('magneto').meta.unlocked) {
         gamePage.bld.getBuildingExt('magneto').meta.on = gamePage.bld.getBuildingExt('magneto').meta.val;
     }
-    if (gamePage.space.getBuilding("moonOutpost").unlocked){
+    if (gamePage.space.getBuilding("moonOutpost").unlocked && !gamePage.challenges.isActive("energy")){
         if (gamePage.space.getBuilding("moonOutpost").on < gamePage.space.getBuilding("moonOutpost").val && gamePage.resPool.get('uranium').value > 1000 && gamePage.resPool.get('unobtainium').value < gamePage.resPool.get('unobtainium').maxValue){
             gamePage.space.getBuilding("moonOutpost").on = gamePage.space.getBuilding("moonOutpost").val
         }else if (gamePage.space.getBuilding("moonOutpost").on > 0 && (gamePage.resPool.get('uranium').value <= 1000 || gamePage.resPool.get('unobtainium').value >= gamePage.resPool.get('unobtainium').maxValue)){
