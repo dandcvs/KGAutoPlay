@@ -1258,7 +1258,7 @@ function energyControl() {
                 [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null, 0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null],
                 [gamePage.tabs[6].planetPanels[0] ? spcSpaceStation: null, 0.09, gamePage.tabs[6].planetPanels[0]  ? gamePage.tabs[6].planetPanels[0].children[2]: null],
                 [bldFactory, 0.01, gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory")],
-                [gamePage.tabs[6].planetPanels[1] ? spcLunarOutpost : null, 0.01, gamePage.tabs[6].planetPanels[1]  ? gamePage.tabs[6].planetPanels[1].children[0]: null],
+                [gamePage.tabs[6].planetPanels[1] ? (gamePage.resPool.get('uranium').value > 1000 ? spcLunarOutpost: null) : null, 0.01, gamePage.tabs[6].planetPanels[1]  ? (gamePage.resPool.get('uranium').value > 1000 ? gamePage.tabs[6].planetPanels[1].children[0] : null): null],
                 [gamePage.tabs[6].planetPanels[3] ? spcOrbitalArray : null, 0.01, gamePage.tabs[6].planetPanels[3]  ? gamePage.tabs[6].planetPanels[3].children[1]: null]
                  ];
 
