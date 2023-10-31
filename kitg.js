@@ -7,6 +7,7 @@ var bldOilWell = gamePage.bld.buildingsData[20];
 var bldFactory = gamePage.bld.buildingsData[22];
 var bldCalciner = gamePage.bld.buildingsData[16];
 var bldAccelerator = gamePage.bld.buildingsData[24];
+var bldWarehouse = gamePage.bld.buildingsData[11];
 
 
 var spcContChamber = gamePage.space.meta[5].meta[1];
@@ -233,7 +234,7 @@ function autoPraise(){
             }
         }
         if (gamePage.science.getPolicy("siphoning").researched && gamePage.religion.getPact("pactOfCleansing").unlocked && gamePage.getEffect("pactsAvailable") > 0 ){
-            if (gamePage.resPool.get("relic").value > 100 && gamePage.resPool.get("necrocorn").value > 10 && (gamePage.religion.getCorruptionPerTick() * (1 + gamePage.timeAccelerationRatio())) > 0.001 ){
+            if (gamePage.resPool.get("relic").value > 100 && gamePage.resPool.get("necrocorn").value > 10 && (gamePage.religion.getCorruptionPerTick() * (1 + gamePage.timeAccelerationRatio())) > 0.001  && gamePage.diplomacy.get("leviathans").energy >= gamePage.diplomacy.getMarkerCap())  {
                 var btn = gamePage.tabs[5].ptPanel.children[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && res.id == "pactOfCleansing" && res.model.enabled)
                 for (var cr = 0; cr < btn.length; cr++) {
                     if (btn[cr].model.enabled && btn[cr].model.visible) {
@@ -390,6 +391,9 @@ function autoSpace() {
                                 else if ( ["hydroponics", "moonBase"].includes(spBuild[sp].model.metadata.name)  && gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.01  && gamePage.resPool.get("unobtainium").value < gamePage.resPool.get("unobtainium").maxValue * 0.5 ){
                                     {}
                                 }
+                                else if ( spBuild[sp].model.metadata.name == "hydroponics" && spBuild[sp].model.prices.filter(res => res.name == "unobtainium")[0].val > gamePage.resPool.get("eludium").value){
+                                    {}
+                                }
                                 else if (gamePage.ironWill){
                                     if(!spBuild[sp].model.metadata.effects.maxKittens){
                                         spBuild[sp].controller.buyItem(spBuild[sp].model, {}, function(result) {
@@ -489,7 +493,7 @@ function autoTrade() {
                 if (gamePage.resPool.get("blackcoin").value > 0 && gamePage.calendar.cryptoPrice > 1090 ) {
                     gamePage.diplomacy.sellBcoin()
                 }
-                if (!switches['CollectResBReset'] && gamePage.resPool.get("relic").value > (1000 + gamePage.resPool.get("blackcoin").value * 100) && gamePage.calendar.cryptoPrice < 1000 ) {
+                if (!switches['CollectResBReset'] && gamePage.resPool.get("relic").value > (1000 + gamePage.resPool.get("blackcoin").value * 1000) && gamePage.calendar.cryptoPrice < 1000 ) {
                     gamePage.diplomacy.buyBcoin()
                 }
             }
@@ -509,7 +513,7 @@ function autoTrade() {
                     }
 
                     //Feed elders
-                    if (gamePage.resPool.get("necrocorn").value > ((gamePage.diplomacy.get("leviathans").energy + 1) * 10) &&  gamePage.diplomacy.get("leviathans").energy < (gamePage.religion.getZU("marker").val * 5 + 5)){
+                    if (gamePage.diplomacy.get("leviathans").energy < gamePage.diplomacy.getMarkerCap() && ((gamePage.resPool.get("necrocorn").value > (gamePage.diplomacy.get("leviathans").energy + 1)) || (gamePage.resPool.get("necrocorn").value >= 1 && (gamePage.religion.getCorruptionPerTick() * (1 + gamePage.timeAccelerationRatio())) > 0.001))){
                         gamePage.diplomacy.feedElders();
                     }
                 }
@@ -612,7 +616,7 @@ function autoCraft2() {
                 ["concrate", [["steel",25],["slab",2500]],0,true, true],
                 ["gear", [["steel",15]],25,true, true],
                 ["alloy", [["steel",75],["titanium",10]], gamePage.resPool.get("eludium").value > 125 ? gamePage.resPool.get("steel").value : Math.min(Math.max(Math.min(gamePage.resPool.get("steel").value/75*(gamePage.getCraftRatio()+1),gamePage.resPool.get("titanium").value/10*(gamePage.getCraftRatio()+1)), gamePage.workshop.get("geodesy").researched ? 50 : 0),1000),false, true],
-                ["eludium", [["unobtainium",1000],["alloy",2500]], gamePage.resPool.get("eludium").value < 125 ? 125 : (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? 125 : gamePage.resPool.get("eludium").value < 500 ? 500 : ((gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.9 || gamePage.resPool.get("unobtainium").value >= Math.max(gamePage.resPool.get("eludium").value, (gamePage.resPool.get("timeCrystal").value > 1000000 ? gamePage.resPool.get("unobtainium").maxValue * 0.8 : (gamePage.resPool.get("eludium").value < 100000 ? 200000 : gamePage.resPool.get("unobtainium").maxValue * 0.5)))) ? gamePage.resPool.get("timeCrystal").value * 5 + 1 : 0)), false, true],
+                ["eludium", [["unobtainium",1000],["alloy",2500]], gamePage.resPool.get("eludium").value < 125 ? 125 : (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? 125 : gamePage.resPool.get("eludium").value < 500 ? 500 : ((gamePage.resPool.get("unobtainium").value > gamePage.resPool.get("unobtainium").maxValue * 0.9 || gamePage.resPool.get("unobtainium").value >= Math.max(gamePage.resPool.get("eludium").value, (gamePage.resPool.get("timeCrystal").value > 1000000 ? gamePage.resPool.get("unobtainium").maxValue * 0.3 : (gamePage.resPool.get("eludium").value < 100000 ? 200000 : gamePage.resPool.get("unobtainium").maxValue * 0.1)))) ? gamePage.resPool.get("timeCrystal").value * 5 + 1 : 0)), false, true],
                 ["scaffold", [["beam",50]],0,true, true],
                 ["ship", [["scaffold",100],["plate",150],["starchart",25]],gamePage.workshop.get("geodesy").researched ? 100 : (gamePage.resPool.get("starchart").value > 500 || gamePage.resPool.get("ship").value > 500) ? 100 + (gamePage.resPool.get("starchart").value - 500)/25 :100 ,true, true],
                 ["tanker", [["ship",200],["kerosene",gamePage.resPool.get('oil').maxValue * 2],["alloy",1250],["blueprint",5]],0,true, true],
@@ -636,7 +640,7 @@ function autoCraft2() {
                     "magneto" : (gamePage.resPool.get("titanium").value > 50 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('magneto').meta.val > 10)) ? 1 : 0.00000001,
                     "factory"  : gamePage.resPool.get("titanium").value > 100 ? 3 : 0.00000001,
                     "reactor" : gamePage.resPool.get("titanium").value > 100 ? 10 : 0.00000001,
-                    "warehouse" : 0.0001,
+                    "warehouse" : gamePage.bld.getBuildingExt('warehouse').meta.stage == 1 ? 0 : 0.0001,
                     "quarry" : gamePage.bld.getBuildingExt('quarry').meta.val < 10 ? 10 : 2,
                     "harbor" : (gamePage.bld.getBuildingExt('harbor').meta.val > 100 || (gamePage.resPool.get("ship").value > 0 && gamePage.resPool.get("plate").value > gamePage.bld.getPrices('harbor')[2].val)) ? 1 : 0.0001,
                     "smelter" : gamePage.bld.getBuildingExt("amphitheatre").meta.val > 0 ? (gamePage.religion.getRU("solarRevolution").val == 0 ? 100 : 5) : gamePage.challenges.isActive("pacifism") ? 100: 0.0001,
@@ -1118,7 +1122,7 @@ function autozig() {
             if (btn.length < 2 || (btn.slice(btn.length - 2, btn.length ).filter(res => res.model.enabled).length > 0) || (gamePage.religionTab.zgUpgradeButtons[0].model.prices.filter(res => res.name == "tears")[0].val < gamePage.resPool.get('tears').value * 0.1) || (gamePage.religionTab.zgUpgradeButtons[6].model.prices.filter(res => res.name == "tears")[0].val < gamePage.resPool.get('tears').value * 0.1 && gamePage.religionTab.zgUpgradeButtons[6].model.prices.filter(res => res.name == "unobtainium")[0].val < gamePage.resPool.get('unobtainium').value) ) {
                 for (var zg = btn.length - 1; zg >= 0; zg--) {
                     if (btn[zg] && btn[zg].model.metadata.unlocked && (!btn[zg].model.prices.filter(res => res.name == "unobtainium")[0] || btn[zg].model.prices.filter(res => res.name == "unobtainium")[0].val < (gamePage.resPool.get('unobtainium').value - (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ?  Chronosphere10SummPrices()["unobtainium"] : 0)) )) {
-                        if (btn[zg].model.metadata.name == "unicornGraveyard" && gamePage.religionTab.zgUpgradeButtons[7].model.on > 0 && gamePage.religionTab.zgUpgradeButtons[8].model.prices.filter(res => res.name == "necrocorn")[0].val < 200)
+                        if (btn[zg].model.metadata.name == "unicornGraveyard" && gamePage.religionTab.zgUpgradeButtons[7].model.on > 0 && (gamePage.religionTab.zgUpgradeButtons[8].model.prices.filter(res => res.name == "necrocorn")[0].val < 200 || gamePage.diplomacy.get("leviathans").energy < gamePage.diplomacy.getMarkerCap()))
                             {}
                         else{
                             try {
@@ -1254,12 +1258,13 @@ function energyControl() {
                 [bldBioLab,(gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value < gamePage.resPool.get("antimatter").maxValue*0.2) ? 0.3 : Math.max(0.2,gamePage.calcResourcePerTick('oil') * 5 / gamePage.resPool.get('oil').maxValue * 100 * (gamePage.resPool.get("oil").value / gamePage.resPool.get("oil").maxValue))* (gamePage.space.meta[3].meta[1].val +1),gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "biolab")],
                 (gamePage.ironWill && Math.min(Math.floor(gamePage.resPool.get('coal').value /(gamePage.resPool.get('coal').maxValue / gamePage.bld.getBuildingExt('calciner').meta.val)), Math.floor(gamePage.resPool.get('minerals').value / 1000)) < gamePage.bld.getBuildingExt('calciner').meta.val ) ? [gamePage.challenges.isActive("postApocalypse") ? null : bldSmelter,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'smelter')] : [gamePage.challenges.isActive("postApocalypse") ? null : bldCalciner,0.101,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "calciner")],
                 [bldAccelerator,0.09,gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "accelerator")],
-                [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null, (gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue*0.9 && gamePage.space.meta[5].meta[1].val > 1) ? (1 - gamePage.resPool.get("antimatter").value/gamePage.resPool.get("antimatter").maxValue )/10: 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
+                [gamePage.tabs[6].planetPanels[4] ? spcContChamber : null, (gamePage.science.get('antimatter').researched && gamePage.resPool.get("antimatter").value >= gamePage.resPool.get("antimatter").maxValue*0.9 && gamePage.space.meta[5].meta[1].val > 1) ? Math.max(0.05, (1 - gamePage.resPool.get("antimatter").value/gamePage.resPool.get("antimatter").maxValue )/10): 9999,gamePage.tabs[6].planetPanels[4] ? gamePage.tabs[6].planetPanels[4].children[1] : null] ,
                 [gamePage.tabs[6].planetPanels[1] ? spcMoonBase: null, 0.2, gamePage.tabs[6].planetPanels[1] ? gamePage.tabs[6].planetPanels[1].children[1]: null],
                 [gamePage.tabs[6].planetPanels[0] ? spcSpaceStation: null, 0.09, gamePage.tabs[6].planetPanels[0]  ? gamePage.tabs[6].planetPanels[0].children[2]: null],
                 [bldFactory, 0.01, gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == "factory")],
                 [gamePage.tabs[6].planetPanels[1] ? (gamePage.resPool.get('uranium').value > 1000 ? spcLunarOutpost: null) : null, 0.01, gamePage.tabs[6].planetPanels[1]  ? (gamePage.resPool.get('uranium').value > 1000 ? gamePage.tabs[6].planetPanels[1].children[0] : null): null],
-                [gamePage.tabs[6].planetPanels[3] ? spcOrbitalArray : null, 0.01, gamePage.tabs[6].planetPanels[3]  ? gamePage.tabs[6].planetPanels[3].children[1]: null]
+                [gamePage.tabs[6].planetPanels[3] ? spcOrbitalArray : null, 0.01, gamePage.tabs[6].planetPanels[3]  ? gamePage.tabs[6].planetPanels[3].children[1]: null],
+                [gamePage.bld.getBuildingExt('warehouse').meta.stage == 0 ? null : bldWarehouse, 0.3, gamePage.tabs[0].children.find(o => o.model.metadata && o.model.metadata.name == 'warehouse')]
                  ];
 
 
@@ -1364,7 +1369,7 @@ function UpgradeBuildings() {
         gamePage.bld.getBuildingExt('reactor').meta.isAutomationEnabled = true
     }
 
-    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || (gamePage.space.getProgram("orbitalLaunch").val == 1 && !gamePage.challenges.isActive("energy") && gamePage.bld.getBuildingExt('aqueduct').meta.stage != 0)) && (res.name != "aqueduct" || (!gamePage.challenges.isActive("winterIsComing") && ((gamePage.resPool.get('paragon').value > 200 && gamePage.bld.getBuildingExt('accelerator').meta.val > 2) || (gamePage.resPool.get('paragon').value <= 200 && gamePage.space.getBuilding('hydroponics').val > 0) )) ) );
+    var mblds = gamePage.bld.meta[0].meta.filter(res => res.stages && res.stages[1].stageUnlocked && res.stage == 0 && (res.name != "library" || (gamePage.space.getProgram("orbitalLaunch").val == 1 && !gamePage.challenges.isActive("energy") && gamePage.bld.getBuildingExt('aqueduct').meta.stage != 0)) && (res.name != "aqueduct" || (!gamePage.challenges.isActive("winterIsComing") && ((gamePage.resPool.get('paragon').value > 200 && gamePage.bld.getBuildingExt('accelerator').meta.val > 2) || (gamePage.resPool.get('paragon').value <= 200 && gamePage.space.getBuilding('hydroponics').val > 0) )) ) && (res.name != "warehouse" || (gamePage.resPool.get("eludium").value >= 200000 && gamePage.time.getCFU("ressourceRetrieval").val > 3)) );
     var upgradeTarget;
     for (var up = 0; up < mblds.length; up++) {
         upgradeTarget = gamePage.tabs[0].children.find(res => res.model.metadata && res.model.metadata.name == mblds[up].name);
@@ -1525,7 +1530,7 @@ function Timepage() {
                                 }
                             }
                             else{
-                                if (( v == 5 && (gamePage.workshop.get("turnSmoothly").unlocked && !gamePage.workshop.get("turnSmoothly").researched && gamePage.resPool.get("temporalFlux").value - VoidBuild[5].model.prices.filter(res => res.name == "temporalFlux")[0].val < gamePage.workshop.get("turnSmoothly").prices.filter(res => res.name == "temporalFlux")[0].val)) || (v == 6 && gamePage.time.meta[0].meta[5].val < 3)){
+                                if (( v == 5 && (!gamePage.workshop.get("turnSmoothly").researched && gamePage.resPool.get("temporalFlux").value - VoidBuild[5].model.prices.filter(res => res.name == "temporalFlux")[0].val < gamePage.workshop.get("turnSmoothly").prices.filter(res => res.name == "temporalFlux")[0].val)) || (v == 6 && gamePage.time.meta[0].meta[5].val < 3)){
                                   {}
                                 }
                                 else if ((v != 3 && v != 5 ) && ((VoidBuild[3].model.metadata.unlocked && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1) || (VoidBuild[5].model.metadata.unlocked  && VoidBuild[v].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1 ))){
@@ -1800,12 +1805,10 @@ var runAllAutomation = setInterval(function() {
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
             setTimeout(RenderNewTabs, 1);
-            if (Iinc == 5) {
-                setTimeout(autozig, 0);
-                setTimeout(Service, 2);
-                Iinc = 0;
-            }
-            Iinc++;
+            setTimeout(autozig, 0);
+        }
+        if (gamePage.timer.ticksTotal % 755 === 0) {
+            setTimeout(Service, 2);
         }
     }
 
