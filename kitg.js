@@ -1805,6 +1805,8 @@ var runAllAutomation = setInterval(function() {
 
         if (gamePage.timer.ticksTotal % 151 === 0) {
             setTimeout(RenderNewTabs, 1);
+        }
+        if (gamePage.timer.ticksTotal % 11 === 0) {
             setTimeout(autozig, 0);
         }
         if (gamePage.timer.ticksTotal % 755 === 0) {
