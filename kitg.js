@@ -1290,7 +1290,7 @@ function energyControl() {
 
             }
             else if (proVar<conVar) {
-                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 1 && res[0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio()  > 0 && proVar < conVar).sort(function(a, b) {
+                EnergyDec = EnergyPriority.filter(res => res[0] && res[0].on > 1 && res[0].effects !== undefined && "energyConsumption" in res[0].effects && res[0].effects.energyConsumption * gamePage.resPool.getEnergyConsumptionRatio() > 0 && proVar < conVar).sort(function (a, b) {
                     return b[1] - a[1];
                 });
                 if (EnergyDec.length > 0){
