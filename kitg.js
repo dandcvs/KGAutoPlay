@@ -1223,13 +1223,13 @@ function autoAssign() {
 
         });
 
+        kittens_cnt = gamePage.village.getKittens()
         if (game.village.getFreeKittens() != 0 ) {
             gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]),1);
-        }
-        else if (gamePage.village.getKittens() > 0) {
-            restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > (gamePage.village.getKittens() > 10 ? 1 : 0));
+        }else if (kittens_cnt > 0) {
+            restmpdel = restmpq.filter(res => gamePage.village.getJob(res[1]).value > ((gamePage.resPool.get(res[0]).value >= gamePage.resPool.get(res[0]).maxValue) ? 1 : kittens_cnt/2/7));
             if (restmpdel.length > 0){
-                let cnt = gamePage.resPool.get(restmpdel[restmpdel.length - 1][0]).value >= gamePage.resPool.get(restmpdel[restmpdel.length - 1][0]).maxValue ? gamePage.village.getJob(restmpdel[restmpdel.length - 1][1]).value -1 : Math.max(Math.floor(gamePage.village.getJob(restmpdel[restmpdel.length - 1][1]).value * 0.1),1)
+                let cnt = Math.max(Math.floor(gamePage.village.getJob(restmpdel[restmpdel.length - 1][1]).value * 0.1),1)
                 if (cnt > 0) {
                     gamePage.village.sim.removeJob(restmpdel[restmpdel.length - 1][1],cnt);
                     gamePage.village.assignJob(gamePage.village.getJob(restmpq[0][1]),cnt);
@@ -1703,7 +1703,9 @@ function SellSpaceAndReset(){
             let optsell = gamePage.opts.hideSell
             gamePage.opts.hideSell = false
             //sell all space
-            gamePage.tabs[6].planetPanels[4].children[1].model.metadata.on = gamePage.tabs[6].planetPanels[4].children[1].model.metadata.val
+            if (gamePage.tabs[6].planetPanels.length > 3){
+                gamePage.tabs[6].planetPanels[4].children[1].model.metadata.on = gamePage.tabs[6].planetPanels[4].children[1].model.metadata.val
+            }
             for (var z = 0; z < gamePage.tabs[6].planetPanels.length; z++) {
                     var spBuild = gamePage.tabs[6].planetPanels[z].children;
                     try {
