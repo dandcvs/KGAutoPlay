@@ -627,7 +627,7 @@ function autoCraft2() {
                 ["compedium", [["manuscript",50],["science",10000]],gamePage.ironWill ? (gamePage.science.get('astronomy').researched ? Math.min(gamePage.resPool.get("science").value/10000*(gamePage.getCraftRatio()+1),1500): 0) : (gamePage.religion.getRU('solarRevolution').val == 1 ? gamePage.resPool.get("manuscript").value / 3 : 110), true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
                 ["blueprint", [["compedium",25],["science",25000]],0,true, gamePage.resPool.get("compedium").value > 200 ? true : false],
                 ["thorium", [["uranium",250]],Math.min(gamePage.resPool.get("uranium").value/250*(gamePage.getCraftRatio()+1),50000),true, true],
-                ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, gamePage.resPool.get("manuscript").value > 200 ? true : false],
+                ["megalith", [["slab",50],["beam",25],["plate",5]],0,true, gamePage.resPool.get("manuscript").value > 400 ? true : false],
                 ["tMythril", [["bloodstone",5],["ivory",1000],["titanium",500]],5, true, (gamePage.ironWill && gamePage.resPool.get("tMythril").value < 5) ? true : false]
             ]
 
