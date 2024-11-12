@@ -778,11 +778,12 @@ function autoCraft2() {
             if (gamePage.science.get("construction").researched && gamePage.tabs[3].visible ) {
                 for (var g = 0; g < resourcesAll.length; g++) {
                     if (resourcesAll[g][0] in reslist) {
-                        if (resourcesAll[g][2] < reslist[resourcesAll[g][0]]){
+                        if (Math.max(resourcesAll[g][2], gamePage.resPool.get(resourcesAll[g][0]).value) < reslist[resourcesAll[g][0]]){
                             resourcesAll[g][2] = reslist[resourcesAll[g][0]]
+                            resourcesAll[g][4] =  true
                         }
                         resourcesAll[g][3] =  false
-                        resourcesAll[g][4] =  true
+
                     }else{
                         for (var z = 0; z < resourcesAll[g][1].length; z++) {
                             if (resourcesAll[g][1][z][0] in reslist && (gamePage.resPool.get((resourcesAll[g][1][z][0]).maxValue > 0 && gamePage.resPool.get(resourcesAll[g][1][z][0]).value < gamePage.resPool.get(resourcesAll[g][1][z][0]).maxValue) || gamePage.resPool.get(resourcesAll[g][1][z][0]).value < reslist[resourcesAll[g][1][z][0]] * 2)  && !["plate", "ship", "eludium", "alloy"].includes(resourcesAll[g][0])) {
@@ -809,11 +810,11 @@ function autoCraft2() {
 
                                 for (var g = 0; g < resourcesAll.length; g++) {
                                     if (resourcesAll[g][0] == upgrades_craft[pru][1][j][0]) {
-                                        if (resourcesAll[g][2] < upgrades_craft[pru][1][j][1]){
+                                        if (Math.max(resourcesAll[g][2], gamePage.resPool.get(resourcesAll[g][0]).value) < upgrades_craft[pru][1][j][1]){
                                             resourcesAll[g][2] =  upgrades_craft[pru][1][j][1]
+                                            resourcesAll[g][4] =  true
                                         }
                                         resourcesAll[g][3] =  false
-                                        resourcesAll[g][4] =  true
                                     }
                                 }
                                 let respack = resourcesAll.filter(res => res[0] == upgrades_craft[pru][1][j][0])[0][1]
