@@ -1063,6 +1063,9 @@ function autoParty() {
 			}
 			else if (gamePage.calendar.festivalDays == 0 && catpowerP > gamePage.resPool.get('manpower').maxValue * 0.5) {
 			    gamePage.village.holdFestival(1);
+			    gamePage.resPool.addResEvent("manpower", -1500 * 1);
+                gamePage.resPool.addResEvent("culture", -5000 * 1);
+                gamePage.resPool.addResEvent("parchment", -2500 * 1);
 			}
 		}
 	}
