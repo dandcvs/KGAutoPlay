@@ -1049,9 +1049,15 @@ function autoParty() {
                 if (gamePage.calendar.festivalDays < 400*30) {
                     if(catpowerP > 1500 * tclvl && culture > 5000 * tclvl && parchment > 2500 * tclvl){
                         gamePage.village.holdFestival(tclvl);
+                        gamePage.resPool.addResEvent("manpower", -1500 * tclvl);
+                        gamePage.resPool.addResEvent("culture", -5000 * tclvl);
+                        gamePage.resPool.addResEvent("parchment", -2500 * tclvl);
                     }
                     else{
                         gamePage.village.holdFestival(1);
+                        gamePage.resPool.addResEvent("manpower", -1500 * 1);
+                        gamePage.resPool.addResEvent("culture", -5000 * 1);
+                        gamePage.resPool.addResEvent("parchment", -2500 * 1);
                     }
                 }
 			}
