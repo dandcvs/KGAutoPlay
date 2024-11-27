@@ -55,9 +55,9 @@ function calc_sell_rate(res) {
 
 var upgrades_craft = [
 [gamePage.workshop.get("printingPress"),[["gear", 45*1.2]]],
-[gamePage.workshop.get("miningDrill"),[["steel",750*1.2]]],
 [gamePage.workshop.get("fluidizedReactors"),[["alloy",200*1.2]]],
 [gamePage.workshop.get("oxidation"),[["steel",5000*1.2]]],
+[gamePage.workshop.get("miningDrill"),[["steel",750*1.2]]],
 [gamePage.workshop.get("steelPlants"),[["gear",750*1.2]]],
 [gamePage.workshop.get("rotaryKiln"),[["gear",500*1.2]]]
 ];
@@ -501,7 +501,7 @@ function autoTrade() {
          }
 
         if(((gamePage.religion.getRU('solarRevolution').val == 1 || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism") ) && (gamePage.resPool.get('gold').value > 550 || gamePage.bld.getBuildingExt('mint').meta.val > 0 )  )) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue && gamePage.resPool.get('gold').maxValue < 500)) || (gamePage.ironWill)){
-            if ((goldResource.value > goldResource.maxValue * 0.95 || ((gamePage.bld.getBuildingExt('mint').meta.val > 0  && goldResource.value > (gamePage.bld.getBuildingExt('accelerator').meta.val < 1 ? 90 : Math.min(gamePage.bld.getBuildingExt('accelerator').meta.val * 1000, 10000))) ||  gamePage.religion.getRU("transcendence").on) || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism")) && goldResource.value > 500)   ) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || (gamePage.resPool.get('blueprint').value < 100 && gamePage.religion.getRU('solarRevolution').val == 1 && goldResource.value > 90)) {
+            if ((goldResource.value > goldResource.maxValue * 0.95 || ((gamePage.bld.getBuildingExt('mint').meta.val > 0  && goldResource.value > (gamePage.bld.getBuildingExt('accelerator').meta.val < 1 ? 90 : Math.min(gamePage.bld.getBuildingExt('accelerator').meta.val * 1000, 10000))) ||  gamePage.religion.getRU("transcendence").on) || ((gamePage.challenges.isActive("atheism") || gamePage.challenges.isActive("pacifism")) && goldResource.value > 500)   ) || (gamePage.ironWill && goldResource.value > (gamePage.religion.getRU('solarRevolution').val == 1 ? 15 : 600) ) || (gamePage.resPool.get('blueprint').value < 300 && gamePage.religion.getRU('solarRevolution').val == 1 && goldResource.value > 90)) {
                 if (gamePage.diplomacyTab.racePanels.length != gamePage.diplomacy.races.filter(race => race.unlocked).length) {
                     gamePage.diplomacyTab.render();
                 }
