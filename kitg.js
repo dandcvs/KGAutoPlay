@@ -639,7 +639,7 @@ function autoCraft2() {
                     "mansion" :  (gamePage.resPool.get("titanium").value > 300 && (gamePage.resPool.get("steel").value > 300 || gamePage.bld.getBuildingExt('mansion').meta.val > 10)) ? 1.5 : 0.00000001,
                     "steamworks" : (gamePage.challenges.isActive("pacifism") && gamePage.bld.getBuildingExt('steamworks').meta.val < 5) ? 50 : ((gamePage.bld.getBuildingExt('magneto').meta.val > 0) ? 2 : 0.00000001),
                     "magneto" : gamePage.bld.getBuildingExt('magneto').meta.val > 10 ? 2 : 0.00000001,
-                    "factory"  : gamePage.bld.getBuildingExt('magneto').meta.val > 10 ? 3 : 0.00000001,
+                    "factory"  : (gamePage.resPool.get("titanium").value > 300 && gamePage.bld.getBuildingExt('magneto').meta.val > 10) ? 3 : 0.00000001,
                     "reactor" : gamePage.bld.getBuildingExt('magneto').meta.val > 10 ? 10 : 0.00000001,
                     "warehouse" : gamePage.bld.getBuildingExt('warehouse').meta.stage == 1 ? 0 : 0.0001,
                     "quarry" : gamePage.bld.getBuildingExt('quarry').meta.val < 5 ? 10 : 1.1,
