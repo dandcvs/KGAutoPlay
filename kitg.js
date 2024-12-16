@@ -150,7 +150,7 @@ function autoPraise(){
 	    if (gamePage.religion.meta[1].meta[5].val == 1) {
 
 
-            if (gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit"))){
+            if (gamePage.bld.getBuildingExt('mint').meta.val < 1 || gamePage.religion.getSolarRevolutionRatio() <= Math.max(gamePage.religion.transcendenceTier * 0.05, gamePage.getEffect("solarRevolutionLimit"))){
                 gamePage.religion.praise();
             }
             else if (gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.resourceIsLimited == false && (!(res.model.name.includes('(complete)')))).length > 0){
