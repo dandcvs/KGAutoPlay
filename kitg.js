@@ -484,7 +484,7 @@ function autoTrade() {
                      gamePage.diplomacyTab.render();
                      embRefreshCnt = 0;
                 }
-                embassy_buttons = gamePage.diplomacyTab.racePanels.filter( emb => emb.race.unlocked && emb.embassyButton != null && !emb.embassyButton.model.resourceIsLimited && emb.embassyButton.model.prices.filter(res => res.name == "culture")[0].val <= cultureRes.value)
+                embassy_buttons = gamePage.diplomacyTab.racePanels.filter( emb => emb.race.unlocked && emb.embassyButton != null && !emb.embassyButton.model.resourceIsLimited)
                 if (embassy_buttons.length > 0) {
                     btn = embassy_buttons.sort(function(a, b) {return  a.race.embassyLevel - b.race.embassyLevel;})[0]
                     btn.embassyButton.controller.buyItem(btn.embassyButton.model, {}, function(result) {
