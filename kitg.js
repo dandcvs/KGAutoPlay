@@ -480,7 +480,7 @@ function autoTrade() {
         let cultureRes = gamePage.resPool.get('culture');
         if ((cultureRes.value >= 10000 || cultureRes.value >= cultureRes.maxValue) || gamePage.challenges.isActive("pacifism")) {
                 embRefreshCnt += 1;
-                if (embRefreshCnt >= 100){
+                if (embRefreshCnt >= 10){
                      gamePage.diplomacyTab.render();
                      embRefreshCnt = 0;
                 }
