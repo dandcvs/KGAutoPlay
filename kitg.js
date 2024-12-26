@@ -570,7 +570,12 @@ function autoTrade() {
                             }
                     }
                     else {
-                        gamePage.diplomacy.tradeAll(gamePage.diplomacy.get(trade[0]));
+                        if (trade[0] == 'nagas' &&  gamePage.resPool.get('ivory').value < gamePage.resPool.get('slab').value ) {
+                            // Do nothing
+                        }
+                        else {
+                             gamePage.diplomacy.tradeAll(gamePage.diplomacy.get(trade[0]));
+                        }
                     }
                 }
             }
