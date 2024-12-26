@@ -1107,7 +1107,7 @@ function autozig() {
             }
         }
         if (!switches['CollectResBReset']) {
-            if (!gamePage.workshop.get("relicStation").researched && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) {
+            if (!gamePage.workshop.get("relicStation").researched && (!gamePage.workshop.get("chronoforge").researched || gamePage.religion.getTU("blackNexus").on > 5) && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) {
                 if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.visible){
                     gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {}, function(result) {
                         if (result) {
