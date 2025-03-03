@@ -1261,8 +1261,8 @@ function autoAssign() {
 
             }
         }
-        if (gamePage.science.get('civil').researched && !gamePage.ironWill && gamePage.resPool.get("gold").value > 600){
-            if (IincKAssign > 100) {
+        if (gamePage.science.get('civil').researched && !gamePage.ironWill && gamePage.resPool.get("gold").value > 1000){
+            if (IincKAssign > 10) {
                   let prkitten = gamePage.village.sim.kittens.filter(kitten => kitten.job == restmpq[0][1]).sort(function(a, b) {return  b.skills[restmpq[0][1]] - a.skills[restmpq[0][1]];})[0]
                   if (prkitten){
                       gamePage.village.makeLeader(prkitten);
