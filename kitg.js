@@ -170,7 +170,7 @@ function autoPraise(){
                     }
                 }
             }
-            if (gamePage.resPool.get("faith").value >= (gamePage.religion.transcendenceTier < 5 ?  Math.min(gamePage.resPool.get("faith").maxValue*0.99, (Math.max(gamePage.religion.transcendenceTier ** 2, 1)) * 10000) : gamePage.resPool.get("faith").maxValue*0.99)){
+            if (gamePage.resPool.get("faith").value >= (gamePage.religion.transcendenceTier < 13 ?  Math.min(gamePage.resPool.get("faith").maxValue*0.99, (Math.max(gamePage.religion.transcendenceTier ** 2, 1)) * 10000) : gamePage.resPool.get("faith").maxValue*0.99)){
                 if (gamePage.religion.getRU("apocripha").on  && gamePage.religion.getRU("transcendence").on && gamePage.religion.transcendenceTier < 15 && gamePage.religion.getSolarRevolutionRatio() > Math.max((gamePage.religion.transcendenceTier + 1) * 0.05, gamePage.getEffect("solarRevolutionLimit"))) {
                     gamePage.religion.resetFaith(1.01, false);
                 }
