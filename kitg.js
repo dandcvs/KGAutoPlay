@@ -573,7 +573,7 @@ function autoTrade() {
                             }
                     }
                     else {
-                        if (trade[0] == 'nagas' &&  gamePage.resPool.get('ivory').value < gamePage.resPool.get('slab').value ) {
+                        if (trade[0] == 'nagas') {
                             // Do nothing
                         }
                         else {
