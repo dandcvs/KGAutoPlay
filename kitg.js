@@ -1454,7 +1454,7 @@ function UpgradeBuildings() {
             }
         }
     }
-    if (gamePage.resPool.get('paragon').value < 200 && gamePage.bld.getBuildingExt("mint").meta.val > 1 && gamePage.calendar.year < 2000){
+    if (gamePage.resPool.get('paragon').value < 200 and gamePage.resPool.get("unobtainium").value == 0 && gamePage.bld.getBuildingExt("mint").meta.val > 1 && gamePage.calendar.year < 2000){
         if (gamePage.resPool.get('manpower').value > gamePage.bld.getBuildingExt("mint").meta.on * (gamePage.resPool.get('manpower').maxValue / gamePage.bld.getBuildingExt("mint").meta.val) ){
             if (gamePage.bld.getBuildingExt("mint").meta.on < gamePage.bld.getBuildingExt("mint").meta.val){
                 gamePage.bld.getBuildingExt('mint').meta.on++;
