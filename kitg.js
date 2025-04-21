@@ -131,25 +131,27 @@ function autoSwitch(varCheck, varName) {
 }
 
 function extractButtonNames(inputString) {
-  const tempElement = document.createElement('div');
-  tempElement.innerHTML = inputString;
+  const div = document.createElement('div');
+  div.innerHTML = inputString;
 
-  const labelContentSpan = tempElement.querySelector('.label-content');
-  if (labelContentSpan) {
-    let result = labelContentSpan.textContent.trim();
-    const lastDiv = tempElement.querySelector('div:last-child');
-    if (lastDiv) {
-      const lastDivText = lastDiv.textContent.trim();
-      if (lastDivText && lastDivText !== '(complete)') {
-        result += ' ' + lastDivText;
-      }
-    }
-    return result;
-  } else {
-    return inputString;
+  const labelContent = div.querySelector('.label-content');
+  if (!labelContent) return inputString;
+
+  let result = labelContent.textContent.trim();
+
+  const lastDiv = div.querySelector('div:not(:has(.label-content)):last-child');
+  if (lastDiv) {
+    const divText = lastDiv.textContent.trim();
+    if (divText) result += ' ' + divText;
   }
-}
 
+  const textAfterHtml = inputString.split('>').pop().trim();
+  if (textAfterHtml && !textAfterHtml.startsWith('<')) {
+    result += ' ' + textAfterHtml;
+  }
+
+  return result;
+}
 
 
 /* These are the functions which are controlled by the runAllAutomation timer */
