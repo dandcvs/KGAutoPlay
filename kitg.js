@@ -130,6 +130,27 @@ function autoSwitch(varCheck, varName) {
 	}
 }
 
+function extractButtonNames(inputString) {
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = inputString;
+
+  const labelContentSpan = tempElement.querySelector('.label-content');
+  if (labelContentSpan) {
+    let result = labelContentSpan.textContent.trim();
+    const lastDiv = tempElement.querySelector('div:last-child');
+    if (lastDiv) {
+      const lastDivText = lastDiv.textContent.trim();
+      if (lastDivText && lastDivText !== '(complete)') {
+        result += ' ' + lastDivText;
+      }
+    }
+    return result;
+  } else {
+    return inputString;
+  }
+}
+
+
 
 /* These are the functions which are controlled by the runAllAutomation timer */
 
@@ -158,12 +179,11 @@ function autoPraise(){
                 for (var rl = 0; rl < btn.length; rl++) {
                     if (btn[rl].model.enabled && btn[rl].model.visible) {
                         try {
-                            btn[rl].controller.buyItem(btn[rl].model, {}, function(result) {
-                                if (result) {
+                            var result = btn[rl].controller.buyItem(btn[rl].model, {});
+                                if (result && result.itemBought) {
                                     btn[rl].update();
-                                    gamePage.msg('Religion researched: ' + btn[rl].model.name);
+                                    gamePage.msg('Religion researched: ' + extractButtonNames(btn[rl].model.name));
                                 }
-                                });
                         } catch(err) {
                             console.log(err);
                         }
@@ -201,12 +221,11 @@ function autoPraise(){
                 for (var rl = 0; rl < btn.length; rl++) {
                     if (btn[rl].model.enabled && btn[rl].model.visible) {
                         try {
-                            btn[rl].controller.buyItem(btn[rl].model, {}, function(result) {
-                                if (result) {
+                            var result = btn[rl].controller.buyItem(btn[rl].model, {});
+                                if (result && result.itemBought) {
                                     btn[rl].update();
-                                    gamePage.msg('Religion researched: ' + btn[rl].model.name);
+                                    gamePage.msg('Religion researched: ' + extractButtonNames(btn[rl].model.name));
                                 }
-                                });
                         } catch(err) {
                             console.log(err);
                         }
@@ -225,12 +244,11 @@ function autoPraise(){
                 for (var cr = 0; cr < btn.length; cr++) {
                     if (btn[cr].model.enabled && btn[cr].model.visible) {
                         try {
-                            btn[cr].controller.buyItem(btn[cr].model, {}, function(result) {
-                                if (result) {
+                            var result = btn[cr].controller.buyItem(btn[cr].model, {});
+                                if (result && result.itemBought) {
                                     btn[cr].update();
-                                    gamePage.msg('Religion Cryptotheology researched: ' + btn[cr].model.name);
+                                    gamePage.msg('Religion Cryptotheology researched: ' + extractButtonNames(btn[cr].model.name));
                                 }
-                                });
                         } catch(err) {
                             console.log(err);
                         }
@@ -244,12 +262,11 @@ function autoPraise(){
                 for (var cr = 0; cr < btn.length; cr++) {
                     if (btn[cr].model.enabled && btn[cr].model.visible) {
                         try {
-                            btn[cr].controller.buyItem(btn[cr].model, {}, function(result) {
-                                if (result) {
+                            var result = btn[cr].controller.buyItem(btn[cr].model, {});
+                                if (result && result.itemBought) {
                                     btn[cr].update();
-                                    gamePage.msg('Religion Pact accepted: ' + btn[cr].model.name);
+                                    gamePage.msg('Religion Pact accepted: ' + extractButtonNames(btn[cr].model.name));
                                 }
-                                });
                         } catch(err) {
                             console.log(err);
                         }
@@ -260,12 +277,11 @@ function autoPraise(){
         if (gamePage.religion.getPact("payDebt").unlocked && gamePage.resPool.get("necrocorn").value > gamePage.religion.getPact("payDebt").prices[0].val){
             var btn = gamePage.tabs[5].ptPanel.children[0].children.filter(res => res.model.metadata && res.model.metadata.unlocked && res.id == "payDebt" && res.model.enabled)[0]
             try {
-                    btn.controller.buyItem(btn.model, {}, function(result) {
-                        if (result) {
+                    var result = btn.controller.buyItem(btn.model, {});
+                        if (result && result.itemBought) {
                             btn.update();
-                            gamePage.msg('Religion : ' + btn.model.name);
+                            gamePage.msg('Religion : ' + extractButtonNames(btn.model.name));
                         }
-                        });
                 } catch(err) {
                     console.log(err);
                 }
@@ -295,13 +311,12 @@ function autoBuild() {
                 if ((golden_Buildings.includes(btnMetadata.name) && !gamePage.ironWill) || (gamePage.ironWill && mint_meta.val > 3 && golden_Buildings.includes(btnMetadata.name))) {
                     if ((solarRevolution_val == 1) || (btnMetadata.name == 'temple' && btnMetadata.val < 3) || (btnPrices.filter(res => res.name == 'gold')[0].val < (gamePage.resPool.get('gold').value - 500)) || (gamePage.resPool.get('gold').value == gamePage.resPool.get('gold').maxValue)) {
                         try {
-                            btnController.buyItem(btnModel, {}, function(result) {
-                                if (result) {
+                            var result = btnController.buyItem(btnModel, {});
+                                if (result && result.itemBought) {
                                     btn[bl].update();
-                                    gamePage.msg('Build: ' + btn[bl].model.name);
+                                    gamePage.msg('Build: ' + extractButtonNames(btn[bl].model.name));
                                     return;
                                 }
-                            });
                         } catch (err) {
                             console.log(err);
                         }
@@ -309,13 +324,12 @@ function autoBuild() {
                 } else if (btnMetadata.name == "aiCore") {
                     if (btnMetadata.val < Math.floor(spcEntangler.val * 2.5)) {
                         try {
-                            btnController.buyItem(btnModel, {}, function(result) {
-                                if (result) {
+                            var result = btnController.buyItem(btnModel, {});
+                                if (result && result.itemBought) {
                                     btn[bl].update();
-                                    gamePage.msg('Build: ' + btn[bl].model.name);
+                                    gamePage.msg('Build: ' + extractButtonNames(btn[bl].model.name));
                                     return;
                                 }
-                            });
                         } catch (err) {
                             console.log(err);
                         }
@@ -329,13 +343,12 @@ function autoBuild() {
                         (gamePage.bld.getBuildingExt('chronosphere').meta.val < 20 && gamePage.timeTab.visible && gamePage.resPool.get("timeCrystal").value - Chronosphere10SummPrices()["timeCrystal"] > 100 && gamePage.time.meta[0].meta[5].val > 0) ||
                         (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && ((gamePage.resPool.get("unobtainium").value >= Chronosphere10SummPrices()["unobtainium"] && gamePage.resPool.get("timeCrystal").value >= Chronosphere10SummPrices()["timeCrystal"]) || gamePage.resPool.get("unobtainium").value >= gamePage.resPool.get("unobtainium").maxValue))) {
                         try {
-                            btnController.buyItem(btnModel, {}, function(result) {
-                                if (result) {
+                            var result = btnController.buyItem(btnModel, {});
+                                if (result && result.itemBought) {
                                     btn[bl].update();
-                                    gamePage.msg('Build: ' + btn[bl].model.name);
+                                    gamePage.msg('Build: ' + extractButtonNames(btn[bl].model.name));
                                     return;
                                 }
-                            });
                         } catch (err) {
                             console.log(err);
                         }
@@ -352,13 +365,12 @@ function autoBuild() {
                             // Do nothing
                         } else {
                             try {
-                                btnController.buyItem(btnModel, {}, function(result) {
-                                    if (result) {
+                            var result = btnController.buyItem(btnModel, {});
+                                if (result && result.itemBought) {
                                         btn[bl].update();
-                                        gamePage.msg('Build: ' + btn[bl].model.name);
+                                        gamePage.msg('Build: ' + extractButtonNames(btn[bl].model.name));
                                         return;
                                     }
-                                });
                             } catch (err) {
                                 console.log(err);
                             }
@@ -366,13 +378,12 @@ function autoBuild() {
                     }
                 } else {
                     try {
-                        btnController.buyItem(btnModel, {}, function(result) {
-                            if (result) {
-                                btn[bl].update();
-                                gamePage.msg('Build: ' + btn[bl].model.name);
-                                return;
-                            }
-                        });
+                            var result = btnController.buyItem(btnModel, {});
+                                if (result && result.itemBought) {
+                                    btn[bl].update();
+                                    gamePage.msg('Build: ' + extractButtonNames(btn[bl].model.name));
+                                    return;
+                                }
                     } catch (err) {
                         console.log(err);
                     }
@@ -408,22 +419,20 @@ function autoSpace() {
                                 }
                                 else if (gamePage.ironWill){
                                     if(!spBuild[sp].model.metadata.effects.maxKittens){
-                                        spBuild[sp].controller.buyItem(spBuild[sp].model, {}, function(result) {
-                                        if (result) {
+                                         var result = spBuild[sp].controller.buyItem(spBuild[sp].model, {});
+                                         if (result && result.itemBought) {
                                             spBuild[sp].update();
-                                            gamePage.msg('Build in Space: ' + spBuild[sp].model.name);
+                                            gamePage.msg('Build in Space: ' + extractButtonNames(spBuild[sp].model.name));
                                             return;
                                         }
-                                        });
                                     }
                                 }else{
-                                    spBuild[sp].controller.buyItem(spBuild[sp].model, {}, function(result) {
-                                    if (result) {
+                                    var result = spBuild[sp].controller.buyItem(spBuild[sp].model, {});
+                                    if (result && result.itemBought) {
                                         spBuild[sp].update();
-                                        gamePage.msg('Build in Space: ' + spBuild[sp].model.name);
+                                        gamePage.msg('Build in Space: ' + extractButtonNames(spBuild[sp].model.name));
                                         return;
                                     }
-                                    });
                                 }
                             }
                         }
@@ -437,13 +446,12 @@ function autoSpace() {
         for (var sp = 0; sp < spcProg.length; sp++) {
             if (spcProg[sp].model.metadata.unlocked && spcProg[sp].model.on == 0) {
                 try {
-                    spcProg[sp].controller.buyItem(spcProg[sp].model, {}, function(result) {
-                        if (result) {
+                        var result = spcProg[sp].controller.buyItem(spcProg[sp].model, {});
+                        if (result && result.itemBought) {
                             spcProg[sp].update();
-                            gamePage.msg('Research Space program: ' + spcProg[sp].model.name );
+                            gamePage.msg('Research Space program: ' + extractButtonNames(spcProg[sp].model.name ));
                             return;
                         }
-                        });
                 } catch(err) {
                 console.log(err);
                 }
@@ -490,12 +498,11 @@ function autoTrade() {
                 embassy_buttons = gamePage.diplomacyTab.racePanels.filter( emb => emb.race.unlocked && emb.embassyButton != null && !emb.embassyButton.model.resourceIsLimited)
                 if (embassy_buttons.length > 0) {
                     btn = embassy_buttons.sort(function(a, b) {return  a.race.embassyLevel - b.race.embassyLevel;})[0]
-                    btn.embassyButton.controller.buyItem(btn.embassyButton.model, {}, function(result) {
-                        if (result) {
+                    var result = btn.embassyButton.controller.buyItem(btn.embassyButton.model, {});
+                        if (result && result.itemBought) {
                             btn.embassyButton.update();
                             return;
                         }
-                    });
                 }
         }
 
@@ -979,13 +986,12 @@ function autoResearch() {
                {}
             else{
                 try {
-                    btn[rsc].controller.buyItem(btn[rsc].model, {}, function(result) {
-                        if (result) {
-                            btn[rsc].update();
-                            gamePage.msg('Researched: ' + btn[rsc].model.name );
-                            return;
-                        }
-                    });
+                    var result = btn[rsc].controller.buyItem(btn[rsc].model, {});
+                    if (result && result.itemBought) {
+                        btn[rsc].update();
+                        gamePage.msg('Researched: ' + extractButtonNames(btn[rsc].model.name ));
+                        return;
+                    }
                 } catch(err) {
                 console.log(err);
                 }
@@ -1000,13 +1006,12 @@ function autoResearch() {
                     try {
                         pr_no_confirm = gamePage.opts.noConfirm;
                         gamePage.opts.noConfirm = true;
-                        policy_btns[rsc].controller.buyItem(policy_btns[rsc].model, {}, function(result) {
-                            if (result) {
+                        var result = policy_btns[rsc].controller.buyItem(policy_btns[rsc].model, {});
+                        if (result && result.itemBought) {
                                 policy_btns[rsc].update();
-                                gamePage.msg('Policy researched: ' + policy_btns[rsc].model.name );
+                                gamePage.msg('Policy researched: ' + extractButtonNames(policy_btns[rsc].model.name ));
                                 return;
                             }
-                        });
                         gamePage.opts.noConfirm = pr_no_confirm;
                     } catch(err) {
                     console.log(err);
@@ -1037,13 +1042,12 @@ function autoWorkshop() {
             {}
             else{
                 try {
-                    btn[wrs].controller.buyItem(btn[wrs].model, {}, function(result) {
-                        if (result) {
+                    var result = btn[wrs].controller.buyItem(btn[wrs].model, {});
+                        if (result && result.itemBought) {
                             btn[wrs].update();
-                            gamePage.msg('Upgraded: ' + btn[wrs].model.name );
+                            gamePage.msg('Upgraded: ' + extractButtonNames(btn[wrs].model.name ));
                             return;
                         }
-                    });
                 } catch(err) {
                 console.log(err);
                 }
@@ -1117,11 +1121,10 @@ function autozig() {
         if (!switches['CollectResBReset']) {
             if (!gamePage.workshop.get("relicStation").researched && (!gamePage.workshop.get("chronoforge").researched || gamePage.religion.getTU("blackNexus").on > 5) && (gamePage.resPool.get('relic').value  < (gamePage.challenges.isActive("energy") ? 25 : 5) && gamePage.resPool.get('timeCrystal').value > 50)) {
                 if (gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.visible){
-                    gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {}, function(result) {
-                        if (result) {
-                             gamePage.religionTab.refineTCBtn.update();
-                        }
-                        });
+                    var result = gamePage.religionTab.refineTCBtn.controller.buyItem(gamePage.religionTab.refineTCBtn.model, {});
+                    if (result && result.itemBought) {
+                         gamePage.religionTab.refineTCBtn.update();
+                    }
                 }
             } else if (gamePage.calendar.year > 1000 && (gamePage.resPool.get('relic').value + (gamePage.resPool.get("blackcoin").value * 1000)) < (gamePage.resPool.get('timeCrystal').value / 25 * (1 + gamePage.getEffect("relicRefineRatio") * gamePage.religion.getZU("blackPyramid").getEffectiveValue(gamePage)))  && (gamePage.resPool.get('timeCrystal').value > 1000000 && GlobalMsg["ressourceRetrieval"] == '')) {
                 if(gamePage.religionTab.refineTCBtn && gamePage.religionTab.refineTCBtn.model.allLink.visible){
@@ -1161,15 +1164,14 @@ function autozig() {
                             {}
                         else{
                             try {
-                                btn[zg].controller.buyItem(btn[zg].model, {}, function(result) {
-                                    if (result) {
-                                            btn[zg].update();
-                                            gamePage.msg('Build in Ziggurats: ' + btn[zg].model.name );
-                                            if (zg == btn.length - 1 && btn[btn.length - 1].model.enabled) {
-                                                zg++
-                                            }
-                                        }
-                                    });
+                                var result = btn[zg].controller.buyItem(btn[zg].model, {});
+                                if (result && result.itemBought) {
+                                    btn[zg].update();
+                                    gamePage.msg('Build in Ziggurats: ' +  extractButtonNames(btn[zg].model.name ));
+                                    if (zg == btn.length - 1 && btn[btn.length - 1].model.enabled) {
+                                        zg++
+                                    }
+                                }
                             } catch(err) {
                             console.log(err);
                             }
@@ -1184,11 +1186,10 @@ function autozig() {
             for (var zg = 0; zg < btn.length; zg++) {
                 if (btn[zg] && btn[zg].model.visible == true) {
                     try {
-                         btn[zg].controller.buyItem(btn[zg].model, {}, function(result) {
-                            if (result) {
-                                gamePage.msg('Refine tears: BLS(' + Math.trunc(gamePage.resPool.get('sorrow').value)  + ')');
-                            }
-                            });
+                         var result = btn[zg].controller.buyItem(btn[zg].model, {});
+                         if (result && result.itemBought) {
+                            gamePage.msg('Refine tears: BLS(' + Math.trunc(gamePage.resPool.get('sorrow').value)  + ')');
+                         }
                     } catch(err) {
                     console.log(err);
                     }
@@ -1331,13 +1332,12 @@ function autoNip() {
 		if (gamePage.bld.buildingsData[0].val < 40 && gamePage.resPool.get('catnip').value < 100 && (gamePage.gatherClicks  < 2500 || gamePage.ironWill )) {
 		    btn = gamePage.tabs[0].children[0];
 			try {
-				btn.controller.buyItem(btn.model, {}, function(result) {
-					if (result) {
-                        if (gamePage.timer.ticksTotal % 151 === 0){
-                            gamePage.msg('Gathering catnip');
-                        }
-					}
-					});
+				var result = btn.controller.buyItem(btn.model, {});
+                if (result && result.itemBought) {
+                    if (gamePage.timer.ticksTotal % 151 === 0){
+                        gamePage.msg('Gathering catnip');
+                    }
+                }
 			} catch(err) {
 			console.log(err);
 			}
@@ -1351,7 +1351,7 @@ function autoRefine() {
                         gamePage.tabs[0].children[1].model.x100Link.handler(gamePage.tabs[0].children[1].model);
                     }
                     else if(gamePage.tabs[0].children[2] && gamePage.tabs[0].children[2].model.resourceIsLimited && gamePage.tabs[0].children[1].model.visible){
-                        gamePage.tabs[0].children[1].controller.buyItem(gamePage.tabs[0].children[1].model, {}, function(){})
+                        gamePage.tabs[0].children[1].controller.buyItem(gamePage.tabs[0].children[1].model, {})
                     }
                     else {
                         btn = gamePage.tabs[0].children[1];
@@ -1362,10 +1362,7 @@ function autoRefine() {
                         for (var rf = 0; rf < limit; rf++) {
                             if (btn.model.enabled) {
                                  try {
-                                        btn.controller.buyItem(btn.model, {}, function(result) {
-                                                if (result) {
-                                                }
-                                        });
+                                       btn.controller.buyItem(btn.model, {});
                                      } catch(err) {
                                         console.log(err);
                                      }
@@ -1454,7 +1451,7 @@ function UpgradeBuildings() {
             }
         }
     }
-    if (gamePage.resPool.get('paragon').value < 200 && gamePage.resPool.get("unobtainium").value == 0 && gamePage.bld.getBuildingExt("mint").meta.val > 1 && gamePage.calendar.year < 2000){
+    if (gamePage.resPool.get('paragon').value < 200 && gamePage.resPool.get("unobtainium").value > 0 && gamePage.bld.getBuildingExt("mint").meta.val > 1 && gamePage.calendar.year < 2000){
         if (gamePage.resPool.get('manpower').value > gamePage.bld.getBuildingExt("mint").meta.on * (gamePage.resPool.get('manpower').maxValue / gamePage.bld.getBuildingExt("mint").meta.val) ){
             if (gamePage.bld.getBuildingExt("mint").meta.on < gamePage.bld.getBuildingExt("mint").meta.val){
                 gamePage.bld.getBuildingExt('mint').meta.on++;
@@ -1504,12 +1501,11 @@ function ResearchSolarRevolution() {
             if (  gamePage.tabs[5].rUpgradeButtons.filter(res => res.model.metadata.name == "solarRevolution" && res.model.visible &&  res.model.enabled && res.model.resourceIsLimited == false).length > 0){
                     var btn = gamePage.tabs[5].rUpgradeButtons[5];
                     try {
-                        btn.controller.buyItem(btn.model, {}, function(result) {
-                            if (result) {
-                                btn.update();
-                                gamePage.msg('Religion researched: ' + btn.model.name);
-                            }
-                        });
+                        var result = btn.controller.buyItem(btn.model, {});
+                        if (result && result.itemBought) {
+                            btn.update();
+                            gamePage.msg('Religion researched: ' + extractButtonNames(btn.model.name));
+                        }
                     } catch(err) {
                         console.log(err);
                     }
@@ -1531,11 +1527,10 @@ function Timepage() {
                     if ( Math.max(500, VoidBuild[2].model.on * 20) > voidcf * 0.1){
                         {}
                     }else {
-                        VoidBuild[0].controller.buyItem(VoidBuild[0].model, {}, function(result) {
-                        if (result) {
+                        var result = VoidBuild[0].controller.buyItem(VoidBuild[0].model, {});
+                        if (result && result.itemBought) {
                             gamePage.msg('Cryochamber Fixed');
                         }
-                        });
                     }
                 }
 
@@ -1543,12 +1538,11 @@ function Timepage() {
                     if ( VoidBuild[1].model.prices.filter(res => res.name == 'void')[0].val > voidcf * 0.1 ||  VoidBuild[1].model.metadata.val >= Math.max(Math.ceil((VoidBuild[2].model.metadata.val+1) * 0.1), 5) ){
                         {}
                     }else {
-                        VoidBuild[1].controller.buyItem(VoidBuild[1].model, {}, function(result) {
-                        if (result) {
+                        var result = VoidBuild[1].controller.buyItem(VoidBuild[1].model, {});
+                        if (result && result.itemBought) {
                             VoidBuild[1].update();
-                            gamePage.msg('Build in Time: ' + VoidBuild[1].model.name );
+                            gamePage.msg('Build in Time: ' + extractButtonNames(VoidBuild[1].model.name ));
                         }
-                        });
                     }
                 }
             }
@@ -1573,20 +1567,18 @@ function Timepage() {
                                 }
                                 else if (gamePage.ironWill){
                                     if(!VoidBuild[v].model.metadata.effects.maxKittens ){
-                                        VoidBuild[v].controller.buyItem(VoidBuild[v].model, {}, function(result) {
-                                        if (result) {
+                                        var result = VoidBuild[v].controller.buyItem(VoidBuild[v].model, {});
+                                        if (result && result.itemBought) {
                                             VoidBuild[v].update();
-                                            gamePage.msg('Build in Time: ' + VoidBuild[v].model.name );
+                                            gamePage.msg('Build in Time: ' + extractButtonNames(VoidBuild[v].model.name ));
                                         }
-                                        });
                                     }
                                 }else{
-                                    VoidBuild[v].controller.buyItem(VoidBuild[v].model, {}, function(result) {
-                                    if (result) {
+                                    var result = VoidBuild[v].controller.buyItem(VoidBuild[v].model, {});
+                                    if (result && result.itemBought) {
                                         VoidBuild[v].update();
-                                        gamePage.msg('Build in Time: ' + VoidBuild[v].model.name );
+                                        gamePage.msg('Build in Time: ' + extractButtonNames(VoidBuild[v].model.name ));
                                     }
-                                    });
                                 }
                             }
 						}
@@ -1642,11 +1634,10 @@ function Timepage() {
                         }
                         else if (tc_val >= gamePage.timeTab.cfPanel.children[0].children[0].controller.getPricesMultiple(gamePage.timeTab.cfPanel.children[0].children[0].model, 1).timeCrystal && gamePage.getEffect("heatMax") - gamePage.time.heat > chronoforge[0].controller.getPricesMultiple(chronoforge[0].model, 1).timeCrystal * factor) {
                                 try {
-                                       chronoforge[0].controller.buyItem(chronoforge[0].model, {}, function(result) {
-                                        if (result) {
-                                            chronoforge[0].update();
-                                        }
-                                        });
+                                    var result = chronoforge[0].controller.buyItem(chronoforge[0].model, {});
+                                    if (result && result.itemBought) {
+                                        chronoforge[0].update();
+                                    }
                                 } catch(err) {
                                     console.log(err);
                                 }
@@ -1669,12 +1660,11 @@ function Timepage() {
                             else if ( t == 7)
                             {}
                             else if (chronoforge[t].model.metadata.unlocked && chronoforge[t].model.enabled) {
-                                chronoforge[t].controller.buyItem(chronoforge[t].model, {}, function(result) {
-                                    if (result) {
+                                var result = chronoforge[t].controller.buyItem(chronoforge[t].model, {});
+                                    if (result && result.itemBought) {
                                         chronoforge[t].update();
-                                        gamePage.msg('Build in Time: ' + chronoforge[t].model.name );
+                                        gamePage.msg('Build in Time: ' + extractButtonNames(chronoforge[t].model.name ));
                                     }
-                                    });
                             }
                         }
                     }
