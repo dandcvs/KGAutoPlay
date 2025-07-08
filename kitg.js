@@ -873,6 +873,7 @@ function autoCraft2() {
 
                 //priority upgrades
                 if (gamePage.resPool.get('ship').value > 0) {
+                    let found = false;
                     for (var pru = 0; pru < upgrades_craft.length; pru++)  {
                         if (upgrades_craft[pru][0].researched ) {
                             upgrades_craft.splice(pru,1);
@@ -912,8 +913,12 @@ function autoCraft2() {
                             if (Object.keys(craftPriority[0]).length > 0) {
                                 GlobalMsg['tech']  = upgrades_craft[pru][0].label
                             }
+                            found = true;
                             break;
                         }
+                    }
+                    if (!found) {
+                        GlobalMsg['tech'] = '';
                     }
                 }
 
