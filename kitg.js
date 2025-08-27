@@ -371,6 +371,8 @@ function autoBuild() {
                             console.log(err);
                         }
                     }
+                } else if (btnMetadata.name == "biolab" && gamePage.resPool.get("alloy").value < 200) {
+                    // Do nothing
                 } else if (btnMetadata.name == "field" && gamePage.challenges.isActive("postApocalypse") && gamePage.bld.getPollutionLevel() >= 5 && btnMetadata.val >= 95 - gamePage.time.getVSU("usedCryochambers").val - gamePage.bld.getPollutionLevel()) {
                     // Do nothing
                 } else if (btnMetadata.name == "field" && !gamePage.science.get('engineering').researched && gamePage.calendar.season >= 1 && catnipPrice && catnipPrice.val * 3 > gamePage.resPool.get('catnip').value && gamePage.resPool.get('catnip').value < gamePage.resPool.get('catnip').maxValue * 0.9) {
