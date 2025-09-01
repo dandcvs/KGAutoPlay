@@ -516,14 +516,9 @@ function autoTrade() {
     }
 
     if (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 && gamePage.resPool.get("timeCrystal").value < (gamePage.bld.getBuildingExt('chronosphere').meta.val < 10 ? Chronosphere10SummPrices()["timeCrystal"] : 6)){
-        if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
-            const unoRes = gamePage.resPool.get('unobtainium');
-            if (unoRes.value > 5000 && timeMeta.unlocked && gamePage.resPool.get("timeCrystal").value > (timeCrystalPrice ? timeCrystalPrice.val * (timeChild.model.metadata.val > 3 ? 0.9 : 0.05) : 0)){
-                gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-            }else if(unoRes.value > 5000 && ((gamePage.bld.getBuildingExt('chronosphere').meta.val >= 10 && gamePage.resPool.get("timeCrystal").value <= gamePage.resPool.get("eludium").value / 2 )  || switches['CollectResBReset'] )) {
-                gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-            }
-        }
+                if (gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0 && gamePage.resPool.get('unobtainium').value > 5000) {
+                    gamePage.diplomacy.tradeMultiple(game.diplomacy.get("leviathans"),1);
+                }
     }
     if  ((gamePage.resPool.get('titanium').value > 5000 || gamePage.bld.getBuildingExt('reactor').meta.val > 0 ) && gamePage.resPool.get('uranium').value <  Math.min(gamePage.resPool.get('paragon').value,100) && gamePage.diplomacy.get('dragons').unlocked && gamePage.resPool.get('gold').value < gamePage.resPool.get('gold').maxValue * 0.95) {
             gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), 1);
