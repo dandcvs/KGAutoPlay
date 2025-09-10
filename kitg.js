@@ -1702,7 +1702,7 @@ function Timepage() {
                         }
                     }
                 }
-                else if (gamePage.calendar.cycle != 5 && gamePage.time.getCFU("ressourceRetrieval").val == 0 && tc_val >= 1 && gamePage.time.heat < gamePage.getEffect("heatMax") / 2){
+                else if (!gamePage.challenges.isActive("1000Years") && gamePage.calendar.cycle != 5 && gamePage.time.getCFU("ressourceRetrieval").val == 0 && tc_val >= 1 && gamePage.time.heat < gamePage.getEffect("heatMax") / 2){
                     chronoforge[0].controller.doShatterAmt(chronoforge[0].model, 1);
                     chronoforge[0].update();
                 }
